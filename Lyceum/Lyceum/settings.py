@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 import environ
 
@@ -84,13 +85,10 @@ WSGI_APPLICATION = 'Lyceum.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASS'), # SECUIRTY WARNING: you ought to secure these for production!
-        'HOST': 'localhost'
-    }
+    'default': dj_database_url.config(
+        # Feel free to alter this value to suit your needs.
+        default='postgres://bantopia_database_user:XQ4nJE5GRKGt2xNrncthPz0QwmevkZeY@dpg-cj3ksml9aq0e0q7pjrbg-a/bantopia_database',
+    )
 }
 
 
