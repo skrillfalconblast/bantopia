@@ -871,12 +871,6 @@ input:focus:-ms-input-placeholder {
     .option h1 {
         font-size: 2.5vw;
     }
-
-    .option img {
-        height: 50px;
-    }
-
-    
 }
 
 @media only screen and (max-width: 960px) {
@@ -984,7 +978,7 @@ input:focus:-ms-input-placeholder {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 20px;
+        height: 50px;
     }
 
     .toggle img {
