@@ -1067,7 +1067,7 @@ input:focus:-ms-input-placeholder {
 
     .content {
         order: 0;
-        height: 100vh;
+        height: 100dvh;
         justify-content: space-between;
     }
 
