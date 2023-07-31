@@ -14,7 +14,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    height: 100vh;
+    height: 100dvh;
 }
 
 /* width */
