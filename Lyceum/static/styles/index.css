@@ -854,7 +854,7 @@ input:focus:-ms-input-placeholder {
 
     .content {
         order: 0;
-        height: 100dvh;
+        height: 100vh;
     }
 
     .navbar-container {
@@ -1067,7 +1067,7 @@ input:focus:-ms-input-placeholder {
 
     .content {
         order: 0;
-        height: 100dvh;
+        height: 100vh;
         justify-content: space-between;
     }
 
