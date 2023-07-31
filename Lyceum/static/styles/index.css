@@ -14,7 +14,7 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    height: 100dvh;
+    height: 100vh;
 }
 
 /* width */
@@ -854,7 +854,7 @@ input:focus:-ms-input-placeholder {
 
     .content {
         order: 0;
-        height: 100vh;
+        height: 100dvh;
     }
 
     .navbar-container {
