@@ -156,3 +156,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CONN_MAX_AGE = None
