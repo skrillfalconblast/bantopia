@@ -1,0 +1,1495 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+    max-width: 100%;
+    overflow: visible;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: white;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+}
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: none;
+}
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 10px;
+}
+
+.create-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.create-container form {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100vh;
+}
+
+.back-header {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+}
+
+.back-header a {
+    display: flex;
+}
+
+.back-header svg {
+    margin: 20px 0px 0px 60px;
+    width: 8vw;
+    filter: invert(61%) sepia(95%) saturate(3484%) hue-rotate(158deg) brightness(104%) contrast(102%);
+    opacity: 50%;
+}
+
+.form-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    min-height: 0;
+    overflow-y: scroll;
+    position: relative;
+}
+
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.login-container form {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.create-field-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.create-field-area .input-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.create-field-area .input-field input {
+    border: none;
+    width: 525px;
+    border-bottom: 4px solid #00baf279;
+    background-color: transparent;
+    padding: 2px;
+}
+
+.create-field-area .input-field input:hover ~ label span {
+    color: #F28500;
+}
+
+.create-field-area .input-field input:focus {
+    border-bottom: 4px solid #f28500;
+}
+
+.create-field-area .input-field input:focus ~ label span {
+    color: #F28500;
+}
+
+
+.create-field-area .input-field input {
+    font-size: 36px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-weight: 700;
+}
+
+.create-field-area .input-field label span{
+    color: rgba(0, 186, 242, 0.75);
+}
+
+.create-field-area .input-field input {
+    outline: none;
+}
+
+.input-field label {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.create-field-area .input-field input::placeholder {
+    color: #aaa;
+}
+
+.create-button-container {
+    width: 40%;
+}
+
+.form-area h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    box-shadow: inset 0 -15px 0 #F28500;
+}
+
+.login-field-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.login-field-area .input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-field-area .input-field input {
+    border: none;
+    width: 525px;
+    border-bottom: 4px solid #00baf2;
+    padding: 2px;
+}
+
+.login-field-area .input-field input:focus {
+    border-bottom: 4px solid #F28500;
+}
+
+.login-field-area .input-field label span {
+    color: #F28500;
+}
+
+.login-field-area .input-field input {
+    font-size: 42px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-weight: 700;
+}
+
+.login-field-area .input-field input {
+    outline: none;
+}
+
+.login-field-area .input-field label {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.login-field-area .input-field input::placeholder {
+    color: #aaa;
+}
+
+.error-message {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+}
+
+.error-message p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.2vw;
+    text-align: center;
+    color: rgba(255, 0, 0, 0.8);
+}
+
+.login-button-container {
+    width: 40%;
+}
+
+.login-and-create-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.login-and-create-button {
+    font-size: 44px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.login-and-create-button {
+    border: none;
+    border-left: 6px solid #F28500;
+    background-color: white;
+}
+
+.login-and-create-button span {
+    cursor: pointer;
+}
+
+.login-and-create-button span:hover {
+    color: #F28500;
+}
+
+.login-and-create-button span:hover {
+    color: #00baf2;
+    opacity: 100%;
+}
+
+.login-and-create-button span:hover .profile-submit-tags {
+    color: #F28500;
+}
+
+/*
+button[type="submit"] span {
+    box-shadow: inset 0 -22px 0 #F28500;
+}
+
+button[type="submit"]:hover > span {
+    box-shadow: inset 0 -22px 0 #08f200;
+}
+*/
+
+.big-text {
+    position: absolute;
+    font-size: 500px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
+    z-index: -100;
+    color: #00baf277;
+}
+
+
+.dashboard-back svg{
+    margin: 20px 0px 0px 60px;
+    width: 8vw;
+    filter: invert(50%) sepia(45%) saturate(5171%) hue-rotate(16deg) brightness(112%) contrast(101%);
+    opacity: 50%;
+}
+
+.dashboard-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f28500;
+}
+
+.dashboard-top {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.dashboard-top {
+    border-bottom: 0.4vw solid #F28500;
+}
+
+.dashboard-bottom {
+    min-height: 0;
+}
+
+.dashboard-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100vw;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    background-color: white;
+}
+
+.dashboard-back h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+}
+
+.dashboard-back:hover > h1 .dashboard-tag {
+    color: #F28500;
+}
+
+.dashboard-title {
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.dashboard-title h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    box-shadow: inset 0 -1.7vh 0 #F28500;
+}
+
+.dashboard-title-menu-mobile {
+    display: none;
+}
+
+.dashboard-bottom {
+    display: flex;
+    flex: 1;
+    gap: 5px;
+}
+
+.dashboard-left {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.dashboard-right {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    background-color: #fff;
+}
+
+.dashboard-identity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 250px;
+    border-bottom: 0.4vw solid #F28500;
+    box-sizing: border-box;
+}
+
+.dashboard-identity a {
+    text-decoration: none;
+    color: #000000;
+    margin-top: auto;
+}
+
+.dashboard-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 4.8vw;
+}
+
+.dashboard-name:hover {
+    color: #F28500;
+    cursor: pointer;
+}
+
+.dashboard-name span {
+    color: #F28500;
+}
+
+.dashboard-colors {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: auto;
+    align-items: flex-end;
+}
+
+.dashboard-colors form {
+    width: 100%;
+    height: 100%;
+}
+
+.dashboard-colors form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: auto;
+    align-items: start;
+    flex: 1;
+}
+
+.dashboard-colors button {
+    width: 40px;
+    height: 20px;
+    margin: auto;
+    cursor: pointer;
+    border: none;
+}
+
+.dashboard-info-menu {
+    width: 100%;
+}
+
+.dashboard-info-menu {
+    display: flex;
+    list-style: none;
+    background-color: #F28500;
+    gap: 0.4vw;
+}
+
+.dashboard-info-menu li {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-info-menu li {
+    font-size: 1.6vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    background-color: white;
+    border-bottom: 0.4vw solid #F28500;
+    cursor: pointer;
+}
+
+.dashboard-info-menu li:active {
+    background-color: #F28500;
+    color: #F28500;
+}
+
+.dashboard-info-pane {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-info-pane {
+    min-height: 0;
+}
+
+.hidden {
+    display: none !important; 
+}
+
+#dashboard-commands {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding-top: 1.2vw;
+}
+
+/*
+.dashboard-command-group {
+    CURRENTLY IRRELEVANT, IF WE DON'T USE THIS CLASS, SIMPLY DELETE ITS HTML, THEN THIS CSS TAG.
+}*/
+
+.dashboard-command-title {
+    margin-left: 15px;
+    margin-bottom: 0.5em;
+}
+
+.dashboard-command-title h3 {
+    font-size: 23px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.dashboard-command {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.1vw;
+    margin-left: 1.2vw;
+}
+
+.dashboard-command p {
+    font-size: 1.4vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.dashboard-command-example span {
+    font-weight: 500;
+    opacity: 40%;
+    
+}
+
+/*
+.dashboard-command-example-text {
+    CURRENTLY IRRELEVANT, IF WE DON'T USE THIS CLASS, SIMPLY DELETE ITS HTML, THEN THIS CSS TAG.
+}*/
+
+#dashboard-rules {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.dashboard-rules-description {
+    font-size: 1.3vw;
+    font-family: 'Poppins', sans-serif;
+    margin: 1.1vw;
+}
+
+.dashboard-rule {
+    margin-bottom: 15px;
+}
+
+.dashboard-rule-group h2 {
+    font-size: 1.3vw;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-rule-title {
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.dashboard-rule-title span {
+    box-shadow: inset 0 -0.6vw 0 #f28500;
+}
+
+.dashboard-rule {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 2.4vw;
+}
+
+.dashboard-rule p {
+    font-size: 1.3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.dashboard-rules-report-title {
+    padding: 15px;
+    background-color: black;
+    color: white;
+}
+
+.dashboard-rules-report-title h2 {
+    font-size: 1.3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.dashboard-rules-report-body {
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: black;
+    color: white;
+}
+
+.dashboard-rules-report-paragraph {
+    margin-bottom: 15px;
+}
+
+.dashboard-rules-report-paragraph p,
+.dashboard-rules-report-paragraph li {
+    font-size: 1.3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.dashboard-rules-report-paragraph li {
+    margin-left: 15px;
+}
+
+#dashboard-tips {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.dashboard-tip-group {
+    margin-bottom: 30px;
+}
+
+#dashboard-tips {
+    margin-bottom: 1vw;
+    margin-top: 1vw;
+}
+
+.dashboard-tip-group h2 {
+    font-size: 1.8vw;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-tip-title {
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.dashboard-tip {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2vw;
+    margin-right: 2vw;
+}
+
+.dashboard-tip p {
+    font-size: 1.3vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.dashboard-watchlist-pane {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-y: scroll;
+    cursor: pointer;
+}
+
+.dashboard-watchlist-title {
+    margin-top: 15px;
+    border-left: 40px solid #F28500;
+    padding-left: 15px;
+    margin-bottom: 4vh;
+    color: rgba(0, 0, 0);
+}
+
+.dashboard-watchlist-title h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.4vw;
+    font-weight: 800;
+}
+
+.dashboard-activity {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5vw;
+    padding-left: 10px;
+    border-left: 8px solid #F28500;
+    margin-right: 15px;
+}
+
+.dashboard-activity {
+    font-size: 1.4vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.dashboard-activity:hover {
+    border-left: 20px solid #f28500;
+}
+
+.dashboard-logout-link {
+    margin-top: auto;
+    text-decoration: none;
+}
+
+.dashboard-logout-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 4px solid #f28500;
+}
+
+.dashboard-logout-button-container h1 {
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #f28500;
+}
+
+.dashboard-invisible {
+    border: none;
+    color: white;
+}
+
+.dashboard-invisible pre {
+    font-size: 1.5vw;
+}
+
+.dashboard-invisible:hover {
+    border: none;
+}
+
+.dashboard-lightbold {
+    font-weight: 600;
+}
+
+.dashboard-bold {
+    font-weight: 700;
+}
+
+.dashboard-seconds {
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+.dashboard-minutes {
+    font-size: 1.6vw;
+    font-weight: 600;
+}
+
+.dashboard-hours {
+    font-weight: 600;
+}
+
+.dashboard-orange {
+    color: #F28500;
+}
+
+.dashboard-green {
+    color: #30f200;
+}
+
+.dashboard-red {
+    color: #d60000;
+}
+
+.dashboard-black {
+    color: #000;
+}
+
+.dashboard-pink {
+    color: #cb0cd1;
+}
+
+.dashboard-purple {
+    color: #9634ff;
+}
+
+.dashboard-blue {
+    color: #00baf2;
+}
+
+.dashboard-rules-li-pink {
+    color: #cb0cd1;
+}
+
+.dashboard-shadow-DE {
+    box-shadow: inset 0 -0.6vw 0 #F28500;
+}
+
+.dashboard-shadow-TH {
+    box-shadow: inset 0 -0.6vw 0 #30f200;
+}
+
+.orange-color {
+    background-color: #F28500;
+}
+
+.blue-color {
+    background-color: #00baf2;
+}
+
+.green-color {
+    background-color: #0fb300;
+}
+
+.red-color {
+    background-color: #fb3a3a;
+}
+
+.purple-color {
+    background-color: #5934ff;
+}
+
+.pink-color {
+    background-color: #cb0cd1;
+}
+
+.maroon-color {
+    background-color: #ac0000;
+}
+
+.aqua-color {
+    background-color: #0adfb1;
+}
+
+.edit-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.edit-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+.edit-back {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: white;
+    border-bottom: 4px solid #F28500;
+}
+
+.edit-back h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    color: #000;
+}
+
+.edit-back:hover > h1 span {
+    color: #F28500;
+}
+
+.edit-blocks {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.password-edit-block {
+    position: relative;
+    width: 45%;
+    height: 50%;
+    border-bottom: 4px solid #F28500;
+    border-right: 4px solid #F28500;
+    border-left: none;
+}
+
+.password-edit-block h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    margin-bottom: 25px;
+    padding: 0.5% 0 0 2%;
+}
+
+.password-edit-block form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.edit-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 0.5% 0 0 2%;
+}
+
+.edit-input-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 4px solid #00baf279;
+    width: 90%;
+}
+
+.edit-input-container input {
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.edit-input-container input:active {
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.edit-input-container label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.edit-text-input {
+    display: flex;
+    border: none;
+    width: 100%;
+}
+
+.edit-text-input {
+    background-color: transparent;
+    padding: 2px;
+    font-size: 18px;
+}
+
+.edit-button-container {
+    margin-top: auto;
+}
+
+.edit-submit {
+    width: 100%;
+    cursor: pointer;
+}
+
+.edit-submit {
+    border: none;
+    border-top: 4px solid #f28500;
+    border-radius: none;
+}
+
+.edit-submit {
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2vw;
+}
+
+.edit-submit:hover {
+    color: #f28500;
+}
+
+@media only screen and (max-width: 1380px) {
+    #login-submit {
+        font-size: 3.2vw;
+    }
+
+    .login-field-area {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    .back-header {
+        position: fixed;
+        padding: 2vh 0 0 6vw;
+    }
+
+    .back-header a {
+        width: fit-content;
+    }
+
+    .back-header svg {
+        width: 15vw;
+        margin: 0;
+    }
+
+    .login-container {
+        height: 100vh;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .content {
+        min-height: 0;
+        flex: 1;
+        width: 100%;
+    }
+
+    .login-field-area {
+        gap: 20vh;
+    }
+
+    .login-field-area .input-field input {
+        font-size: 7vw;
+    }
+
+    .login-field-area .input-field label {
+        font-size: 4vw;
+    }
+
+    .error-message p {
+        font-size: 3.5vw;
+    }
+
+    .login-button-container {
+        display: flex;
+        width: 100%;
+        height: 15vw;
+        border-top: 2px solid #F28500;
+    }
+
+    .login-button-container button {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-top: 2px solid #F28500;
+        font-style: normal;
+    }
+
+    .login-button-container span {
+        letter-spacing: normal;
+        font-size: 7vw;
+    }
+}
+
+@media only screen and (max-width: 1380px) {
+    #create-submit {
+        font-size: 3.2vw;
+    }
+
+    .create-field-area {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    .create-field-area {
+        gap: 5vh;
+    }
+
+    .create-field-area .input-field input {
+        font-size: 6vw;
+    }
+
+    .create-field-area .input-field label {
+        font-size: 4vw;
+    }
+
+    .create-button-container {
+        display: flex;
+        width: 100%;
+        height: 15vw;
+        border-top: 2px solid #F28500;
+    }
+
+    .create-button-container button {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-top: 2px solid #F28500;
+        font-style: normal;
+    }
+
+    .create-button-container span {
+        letter-spacing: normal;
+        font-size: 6vw;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+
+    .dashboard-top {
+        display: flex;
+        background-color: #F28500;
+        flex: 1;
+        flex-direction: row;
+        max-height: 70px;
+        height: auto;
+        border-bottom: 1vw solid #F28500;
+    }
+
+    .dashboard-bottom {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .dashboard-left {
+        width: 100%;
+    }
+
+    .dashboard-right {
+        width: 100%;
+    }
+
+    .dashboard-back {
+        border-right: 1vw solid #F28500;
+        background-color: white;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dashboard-exit-dashboard-word {
+        display: none;
+    }
+
+    .dashboard-back h1 {
+        font-size:  46px;
+        font-weight: 600;
+    }
+
+    .dashboard-back h1 .dashboard-tag {
+        display: none;
+    }
+
+    .dashboard-title {
+        display: none;
+    }
+
+    .dashboard-title-menu-mobile {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+    }
+
+    .dashboard-title-menu-mobile {
+        list-style: none;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: white;
+        height: 65px;
+        cursor: pointer;
+    }
+
+    .dashboard-title-menu-mobile h1 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 40px;
+
+    }
+
+    .dashboard-left {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-info-pane {
+        display: flex;
+    }
+
+    .dashboard-container {
+        display: flex;
+        height: 100vh;
+    }
+
+    .dashboard-bottom {
+        height: 100%;
+        flex: 1;
+        gap: 0;
+    }
+
+    .dashboard-identity {
+        border: none;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .dashboard-identity a {
+        margin-top: 0;
+    }
+
+    .dashboard-name {
+        display: flex;
+        margin: 0;
+        font-size: 9vw;
+        z-index: 3;
+    }
+
+    .dashboard-colors {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+    }
+
+    .dashboard-colors form {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        z-index: 2;
+        gap: 4vh;
+    }
+
+    .dashboard-colors button:nth-child(odd) {
+        align-self: flex-end;
+    }
+
+    .dashboard-colors button {
+        margin: 0;
+        width: 5vw;
+        flex: 1;
+    }
+
+    .dashboard-right {
+        width: 100%;
+        height: 100%;
+    }
+
+    .dashboard-watchlist-pane {
+        height: 100%;
+        overflow-y: hidden;
+    }
+
+    .dashboard-watchlist-title {
+        border-left: none;
+        border-bottom: 1vw solid #F28500;
+        border-right: none;
+        margin: 0;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .dashboard-watchlist-title h1 {
+        font-size: 10vw;
+    }
+
+    .dashboard-invisible pre {
+        font-size: 3vw;
+    }
+
+    .dashboard-watchlist {
+        min-height: 0;
+        overflow-y: scroll;
+        padding-top: 4vw;
+    }
+
+    .dashboard-activity {
+        font-size: 5vw;
+        margin-bottom: 5vw;
+        border-left: 2vw solid #F28500;
+        padding-left: 3vw;
+    }
+
+    .dashboard-invisible {
+        border: none;
+    }
+
+    .dashboard-shadow-TH {
+        box-shadow: inset 0 -2.5vw 0 #30f200;
+    }
+
+    .dashboard-shadow-DE {
+        box-shadow: inset 0 -2.5vw 0 #F28500;
+    }
+
+    .dashboard-logout-button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 1vw solid #f28500;
+    }
+    
+    .dashboard-logout-button-container h1 {
+        font-size: 5vw;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        color: #f28500;
+    }
+
+    .dashboard-info-pane {
+        height: 100%;
+        flex-direction: column-reverse;
+        border: none;
+    }
+
+    .dashboard-info-menu {
+        min-height: 12vw;
+        border-bottom: none;
+        border-top: 1vw solid #F28500;
+        gap: 1vw;
+    }
+
+    .dashboard-info-menu li {
+        border-bottom: none;
+    }
+
+    .dashboard-info-menu li {
+        font-size: 5vw;
+    }
+
+    .dashboard-rules-description {
+        font-size: 3.9vw;
+        padding: 2vw 2vw;
+    }
+
+    .dashboard-rule-group h2 {
+        font-size: 3.9vw;
+    }
+
+    .dashboard-rule-title span {
+        box-shadow: inset 0 -1.8vw 0 #f28500;
+    }
+
+    .dashboard-rule p {
+        font-size: 3.9vw;
+    }
+
+    .dashboard-rules-report-title {
+        padding: 5vw;
+    }
+
+    .dashboard-rules-report-title h2 {
+        font-size: 3.9vw;
+    }
+
+    .dashboard-rules-report-body {
+        padding-left: 7vw;
+        padding-right: 7vw;
+        background-color: black;
+        color: white;
+    }
+
+    .dashboard-rules-report-paragraph p,
+    .dashboard-rules-report-paragraph li {
+        font-size: 3.9vw;
+    }
+
+    #dashboard-tips {
+        flex: 1;
+    }
+
+    .dashboard-tip-group h2 {
+        font-size: 3vw;
+    }
+
+    .dashboard-tip-title {
+        margin-left: 2vw;
+    }
+
+    .dashboard-tip {
+        margin-left: 2vw;
+        margin-right: 20px;
+    }
+
+    .dashboard-tip p {
+        font-size: 2vw;
+    }
+
+    #dashboard-commands {
+        padding-top: 2.5vw;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dashboard-command {
+        margin-bottom: 5vw;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .dashboard-command p {
+        font-size: 5vw;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .dashboard-top {
+        display: flex;
+        background-color: #F28500;
+        flex: 1;
+        flex-direction: row;
+        max-height: 55px;
+        border-bottom: 1vw solid #F28500;
+    }
+
+    .dashboard-back {
+        border-right: 1vw solid #F28500;
+        background-color: white;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dashboard-back h1 {
+        font-size:  30px;
+        font-weight: 600;
+    }
+
+    .dashboard-title-menu-mobile {
+        list-style: none;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: white;
+    }
+
+    .dashboard-title-menu-mobile h1 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 30px;
+    }
+
+    #dashboard-tips {
+        flex: 1;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 10px;
+    }
+
+    .dashboard-tip-group {
+        margin-bottom: 30px;
+    }
+
+    .dashboard-tip-group h2 {
+        font-size: 6vw;
+    }
+
+    .dashboard-tip-title {
+        margin-left: 2vw;
+    }
+
+    .dashboard-tip {
+        margin-left: 3vw;
+        margin-right: 0;
+    }
+
+    .dashboard-tip p {
+        font-size: 5vw;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .dashboard-activity {
+        font-size: 20px;
+    }
+
+    .dashboard-shadow-TH {
+        box-shadow: inset 0 -10px 0 #30f200;
+    }
+
+    .dashboard-shadow-DE {
+        box-shadow: inset 0 -10px 0 #F28500;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .dashboard-command {
+        margin-left: 4vw;
+        margin-right: 4vw;
+    }
+
+    .dashboard-back h1 {
+        font-size:  7vw;
+        font-weight: 600;
+    }
+
+    .dashboard-title-menu-mobile h1 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 8vw;
+    }
+}
+
+@media only screen and (max-width: 200px) {
+    .dashboard-activity {
+        font-size: 5vw;
+    }
+
+    .dashboard-shadow-TH {
+        box-shadow: inset 0 -2vw 0 #30f200;
+    }
+
+    .dashboard-shadow-DE {
+        box-shadow: inset 0 -2vw 0 #F28500;
+    }
+}

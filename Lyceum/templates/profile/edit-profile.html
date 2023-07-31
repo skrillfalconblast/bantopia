@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/styles/profile.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>The Lyceum - Enter</title>
+</head>
+<body>
+    <div class="edit-container">
+        <a href="../dashboard" class="edit-back">
+            <h1><span>{</span>Back to Dashboard<span>}</span></h1>
+        </a>
+        <div class="edit-blocks">
+            <div class="password-edit-block">
+                <form method="POST">
+                    <h1>Edit Password</h1>
+                    <div class="edit-inputs">
+                        {% csrf_token %}
+                        {% for field in password_form %}
+                        <div class="edit-input-container">
+                            <label>{{ field.label }}:</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="edit-button-container">
+                        <button type="submit" class="edit-submit" id="edit-password-submit" value="Edit">
+                            <span id="password-edit-text">Edit...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</body>
+<script src="../../js/login.js"></script>
+</html>

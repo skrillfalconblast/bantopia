@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/styles/post.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>The Lyceum - #Post</title>
+</head>
+<body>
+    <div class="drafts-page">
+        <div class="drafts-middle">
+            <div class="middle-header">
+                <a href="/" class="header-back-link"><h1>Back</h1></a><!-- Architecture of header is different for every one of the 'post/' files, rectify this irregularity -->
+                <a href="/post/write" class="write-link"><h1>Write</h1></a>
+                <a href ="/post/your-drafts" class="drafts-link"><h1>Drafts</h1></a>
+                <a href ="/post/your-posts" class="posts-link"><h1>Posts</h1></a>
+            </div>
+            <div class="middle-header-mobile">
+                <a href ="/" class="back-link-mobile"><h1>Back</h1></a>
+                <a href="/post/write" class="write-link active-header"><h1>Write</h1></a>
+                <a href ="/post/your-drafts" class="drafts-link"><h1>Drafts</h1></a>
+                <a href ="/post/your-posts" class="posts-link"><h1>Posts</h1></a>
+            </div>
+            <div class="drafts-middle-body">
+                {% if drafts %}
+                <div class="drafts">
+                    {% for draft in drafts %}
+                    <a href="../post/write?drafting={{ draft.draft_code }}" class="draft">
+                        <div class="draft-content">
+                            <div class="draft-index">
+                                <h1><span>Draft #{{ forloop.counter }}</span></h1>
+                            </div>
+                            <div class="draft-title">
+                                {% if draft.draft_type == 'DE' %}
+                                <h1><span>Decleration:</span> {{ draft.draft_title }}</h1>
+                                {% elif draft.draft_type == 'TH' %}
+                                <h1><span>Theory:</span> {{ draft.draft_title }}</h1>
+                                {% endif %}
+                            </div>
+                            <div class="draft-description">
+                                <p>{{ draft.draft_desc }}</p>
+                            </div>
+                            <div class="draft-tags">
+                                <h1><span>Tags:</span>{{ draft.draft_tags }}</h1>
+                            </div>
+                        </div>
+                        <hr class="draft-divider">
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="drafts-empty-splash-container">
+                    <div class="drafts-empty-splash-top"><h1>You have no drafts. 0_0</h1></div>
+                    <div class="drafts-empty-splash-bottom"><h1>For those who mistake the unmistakable.</h1></div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

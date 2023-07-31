@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/styles/profile.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>The Lyceum - Enter</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-top">
+            <a href="/" class="dashboard-back">
+                <h1><span class="dashboard-tag">{</span>Exit <span class="dashboard-exit-dashboard-word">Dashboard</span><span class="dashboard-tag">}</span></h1>
+            </a>
+            <div class="dashboard-title"><h1>Your Dashboard</h1></div>
+            <li class="dashboard-title-menu-mobile dashboard-blue" id="mobile-nav-1"><h1>1</h1></li>
+            <li class="dashboard-title-menu-mobile" id="mobile-nav-2"><h1>2</h1></li>
+            <li class="dashboard-title-menu-mobile" id="mobile-nav-3"><h1>3</h1></li>
+        </div>
+        <div class="dashboard-bottom">
+            <div class="dashboard-left" id="dashboard-left">
+                <div class="dashboard-identity mobile-hidden" id="dashboard-identity">
+                    <a href="../edit-profile">
+                        <h1 class="dashboard-name"><span>{</span>Edit Your Profile<span>}</span></h1>
+                    </a>
+                    <div class="dashboard-colors">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <button type="submit" id="orange-choice" name="orange-choice" class="dashboard-color orange-color" value="OR"></button>
+                            <button type="submit" id="blue-choice" name="blue-choice" class="dashboard-color blue-color" value="BL"></button>
+                            <button type="submit" id="green-choice" name="green-choice" class="dashboard-color green-color" value="GR"></button>
+                            <button type="submit" id="red-choice" name="red-choice" class="dashboard-color red-color" value="RE"></button>
+                            <button type="submit" id="purple-choice" name="purple-choice" class="dashboard-color purple-color" value="PU"></button>
+                            <button type="submit" id="pink-choice" name="pink-choice" class="dashboard-color pink-color" value="PI"></button>
+                            <button type="submit" id="maroon-choice" name="maroon-choice" class="dashboard-color maroon-color" value="MA"></button>
+                            <button type="submit" id="aqua-choice" name="aqua-choice" class="dashboard-color aqua-color" value="AQ"></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="dashboard-info-pane" id="dashboard-info-pane">
+                    <div class="dashboard-info-menu">
+                        <li id="dashboard-commands-tab">Commands</li>
+                        <li id="dashboard-rules-tab">Rules</li>
+                        <li id="dashboard-tips-tab">Tips</li>
+                    </div>
+                    <div id="dashboard-tips" class="hidden">
+                        <!--
+                        <div class="dashboard-tip-group">
+                            <div class="dashboard-tip-title">
+                                <h2><span>Tip #1: Can I get your number?</span></h2>
+                            </div>
+                            <div class="dashboard-tip">
+                                <p>If you're engaged in a lengthy dispute with someone, or would like to talk for any other reason, just exchange phone numbers and call. Not only is it very sophisticated, but it's a safe and effective way to meet new people and make interesting connections.</p>
+                            </div>
+                        </div>--->
+                        <div class="dashboard-tip-group">
+                            <div class="dashboard-tip-title">
+                                <h2><span>Tip #1: Straight to the Top.</span></h2>
+                            </div>
+                            <div class="dashboard-tip">
+                                <p>If you have any suggestions or thoughts, our CEO's email address is skrillfalconblast@icloud.com, he tries his best to read every email and usually responds (bless his soul).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dashboard-rules" class="hidden">
+                        <div class="dashboard-rules-description">
+                            <p class="dashboard-lightbold">Welcome to a simple yet sophisticated social medium, where wisdom is cherished. Here is a fair and forgiving place, so if you get punished, you probably weren't being very smart.</p>
+                        </div>
+                        <div class="dashboard-rule-group">
+                            <div class="dashboard-rule-title">
+                                <h2><span>Rule Number 1</span></h2>
+                            </div>
+                            <div class="dashboard-rule">
+                                <p>There is nothing so confining as the prisons of our own perceptions.</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-rule-group">
+                            <div class="dashboard-rule-title">
+                                <h2><span>Rule Number 2</span></h2>
+                            </div>
+                            <div class="dashboard-rule">
+                                <p>Pride goes before destruction, a haughty spirit before a fall.</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-rule-group">
+                            <div class="dashboard-rule-title">
+                                <h2><span>Rule Number 3</span></h2>
+                            </div>
+                            <div class="dashboard-rule">
+                                <p>No matter how hot your anger is, it cannot cook yams.</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-rule-group">
+                            <div class="dashboard-rule-title">
+                                <h2><span>Rule Number 4</span></h2>
+                            </div>
+                            <div class="dashboard-rule">
+                                <p>Better a witty fool than a foolish wit.</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-rules-report-title">
+                            <h2><span>Report System</span></h2>
+                        </div>
+                        <div class="dashboard-rules-report-body">
+                            <div class="dashboard-rules-report-paragraph">
+                                <p>All reports will be evaluted by rational people, to determine their gravity.</p>
+                            </div>
+                            <div class="dashboard-rules-report-paragraph">
+                                <p>This can result in 1 of 3 scenarios:</p>
+                            </div>
+                            <div class="dashboard-rules-report-paragraph">
+                                <p>1 - (The most common scenario) It was a false report and no one will be affected. Unless the false reporter is a serial false reporter, wherein the serial false reporter will be punished.</p>
+                            </div>
+                            <div class="dashboard-rules-report-paragraph">
+                                <p>2 - The report was justified and the reported account will be punished temporarily (See Below).</p>
+                            </div>
+                            <div class="dashboard-rules-report-paragraph">
+                                <p>3 - If the report is sufficiently serious, the reported account could be locked out. Leaving their profile desolate, and their e-mail address unusable. This is a rare and unfortunate scenario.</p>
+                            </div>
+                            <div class="dashboard-rules-report-paragraph">
+                                <p><u>Some possible punishments</u></p>
+                                <ul>
+                                    <li>Imposing a character limit</li>
+                                    <li>Renaming your account</li>
+                                    <li class="dashboard-rules-li-pink"><span>Locking your customisation to a random color</span></li>
+                                    <li>Distorting your UI</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dashboard-commands">
+                        <div class="dashboard-command-group">
+                            <div class="dashboard-command">
+                                <p><span class="dashboard-lightbold dashboard-orange">/watch someone</span> <br> Add someone to your watchlist.</span></p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. /watch TheRealDonaldJTrump</span></p>
+                            </div>
+                            <div class="dashboard-command">
+                                <p><span><span class="dashboard-lightbold dashboard-orange">/unwatch someone</span> <br> Remove someone from your watchlist.</p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. /unwatch BenShapiro778</span></p>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="dashboard-command-group">
+                            <div class="dashboard-command">
+                                <p><span><span class="dashboard-lightbold dashboard-orange">/whisper someone "message"</span> <br> Whisper a "message" to someone.</span></p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. /whipser NeoMaster983 "Take the Red Pill"</span></p>
+                            </div>
+                            <div class="dashboard-command">
+                                <p><span><span class="dashboard-lightbold dashboard-orange">/ignore someone</span> <br> Prevent someone from whispering to you.</p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. /ignore SpamBoy124</span></p>
+                            </div>
+                            <div class="dashboard-command">
+                                <p><span><span class="dashboard-lightbold dashboard-orange">/listen someone</span> <br> Allow someone to whipser to you again.</p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. /listen MichealKnows</span></p>
+                            </div>
+                            <div class="dashboard-command">
+                                <p><span><span class="dashboard-lightbold dashboard-orange">/whisperlist "message"</span> <br> Whisper a "message" to people in your watchlist.</p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. /whisperlist "What do you guys think about Apple?"</span></p>
+                            </div>
+                        </div>
+                        -->
+                        <div class="dashboard-command-group">
+                            <div class="dashboard-command">
+                                <p><span><span class="dashboard-lightbold dashboard-orange">/report someone "reason"</span> <br> Report someone for a specific reason.</span></p>
+                                <p class="dashboard-command-example"><span class="dashboard-command-example-text">E.g. report boe-jiden "He gives me creepy vibes"</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-right mobile-hidden" id="dashboard-right">
+                <div class="dashboard-watchlist-pane">
+                    <div class="dashboard-watchlist-title">
+                        <h1>Watchlist Activity</h1>
+                    </div>
+                    <div class="dashboard-watchlist">
+                        {% if watchlist_activit %}
+                            {% for activity, timeframe in watchlist_activity %}
+                                {% if activity.watchlist_activity_type == 'ACTIVE' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - We noticed that <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> appears very active in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                </div>
+                                {% elif activity.watchlist_activity_type == 'DECLARE' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Look at that, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> declared that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                </div>
+                                {% elif activity.watchlist_activity_type == 'THEORISE' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Oooh, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> theorised that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                </div>
+                                {% elif activity.watchlist_activity_type == 'ENGAGE' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Here we go, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> dropped a line in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                </div>
+                                {% elif activity.watchlist_activity_type == 'POPULAR' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Jee whiz, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> has been getting very popular in </span> <span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span>!</p>
+                                </div>
+                                {% elif activity.watchlist_activity_type == 'INFAMOUS' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Golly, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> has grown seriously infamous in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                </div>
+                                {% elif activity.watchlist_activity_type == 'CONTROVERSIAL' %}
+                                <div class="dashboard-activity">
+                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Woah, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> just got really controversial in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        <div class="dashboard-activity">
+                            <p><span class="dashboard-hours">24 A.D.</span><span class="dashboard-hours"> - There is <span class="dashboard-bold">zero</span> activity in your watchlist. A <span class="dashboard-bold dashboard-orange">lone wolf</span> stalks a lone moon.</span></p>
+                        </div>
+                        <div class="dashboard-activity dashboard-invisible">
+                            <p><pre>
+                                .d$$b
+                              .' TO$;\
+                             /  : TP._;
+                            / _.;  :Tb|
+                           /   /   ;j$j
+                       _.-"       d$$$$
+                     .' ..       d$$$$;
+                    /  /P'      d$$$$P. |\
+                   /   "      .d$$$P' |\^"l
+                 .'           `T$P^"""""  :
+             ._.'      _.'                ;
+          `-.-".-'-' ._.       _.-"    .-"
+        `.-" _____  ._              .-"
+       -(.g$$$$$$$b.              .'
+         ""^^T$$$P^)            .(:
+           _/  -"  /.'         /:/;
+        ._.'-'`-'  ")/         /;/;
+     `-.-"..--""   " /         /  ;
+    .-" ..--""        -'          :
+    ..--""--.-"         (\      .-(\
+      ..--""              `-\(\/;`
+        _.                      :
+                                ;`-
+                               :\
+                               ;  pretty deep huh</pre></p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <a class="dashboard-logout-link" href="/logout/">
+                    <div class="dashboard-logout-button-container">
+                        <h1>Log out?</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="{% static 'js/dashboard.js' %}"></script>
+</html>

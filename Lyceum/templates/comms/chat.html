@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/comm.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>The Lyceum - Why DreamWorks 100x better than Disney</title>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/" class="option">
+            <h1>Back</h1>
+        </a>
+        <a href="/{{post.post_code}}" class="option"> 
+            <h1>Content</h1>
+        </a>
+        <a href="/ws/{{post.post_code}}/chat" class="option"> 
+            <h1>Chat</h1>
+        </a>
+        <a href="/{{post.post_code}}/counters" class="option">
+            <h1>Counters</h1>
+        </a>
+        <a class="option" id="balance-option">
+            <div id="Y"><h1>yes={{ y }}</h1></div>
+            <div id="N"><h1>no={{ n }}</h1></div>
+        </a>
+        <a href="/{{post.post_code}}/dogs" class="option">
+            <h1>Top Dogs</h1>
+        </a>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="menu-collapsed" id="collapsable-menu">
+            <div class="level">
+                <a href="/" class="option" id="mobile-menu-back">
+                    <h1>Back</h1>
+                </a>
+            </div>
+            <div class="level">
+                <a href="/{{post.post_code}}/dogs" class="option">
+                    <h1>Top Dogs</h1>
+                </a>
+                <a href="/{{post.post_code}}/counters" class="option">
+                    <h1>Counters</h1>
+                </a>
+            </div>
+            <div class="level" id="chat-level">
+                <a class="option" id="mobile-balance-option-Y">
+                    <h1 id="mobile-Y">yes={{ y }}</h1>
+                </a>
+                <a href="/ws/{{post.post_code}}/chat" class="option"> 
+                    <h1>C</h1>
+                </a>
+                <a class="option" id="mobile-balance-option-N">
+                    <h1 id="mobile-N">no={{ n }}</h1>
+                </a>
+            </div>
+        </div>
+        <div class="option" id="bottom-option">
+            <div class="level" id="nav-toggle">
+                <div class="toggle"><img src="{% static 'images/chevron-up-solid.svg' %}" alt=""></div>
+            </div>
+            <div class="level mobile-header">
+                <a href="">
+                    <h2><span class="type">Declaration:</span> DreamWorks is 100x better than Disney</h2>
+                </a>
+            </div>
+        </div>
+    </div> 
+    <div class="display">
+        {% if user.is_authenticated %}
+        <div class="chat">
+            <div class="messages" id="messages-container">
+                {% for message in messages %}
+                <div class="message">
+                    <div class="message-body">
+                        <div class="text">
+                            <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
+                            <div class="content neutral" id="msg_{{ message.message_code }}"><span class="message-tag leading-tag dislikable-excited color-{{ message.message_author.color }}">{</span><span class="message-actual-content">{{ message.message_content }}</span><span class="message-tag trailing-tag likable-excited color-{{ message.message_author.color }}">}</span><sup>{{ message.message_score }}</sup></div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="message-score">
+                        <h1>{{ message.message_score }}</h1>
+                    </div>
+                    --->
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="chatbar-container">
+            <div class="chat-bar">
+                <p id="chat-input" contenteditable="true" placeholder="Type in chat..."></p><!-- CSS attributes seem a bit clunkly, try integrate the JQuery solution to contenteditable placeholders if need be -->
+                <button id="chat-submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></button>
+            </div>
+        </div>
+        {% else %}
+        <div class="anonymous-screen">
+            <div class="anonymous-poem">
+                <h1>You are shadowclung,</h1>
+                <h1>Thus, to cast your tounge:</h1>
+                <a href="/create-profile/"><h1>Draw your name,</h1></a>
+                <a href="/create-profile/"><h1>Sign tribute: the e-mail,</h1></a>
+                <a href="/create-profile/"><h1>Fet the dualfold seals right,</h1></a>
+                <a href="/create-profile/"><h1>To cure your anonysight.</h1></a>
+                <h1>Then, cast your tounge.</h1>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {{ post.post_code|json_script:"post-code" }}
+</body>
+<script src="{% static 'js/comms.js' %}"></script>
+</html>
