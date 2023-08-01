@@ -878,6 +878,7 @@ input:focus:-ms-input-placeholder {
         display: flex;
         flex-direction: column;
         height: 100vh;
+        height: 100dvh;
         flex-flow: column;
     }
 

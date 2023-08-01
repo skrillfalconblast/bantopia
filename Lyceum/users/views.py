@@ -57,7 +57,8 @@ def createProfile(request):
                     if not User.objects.filter(email=email):
                         try:
                             validate_email(email)
-                            User.objects.create_user(display_name=display_name, email=email, password=password)
+                            user = User.objects.create_user(display_name=display_name, email=email, password=password)
+                            auth_login(request, user)
                             return redirect('/')
                         except ValidationError as email_fail_info:
                             message = 'That email was clearly invalid.'

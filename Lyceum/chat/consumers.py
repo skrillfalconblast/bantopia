@@ -233,7 +233,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         else:
                             return f"Tut, Tut. That command isn't real. Have no fear, more will be revealed soon."
                     else:
-                        return f"How peculiar, f{name} doesn't seem to exist...\ Stalking phantoms, are we?"
+                        return f"How peculiar, {name} doesn't seem to exist...\ Stalking phantoms, are we?"
             else:
                 return f"Tut, Tut. That command isn't real. Have no fear, more will be revealed soon."
         except:

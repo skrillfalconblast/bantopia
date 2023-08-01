@@ -12,11 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <title>Bantopia - Welcome</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}" sizes="196x196">
 </head>
 <body>
     <div class="navbar-container">
         <div class="navbar">
-            <a href="/" class="logo"><img src="{% static 'images/raven.png' %}" alt="SHOWGAUGE"></a>
+            <a href="/" class="logo"><img src="{% static 'images/logo.svg' %}" alt="SHOWGAUGE"></a>
             <form method="GET">
                 <input type="text" name="search" id="search" placeholder="Enter a search word..." autocomplete="off">
             </form>
@@ -138,7 +139,7 @@
         <div class="bottom">
             <div class="new-user-links">
                 {% if user.is_authenticated %}
-                <a href="create-profile/" class="mobile-dashboard-btn"><span>Dashboard</span></a>
+                <a href="/{{ user.display_name }}/dashboard" class="mobile-dashboard-btn"><span>Dashboard</span></a>
                 {% else %}
                 <a href="create-profile/" class="mobile-create-profile-btn"><span>Create Profile</span></a>
                 <a href="login/" class="mobile-login-btn"><span>Log in</span></a>

@@ -105,6 +105,10 @@ body {
 }
 
 .create-field-area .input-field input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0;
     border: none;
     width: 525px;
     border-bottom: 4px solid #00baf279;
@@ -177,6 +181,10 @@ body {
 }
 
 .login-field-area .input-field input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0;
     border: none;
     width: 525px;
     border-bottom: 4px solid #00baf2;
@@ -978,6 +986,12 @@ button[type="submit"]:hover > span {
 
     .login-container {
         height: 100vh;
+        height: 100dvh;
+    }
+
+    .login-container form {
+        height: 100vh;
+        height: 100dvh;
     }
 
     form {
@@ -1022,6 +1036,7 @@ button[type="submit"]:hover > span {
         border: none;
         border-top: 2px solid #F28500;
         font-style: normal;
+        color: #000;
     }
 
     .login-button-container span {
@@ -1041,6 +1056,16 @@ button[type="submit"]:hover > span {
 }
 
 @media only screen and (max-width: 960px) {
+    .create-container {
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    .create-container form {
+        height: 100vh;
+        height: 100dvh;
+    }
+
     .create-field-area {
         gap: 5vh;
     }
@@ -1067,6 +1092,7 @@ button[type="submit"]:hover > span {
         border: none;
         border-top: 2px solid #F28500;
         font-style: normal;
+        color: #000;
     }
 
     .create-button-container span {

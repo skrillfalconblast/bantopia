@@ -13,10 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='03mi2%8#pqyczpchxark+4*p@f_v4h(z5sgfx0n6xjjxnu2_(#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com']
+ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com', '127.0.0.1']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -91,12 +87,23 @@ WSGI_APPLICATION = 'Lyceum.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='postgres://bantopia_database_user:XQ4nJE5GRKGt2xNrncthPz0QwmevkZeY@dpg-cj3ksml9aq0e0q7pjrbg-a/bantopia_database',
-    )
-}
+if not DEBUG:
+    DATABASES = {
+        'default': dj_database_url.config(
+            # Feel free to alter this value to suit your needs.
+            default='postgres://bantopia_database_user:XQ4nJE5GRKGt2xNrncthPz0QwmevkZeY@dpg-cj3ksml9aq0e0q7pjrbg-a/bantopia_database',
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'lyceum_db',
+            'USER': 'postgres',
+            'PASSWORD': 'root', # SECUIRTY WARNING: you ought to secure these for production!
+            'HOST': 'localhost'
+        }
+    }
 
 
 # Password validation
@@ -161,14 +168,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.user'
 
 ASGI_APPLICATION = "Lyceum.asgi.application"
-CHANNEL_LAYERS = {
-    "default" : {
-        "BACKEND" : "channels_redis.core.RedisChannelLayer",
-        "CONFIG" : {
-            "hosts" : ["rediss://red-cj3thkp8g3n1jkkfhem0:cr1dBII7Uwo7P6s2kjzE02sWxLa8qJOD@oregon-redis.render.com:6379"],
+
+if not DEBUG:
+    CHANNEL_LAYERS = {
+        "default" : {
+            "BACKEND" : "channels_redis.core.RedisChannelLayer",
+            "CONFIG" : {
+                "hosts" : ["rediss://red-cj3thkp8g3n1jkkfhem0:cr1dBII7Uwo7P6s2kjzE02sWxLa8qJOD@oregon-redis.render.com:6379"],
+            },
         },
-    },
-}
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default" : {
+            "BACKEND" : "channels_redis.core.RedisChannelLayer",
+            "CONFIG" : {
+                "hosts" : [("127.0.0.1", 6379)],
+            },
+        },
+    }
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
