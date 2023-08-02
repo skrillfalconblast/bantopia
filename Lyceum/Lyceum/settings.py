@@ -35,6 +35,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com']
 
+CSRF_FAILURE_VIEW = 'posts.views.csrf_failure'
 
 # Application definition
 

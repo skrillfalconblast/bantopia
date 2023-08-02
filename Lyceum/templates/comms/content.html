@@ -84,7 +84,7 @@
         </div>
         <hr class="header-line">
         <div class="content-paragraph">
-            <p>{{post.post_desc}} <span class="post-tags">{% for tag in tags %}{{ tag.tag_text }} {% endfor %}</span></p>
+            <p>{{post.post_desc|linebreaksbr}} <span class="post-tags">{% for tag in tags %}{{ tag.tag_text }} {% endfor %}</span></p>
         </div>
     </div>
     {{ post.post_code|json_script:"post-code" }}

@@ -68,9 +68,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             try:
                 last_timeperiod = timezone.now() - datetime.timedelta(minutes=7)
-                print(last_timeperiod)
                 messages = Message.objects.filter(message_post=post, message_author=user, message_datetime_sent__gt=last_timeperiod)
-                print(messages)
             except Message.DoesNotExist:
                 messages =  None
 
@@ -157,7 +155,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         author = message.message_author
         
         score = Message.objects.filter(message_post=post, message_author=author).aggregate(Sum('message_score'))
-        if score['message_score__sum'] > 10:
+        if score['message_score__sum'] > 2:
             TPP_score = Message.objects.filter(message_post=post, message_author=post.post_TPP).aggregate(Sum('message_score'))
             if TPP_score['message_score__sum']:
                 if score['message_score__sum'] > TPP_score['message_score__sum']:
@@ -169,7 +167,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 post.save()
                 WatchlistActivity.objects.create(watchlist_activity_user=author, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.POPULAR)
 
-        if score['message_score__sum'] < -10:
+        if score['message_score__sum'] < -2:
             PEN1_score = Message.objects.filter(message_post=post, message_author=post.post_PEN1).aggregate(Sum('message_score'))
             if PEN1_score['message_score__sum']:
                 if score['message_score__sum'] < PEN1_score['message_score__sum']:
@@ -184,12 +182,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         number_of_likes = Interaction.objects.filter(interaction_message=message, interaction_type=Interaction.LIKE).count()
         number_of_dislikes = Interaction.objects.filter(interaction_message=message, interaction_type=Interaction.DISLIKE).count()
 
-        print("l", number_of_likes)
-        print('d', number_of_dislikes)
-
-        if number_of_likes >= 10 and number_of_dislikes >= 10:
+        if number_of_likes >= 2 and number_of_dislikes >= 2:
             interaction_ratio = number_of_dislikes/number_of_likes
-            print(interaction_ratio)
             if interaction_ratio < 1.20 and interaction_ratio > 0.80: # 20% either way
                 WatchlistActivity.objects.create(watchlist_activity_user=author, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.CONTROVERSIAL)
             

@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchRank, SearchQuery, SearchVector
+from django.views.decorators.csrf import csrf_exempt
 
-from django.db.models import Func, F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField
+from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField
 from django.db.models.functions import Round, Log, Greatest, Abs
 
 
@@ -11,7 +12,7 @@ from .models import Post, Tag, Vote, Draft, Visit
 from chat.models import Message
 from users.models import WatchlistActivity
 
-from random import sample
+import random
 
 
 
@@ -38,6 +39,7 @@ def search(search_term):
 
     return posts
 
+@csrf_exempt
 def index(request):
 
     user = request.user # Pulls user from request for authentication checks within the template.   
@@ -120,7 +122,6 @@ def write(request):
                     post_code = get_random_string(length=8)
 
 
-                    print(draft_title.strip())
 
                     if draft_type.strip() != '' and draft_title.strip() != '' and draft_desc.strip() != '':
                         post = Post(
@@ -200,7 +201,6 @@ def write(request):
                         return render(request, '/post/write.html')
 
             except:
-                print('except was triggered')
                 return render(request, '/post/write.html')
 
         else: # If the page is simply loading, without a POST request
@@ -310,7 +310,7 @@ def commCounters(request, post_code):
                  'girls fancied this.', 'buisnessmen profited.', 'dragons were fired up!',
                  'birds were eggcited!', 'cars went vroom vroom!', 'links were forged!', 'meows were meowed.']
         
-        quips = sample(quip_list, len(counters))
+        quips = random.sample(quip_list, len(counters))
 
         counters_and_quips = zip(counters, quips)
         
@@ -343,3 +343,18 @@ def commDogs(request, post_code):
         return render(request, 'comms/dogs.html', context)
     else:
         return redirect('/') # Make a 404 error page 
+
+################ ERROR PAGES #######################  
+
+def csrf_failure(request, reason=""):
+    quip_list = ['Call me crazy, but it looks like you have a werid looking csrf verification token. Do me a favour and <span>reload</span> the page, to fix this digusting error.',
+             'Your csrf verficiation token is super yucky, <span>reload</span> and get a new one!',
+             "WOAAAAAAHHHHH, I ain't never seen a csrf token looking like that! <span>Reload</span> to heal my eyes!",
+             "Your csrf verficaiton token is so ugly it crashed the server! <span>Reload</span> for all our sakes.", 
+             "I've seen some messed up things in my time, but that csrf verification token... *shudders* A sight like that could grow a baby a beard. <span>Reload</span>, because that's nasty!"]
+    
+    quip = random.choice(quip_list)
+
+    context = {'quip' : quip}
+
+    return render(request, 'errors/csrf_failure.html', context)

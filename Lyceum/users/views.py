@@ -57,13 +57,14 @@ def createProfile(request):
                     if not User.objects.filter(email=email):
                         try:
                             validate_email(email)
-                            user = User.objects.create_user(display_name=display_name, email=email, password=password)
+                            User.objects.create_user(display_name=display_name, email=email, password=password)
+                            user = authenticate(request, display_name=display_name, password=password)
                             auth_login(request, user)
                             return redirect('/')
                         except ValidationError as email_fail_info:
                             message = 'That email was clearly invalid.'
                         except ValueError:
-                            message = 'Five words: Fill. In. All. The. Fields.'
+                            message = 'Fill. In. All. The. Fields.'
                     else:
                         message = 'That email is already in use, contact support@lyceum.com to find the account using it.'
                 else:

@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+    max-width: 100%;
+    overflow: visible;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #ffffff;
+    display: flex;
+}
+
+.error-container h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 7vw;
+    font-weight: 700;
+    color: #f28500;
+    line-height: 1.75em;
+    margin: 0 1vw;
+}
+
+.error-container h1 span { /* Eye grabbing bold "RELOAD" text*/
+    color: black;
+}

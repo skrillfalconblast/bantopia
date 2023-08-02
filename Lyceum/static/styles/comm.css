@@ -1239,10 +1239,6 @@ input:focus:-ms-input-placeholder {
     .text {
         flex-direction: column;
     }
-
-    .author span {
-        box-shadow: inset 0 -10px 0 #F28500;
-    }
 }
 
 @media only screen and (max-width: 860px) {
@@ -1288,8 +1284,36 @@ input:focus:-ms-input-placeholder {
         margin-bottom: 1px;
     }
 
-    .author span {
+    .author-shadow-OR {
         box-shadow: inset 0 -7px 0 #F28500;
+    }
+    
+    .author-shadow-BL {
+        box-shadow: inset 0 -7px 0 #00baf2;
+    }
+    
+    .author-shadow-GR {
+        box-shadow: inset 0 -7px 0 #0fb300;
+    }
+    
+    .author-shadow-RE {
+        box-shadow: inset 0 -7px 0 #fb3a3a;
+    }
+    
+    .author-shadow-PU {
+        box-shadow: inset 0 -7px 0 #5934ff;
+    }
+    
+    .author-shadow-PI {
+        box-shadow: inset 0 -7px 0 #cb0cd1;
+    }
+    
+    .author-shadow-MA {
+        box-shadow: inset 0 -7px 0 #ac0000;
+    }
+    
+    .author-shadow-AQ {
+        box-shadow: inset 0 -7px 0 #35d6b3;
     }
 
     .chat-bar p {

@@ -98,7 +98,7 @@
                 <h1 class="side-title">Watchlist</h1>
                 <hr class="side-div">
                 <ul>
-                    {% if watchlists %}
+                    {% if watchlist_activity %}
                         {% for activity in watchlist_activity %}
                             {% if activity.watchlist_activity_type == 'ACTIVE' %}
                             <div class="dashboard-activity">

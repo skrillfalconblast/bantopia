@@ -567,16 +567,19 @@ input:focus:-ms-input-placeholder {
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
     color: black;
+    height: 100%;
 }
 
 .messages-box {
     width: 20%;
     display: flex;
+    align-items: center;
 }
 
 .post svg {
     margin-left: 5px;
     width: 17px;
+    height: 100%;
 }
 
 .post-author {

@@ -86,7 +86,7 @@
                         </div>
                         <div class="post-input" id="post-input-text">
                             <label for="text">Text: </label>
-                            <textarea name="text" id="text" maxlength="3000" autocomplete="off" placeholder="e.g. Let's be real, in the context of modern society, cats are better than dogs. The only question is by how much...">{{ draft.draft_desc }}</textarea>
+                            <textarea name="text" id="text" maxlength="3000" autocomplete="off" placeholder="e.g. Let's be real, in the context of modern society, cats are better than dogs. The only question is by how much...">{{ draft.draft_desc|linebreaksbr }}</textarea>
                         </div>
                         <div class="post-input">
                             <label for="tags">Tags: </label>
