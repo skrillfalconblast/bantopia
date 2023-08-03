@@ -70,10 +70,10 @@ def index(request):
 
         user = request.user # Pulls user from request for authentication checks within the template.   
 
-        watching = user.watching.all()
+        watching = user.watching.select_related('watchlist_activity_user')
         watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).order_by('-watchlist_activity_datetime')
 
-        visits = Visit.objects.filter(visit_user=user).order_by('-visit_datetime')
+        visits = Visit.objects.filter(visit_user=user).order_by('-visit_datetime').select_related('visit_post')
 
         context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits}
 

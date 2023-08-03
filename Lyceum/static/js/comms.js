@@ -59,6 +59,7 @@ const chatSocket = new WebSocket (
     + '/ws/'
     + postCode
     + '/'
+    + 'chat'
 );
 
 chatSocket.onmessage = function(e) {
@@ -140,27 +141,21 @@ chatSocket.onmessage = function(e) {
             const messageDOM = document.getElementById(id)
             message_scoreDOM = messageDOM.lastElementChild
             message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + 1
-            console.log('liked')
         } else if (data.interaction === 'unlike') {
 
             const messageDOM = document.getElementById(id)
             message_scoreDOM = messageDOM.lastElementChild
             message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) - 1
-            console.log('unliked')
         } else if (data.interaction == 'dislike') {
             
             const messageDOM = document.getElementById(id)
             message_scoreDOM = messageDOM.lastElementChild
             message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) - 1
-            console.log(id)
-            console.log('disliked')
-            console.log('-----------------------')
         } else if (data.interaction == 'undislike') {
             
             const messageDOM = document.getElementById(id)
             message_scoreDOM = messageDOM.lastElementChild
             message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + 1
-            console.log('undisliked')
         }
     } else if ('y' in data || 'n' in data) {
 
@@ -219,7 +214,7 @@ document.addEventListener("mouseover", function(e) {
 })
 
 document.addEventListener("click", function(e) {
-    classNames = e.target.className.split(' ')
+    classNames = e.target.className.toString().split(' ')
     if (classNames.includes('message-tag') && classNames.includes('trailing-tag')) {
         chatSocket.send(JSON.stringify({
             'message_id' : e.target.closest('.content').id,
