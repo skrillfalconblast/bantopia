@@ -139,20 +139,20 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Sentry
+if not DEBUG:
+    sentry_sdk.init(
+    dsn="https://f5ec0a343b4ff9770ce69cb49846e34f@o4505640849047552.ingest.sentry.io/4505640851341312",
+    integrations=[DjangoIntegration()],
 
-sentry_sdk.init(
-  dsn="https://f5ec0a343b4ff9770ce69cb49846e34f@o4505640849047552.ingest.sentry.io/4505640851341312",
-  integrations=[DjangoIntegration()],
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
 
-  # Set traces_sample_rate to 1.0 to capture 100%
-  # of transactions for performance monitoring.
-  # We recommend adjusting this value in production.
-  traces_sample_rate=1.0,
-
-  # If you wish to associate users to errors (assuming you are using
-  # django.contrib.auth) you may enable sending PII data.
-  send_default_pii=True
-)
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+    )
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

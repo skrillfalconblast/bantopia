@@ -129,17 +129,20 @@ def dashboard(request, display_name):
 
         timeframes = []
 
-        for activity in watchlist_activity:
-            if 'second' in activity.longAgo():
-                timeframes.append('seconds')
-            elif 'minute' in activity.longAgo():
-                timeframes.append('minutes')
-            elif 'hour' in activity.longAgo():
-                timeframes.append('hours')
-            else:
-                timeframes.append(None)
-        
-        timeframed_watchlist_activity = zip(watchlist_activity, timeframes) 
+        if watchlist_activity:
+            for activity in watchlist_activity:
+                if 'second' in activity.longAgo():
+                    timeframes.append('seconds')
+                elif 'minute' in activity.longAgo():
+                    timeframes.append('minutes')
+                elif 'hour' in activity.longAgo():
+                    timeframes.append('hours')
+                else:
+                    timeframes.append(None)
+            
+            timeframed_watchlist_activity = zip(watchlist_activity, timeframes) 
+        else:
+            timeframed_watchlist_activity = []
 
         context = {'watchlist_activity' : timeframed_watchlist_activity}
 

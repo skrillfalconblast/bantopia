@@ -11,8 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <title>Bantopia - Welcome</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.svg' %}" sizes="196x196">
+    <title>Bantopia - Welcome</title>
 </head>
 <body>
     <div class="navbar-container">
@@ -102,7 +102,7 @@
                         {% for activity in watchlist_activity %}
                             {% if activity.watchlist_activity_type == 'ACTIVE' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><span class="gn-orange">{{ activity.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'DECLARE' %}
                             <div class="dashboard-activity">
