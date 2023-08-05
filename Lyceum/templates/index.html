@@ -102,7 +102,7 @@
                         {% for activity in watchlist_activity %}
                             {% if activity.watchlist_activity_type == 'ACTIVE' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'DECLARE' %}
                             <div class="dashboard-activity">

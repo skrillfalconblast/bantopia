@@ -870,12 +870,32 @@ input:focus:-ms-input-placeholder {
         overflow-x: hidden;
     }
 
+     /* width */
+     .posts-middle-body::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Track */
+    .posts-middle-body::-webkit-scrollbar-track {
+        display: none;
+    }
+    
+    /* Handle */
+    .posts-middle-body::-webkit-scrollbar-thumb {
+        display: none;
+    }
+
+    .posts-canvas {
+        width: 100%;
+    }
+
     .post a {
         width: 100%;
         margin: 0;
         border-radius: 0;
         border: none;
         border-top: 3px solid #F28500;
+        border-bottom: 3px solid #F28500;
     }
 
     .post h1{
@@ -885,8 +905,12 @@ input:focus:-ms-input-placeholder {
         padding: 15px 20px 0px 20px;
     }
 
-    .post h1 span {
+    .post-dec {
         box-shadow: inset 0 -4vw 0 #F28500;
+    }
+    
+    .post-th {
+        box-shadow: inset 0 -4vw 0 #30f200;
     }
 
     .post-bar {

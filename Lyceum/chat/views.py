@@ -18,7 +18,7 @@ def chat(request, post_code):
         votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
                  'n' : Vote.objects.filter(vote_post=post, vote_type=False).count()}
 
-        messages = Message.objects.filter(message_post=post).order_by('-message_datetime_sent')[:50:-1]
+        messages = Message.objects.filter(message_post=post).select_related('message_author').order_by('-message_datetime_sent')[:50:-1]
 
         context = {'post' : post, 'messages' : messages, 'y' : votes["y"], 'n' : votes["n"]}
 

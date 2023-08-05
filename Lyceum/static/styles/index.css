@@ -371,6 +371,7 @@ input:focus:-ms-input-placeholder {
     list-style: none;
     list-style-position: inside;
     cursor: pointer;
+    width: 100%;
 }
 
 .history ul {
@@ -422,6 +423,7 @@ input:focus:-ms-input-placeholder {
     overflow-x: hidden;
     list-style: none;
     list-style-position: inside;
+    width: 100%;
 }
 
 .watchlist ul {
@@ -555,38 +557,6 @@ input:focus:-ms-input-placeholder {
 
 .controversial-border {
     border-color: #5934ff !important;
-}
-
-.color-OR {
-    color: #F28500;
-}
-
-.color-BL {
-    color: #00baf2;
-}
-
-.color-GR {
-    color: #0fb300;
-}
-
-.color-RE {
-    color: #fb3a3a;
-}
-
-.color-PU {
-    color: #5934ff;
-}
-
-.color-PI {
-    color: #cb0cd1;
-}
-
-.color-MA {
-    color: #ac0000;
-}
-
-.color-AQ {
-    color: #35d6b3;
 }
 
 @media only screen and (max-width: 1322px) {

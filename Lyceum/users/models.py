@@ -12,6 +12,10 @@ import math
 
 # Create your models here.
 
+def allUsers():
+    User = settings.AUTH_GET_USER
+    return User.objtects.all()
+
 class User(AbstractBaseUser, PermissionsMixin):
     ORANGE = "OR"
     BLUE = "BL"
@@ -34,8 +38,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     ]
 
     display_name = models.CharField(max_length=20, unique=True) 
-    email = models.EmailField(max_length=254, unique=True)
     password = models.CharField(max_length=128)
+    email = models.EmailField(max_length=254, blank=True)
 
     color = models.CharField(max_length=2, choices=COLOR_CHOICES, default=ORANGE)
 

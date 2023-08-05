@@ -46,7 +46,6 @@ def createProfile(request):
             message = None
 
             display_name = request.POST.get('create-name')
-            email = request.POST.get('create-email')
 
             password1 = request.POST.get('create-password')
             password2 = request.POST.get('create-confirm-password')
@@ -54,19 +53,19 @@ def createProfile(request):
             if password1 == password2:
                 password = password1
                 if not User.objects.filter(display_name=display_name):
-                    if not User.objects.filter(email=email):
-                        try:
-                            validate_email(email)
-                            User.objects.create_user(display_name=display_name, email=email, password=password)
-                            user = authenticate(request, display_name=display_name, password=password)
-                            auth_login(request, user)
-                            return redirect('/')
-                        except ValidationError as email_fail_info:
-                            message = 'That email was clearly invalid.'
-                        except ValueError:
-                            message = 'Fill. In. All. The. Fields.'
-                    else:
-                        message = 'That email is already in use, contact support@lyceum.com to find the account using it.'
+                    try:
+                        other_users = User.objects.all()
+                        user = User.objects.create_user(display_name=display_name, password=password)
+                        for other_user in other_users: # This would add every previous user as part of the user's watch list to stimulate the community.
+                            user.watching.add(other_user)
+
+                        user = authenticate(request, display_name=display_name, password=password)
+                        auth_login(request, user)
+                        return redirect('/')
+                    except ValidationError as email_fail_info:
+                        message = 'That email was clearly invalid.'
+                    except ValueError:
+                        message = 'Fill. In. All. The. Fields.'
                 else:
                     message = 'That display name is already in use, contact support@lyceum.com to find the account using it.'
             else:
