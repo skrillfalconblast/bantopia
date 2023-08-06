@@ -29,7 +29,7 @@ def login(request):
                 auth_login(request, user)
                 return redirect('/')
             else:
-                message = "That profile doesn't seem to exist, if you forgot your password contact skrillfalconblast@icloud.com"
+                message = "That profile doesn't seem to exist, if you forgot your password contact support@bantopia.com"
                 context = {'message' : message}
                 return render(request, 'profile/logIn.html', context)
         else:
@@ -67,7 +67,7 @@ def createProfile(request):
                     except ValueError:
                         message = 'Fill. In. All. The. Fields.'
                 else:
-                    message = 'That display name is already in use, contact support@lyceum.com to find the account using it.'
+                    message = 'That display name is already in use, contact support@bantopia.com to find the account using it.'
             else:
                 message = "Those passwords don't match. Repeat. Those passwords don't match."
 

@@ -434,16 +434,6 @@ sup {
     max-width: 73vw;
 }
 
-.message-score { /* (UNUSED) score on the far right side of the page */
-    display: none;
-    margin-left: auto;
-}
-
-.message-score h1 {
-    font-size: 20px;
-    margin-right: 10px;
-}
-
 .chat-bar {
     display: flex;
     justify-content: center;

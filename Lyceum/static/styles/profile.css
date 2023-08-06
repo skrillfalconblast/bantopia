@@ -31,16 +31,204 @@ body {
 }
 
 .create-container {
+    display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
     border: 8px solid #f28500;
     box-sizing: border-box;
+    overflow: hidden;
+}
+
+.messages {
+    opacity: 25%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5vw;
+    width: 100%;
+    filter: blur(5px);
+    display: none; /* Press this to see the simulation of a floating create screen */
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 1.8vw;
+}
+
+.message:last-child {
+    margin-bottom: 30px;
+}
+
+.message {
+    font-family: 'Poppins', sans-serif;
+    font-size: 5vw;
+    word-wrap: break-word;
+    color: #000;
+}
+
+.command-border {
+    border-color: #f28500 !important;
+}
+
+.message-body {
+    font-weight: 600;
+}
+
+.author {
+    font-weight: 700;
+}
+
+.author-shadow-OR {
+    box-shadow: inset 0 -10px 0 #F28500;
+}
+
+.author-shadow-BL {
+    box-shadow: inset 0 -10px 0 #00baf2;
+}
+
+.author-shadow-GR {
+    box-shadow: inset 0 -10px 0 #0fb300;
+}
+
+.author-shadow-RE {
+    box-shadow: inset 0 -10px 0 #fb3a3a;
+}
+
+.author-shadow-PU {
+    box-shadow: inset 0 -10px 0 #5934ff;
+}
+
+.author-shadow-PI {
+    box-shadow: inset 0 -10px 0 #cb0cd1;
+}
+
+.author-shadow-MA {
+    box-shadow: inset 0 -10px 0 #ac0000;
+}
+
+.author-shadow-AQ {
+    box-shadow: inset 0 -10px 0 #35d6b3;
+}
+
+.message-content {
+    text-indent: -0.1em;
+    line-height: 1.6em;
+}
+
+.message-content:hover {
+    cursor: pointer;
+}
+
+.command-text {
+    color: #00baf2;
+}
+
+.message-tag {  
+    color: #F28500;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.color-OR {
+    color: #F28500;
+}
+
+.color-BL {
+    color: #00baf2;
+}
+
+.color-GR {
+    color: #0fb300;
+}
+
+.color-RE {
+    color: #fb3a3a;
+}
+
+.color-PU {
+    color: #5934ff;
+}
+
+.color-PI {
+    color: #cb0cd1;
+}
+
+.color-MA {
+    color: #ac0000;
+}
+
+.color-AQ {
+    color: #35d6b3;
+}
+
+/* ------------------ Message States ------------------ */
+
+.neutral:hover .leading-tag {
+    color: rgba(255, 0, 0, 0.6);
+}
+
+.neutral:hover .trailing-tag {
+    /*color: rgb(27, 214, 27);*/
+    color: rgba(27, 214, 27, 0.6);
+}
+
+.likable-excited:hover {
+    color: rgb(27, 214, 27) !important;
+}
+
+.liked {
+    color: rgb(15, 206, 15, 0.6);
+}
+
+.disliked {
+    /*color: #ff0000;*/
+    color: rgba(255, 0, 0, 0.6);
+}
+
+.dislikable-excited:hover {
+    color: rgb(255, 0, 0) !important;
+}
+
+/* ----------------------------------------------------- */
+
+.message sup {
+    margin: 0 5px;
+    align-self: flex-start;
+    pointer-events: none;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.message-user {
+    display: flex;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    max-width: 73vw;
+}
+
+.message-score { /* (UNUSED) score on the far right side of the page */
+    display: none;
+    margin-left: auto;
+}
+
+.message-score h1 {
+    font-size: 20px;
+    margin-right: 10px;
 }
 
 .create-container form {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     overflow: hidden;
 }
@@ -48,25 +236,56 @@ body {
 .content {
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
-.back-header {
+.create-title {
     display: flex;
-    position: absolute;
-    z-index: 2;
+    justify-content: flex-end;
+    width: 100%;
+    border-right: 100px solid #f28500;
+    box-sizing: border-box;
 }
 
-.back-header a {
+.create-title h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 4vw;
+    color: #f2850077;
+    margin-right: 30px;
+}
+
+.create-title h1 a {
+    color: #f2850077;
+}
+
+.create-title h1 a:hover {
+    color: #000;
+    text-decoration-color: #f2850077;
+}
+
+.login-title {
     display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    border-right: 100px solid #00baf2;
+    box-sizing: border-box;
 }
 
-.back-header svg {
-    margin: 20px 0px 0px 60px;
-    width: 8vw;
-    filter: invert(61%) sepia(95%) saturate(3484%) hue-rotate(158deg) brightness(104%) contrast(102%);
-    opacity: 50%;
+.login-title h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 4vw;
+    color: #00baf277;
+    margin-right: 30px;
+}
+
+.login-title h1 a {
+    color: #00baf277;
+}
+
+.login-title h1 a:hover {
+    color: #000;
+    text-decoration-color: #00baf277;
 }
 
 .form-area {
@@ -81,15 +300,20 @@ body {
 }
 
 .login-container {
+    display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    border: 8px solid #00baf2;
+    box-sizing: border-box;
 }
 
 .login-container form {
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 
 .create-field-area {
@@ -97,17 +321,15 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: auto;
-    margin-bottom: auto;
-    width: 40%;
+    width: 100%;
+    gap: 50px;
 }
 
 .create-field-area .input-field {
     display: flex;
     flex-direction: column;
-    align-items: center;
     flex: 1;
-    margin: 2.5vh 0;
-    width: 100%;
+    width: 80%;
 }
 
 .create-field-area .input-field input {
@@ -117,54 +339,48 @@ body {
     border-radius: 0;
     border: none;
     width: 100%;
-    border-bottom: 5px solid #F28500;
-    background-color: transparent;
+    background-color: #fff;
+    border: 10px solid #f2850077;
     padding: 2px;
+    box-sizing: border-box;
 }
 
 .create-field-area .input-field input:hover ~ label span {
     color: #F28500;
 }
-
+/*
 .create-field-area .input-field input:focus {
     border-bottom: 8px solid #f28500;
 }
+*/
 
 .create-field-area .input-field input:focus ~ label span {
     color: #F28500;
 }
 
-
 .create-field-area .input-field input {
-    font-size: 36px;
+    font-size: 5vw;
     font-family: 'Poppins', sans-serif;
-    text-align: center;
     font-weight: 700;
+    color: #f2850077;
+    text-align: center;
 }
 
 .create-field-area .input-field label span{
-    color: rgba(0, 186, 242, 0.75);
+    color: rgb(0, 186, 242);
 }
 
 .create-field-area .input-field input {
     outline: none;
 }
 
-.input-field label {
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-}
-
 .create-field-area .input-field input::placeholder {
-    color: #aaa;
+    color: #f2850077;
 }
 
 .create-button-container {
     display: flex;
     width: 100%;
-    justify-content: center;
     align-items: center;
 }
 
@@ -174,12 +390,13 @@ body {
     align-items: center;
     gap: 100px;
     margin-top: auto;
-    margin-bottom: auto;
+    width: 100%;
 }
 
 .login-field-area .input-field {
     display: flex;
     flex-direction: column;
+    width: 80%;
 }
 
 .login-field-area .input-field input {
@@ -188,24 +405,20 @@ body {
     -moz-appearance: none;
     border-radius: 0;
     border: none;
-    width: 525px;
-    border-bottom: 4px solid #00baf2;
+    width: 100%;
+    background-color: #fff;
     padding: 2px;
+    box-sizing: border-box;
+    border: 10px solid #00baf277;
 }
 
-.login-field-area .input-field input:focus {
-    border-bottom: 4px solid #F28500;
-}
-
-.login-field-area .input-field label span {
-    color: #F28500;
-}
 
 .login-field-area .input-field input {
-    font-size: 42px;
+    font-size: 5vw;
     font-family: 'Poppins', sans-serif;
-    text-align: center;
     font-weight: 700;
+    color: #00baf277;
+    text-align: center;
 }
 
 .login-field-area .input-field input {
@@ -220,64 +433,88 @@ body {
 }
 
 .login-field-area .input-field input::placeholder {
-    color: #aaa;
+    color: #00baf277;
 }
 
-.error-message {
+.create-support-message {
     display: flex;
-    position: absolute;
-    bottom: 0;
+    margin-bottom: auto;
 }
 
-.error-message p {
+.create-support-message p {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 1.2vw;
+    font-size: 2vw;
     text-align: center;
-    color: rgba(255, 0, 0, 0.8);
+    color: #f2850077;
+}
+
+.login-support-message {
+    display: flex;
+    margin-bottom: auto;
+}
+
+.login-support-message p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 2vw;
+    text-align: center;
+    color: #00baf277;
 }
 
 .login-button-container {
     width: 40%;
 }
 
-.login-and-create-button {
+.login-button,
+.create-button {
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 10px;
+    padding-left: 20px;
 }
 
-.login-and-create-button {
-    font-size: 44px;
+.login-button,
+.create-button {
+    font-size: 4vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     letter-spacing: 2px;
-    width: 100%;
 }
 
-.login-and-create-button {
+.login-button {
     border: none;
-    border-top: 8px solid #F28500;
+    color: #00baf277;
+    border-left: 100px solid #00baf2;
+}
+
+.create-button {
+    border: none;
+    color: #f2850077;
+    border-left: 100px solid #f28500;
+}
+
+.login-button,
+.create-button {
     background-color: white;
 }
 
-.login-and-create-button span {
+.login-button span,
+.create-button span {
     cursor: pointer;
+    white-space: nowrap;
 }
 
-.login-and-create-button span:hover {
+.login-button span:hover,
+.create-button span:hover {
     color: #F28500;
 }
 
-.login-and-create-button span:hover {
-    color: #00baf2;
+.login-button span:hover,
+.create-button span:hover {
+    color: #f28500;
     opacity: 100%;
-}
-
-.login-and-create-button span:hover .profile-submit-tags {
-    color: #F28500;
 }
 
 /*
@@ -289,33 +526,6 @@ button[type="submit"]:hover > span {
     box-shadow: inset 0 -22px 0 #08f200;
 }
 */
-
-.big-text-top {
-    position: absolute;
-    top: 0%;
-    transform: translateX(-50%);
-    left: 50%;
-    z-index: -100;
-    color: #f2850077;
-    white-space: nowrap;
-}
-
-.big-text-bottom {
-    position: absolute;
-    bottom: 0%;
-    transform: translateX(-50%);
-    left: 50%;
-    z-index: -100;
-    color: #f2850077;
-    white-space: nowrap;
-}
-
-.big-text-top,
-.big-text-bottom {
-    font-family: 'Poppins',sans-serif;
-    font-size: 40px;
-}
-
 
 .dashboard-back svg{
     margin: 20px 0px 0px 60px;
