@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chat and argue with people across the globe regarding any topic you choose, from video-games to bio-medical science. Welcome to Bantopia, the Choice Arena." />
     <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,16 +25,26 @@
                 <div class="form-area">
                     <div class="login-field-area">
                         <div class="input-field">
+                            {% if message == 'nonexistent-display-name' %}
+                            <input class="erroneous-input" type="text" id="login-name" name="login-name" autocomplete="off" placeholder="Your Display Name">
+                            {% else %}
                             <input type="text" id="login-name" name="login-name" autocomplete="off" placeholder="Your Display Name">
+                            {% endif %}
                         </div>
                         <div class="input-field">
+                            {% if message == 'incorrect-password' %}
+                            <input class="erroneous-input" type="password" id="login-password" name="login-password" autocomplete="off" placeholder="Your Password">
+                            {% else %}
                             <input type="password" id="login-password" name="login-password" autocomplete="off" placeholder="Your Password">
+                            {% endif %}
                         </div>
                     </div>
-                    {% if message %}
-                    <div class="login-support-message"><p>{{ message }}</p></div>
+                    {% if message == 'incorrect-password' %}
+                    <div class="login-support-message"><p>Yeesh, that password's incorrect. If you forgot your password email support@bantopia.com.</p></div>
+                    {% elif message == 'nonexistent-display-name' %}
+                    <div class="login-support-message"><p>That profile doesn't seem to exist, are you sure you got the display name right?</p></div>
                     {% else %}
-                    <div class="login-support-message"><p>{{ message }}</p></div>
+                    <div class="login-support-message"><p></p></div>
                     {% endif %}
                 </div>
             </div>

@@ -340,7 +340,7 @@ body {
     border: none;
     width: 100%;
     background-color: #fff;
-    border: 10px solid #f2850077;
+    border: 0.7vw solid #f2850077;
     padding: 2px;
     box-sizing: border-box;
 }
@@ -378,6 +378,10 @@ body {
     color: #f2850077;
 }
 
+.erroneous-input::placeholder {
+    color: #ff000077 !important;
+}
+
 .create-button-container {
     display: flex;
     width: 100%;
@@ -409,7 +413,7 @@ body {
     background-color: #fff;
     padding: 2px;
     box-sizing: border-box;
-    border: 10px solid #00baf277;
+    border: 0.7vw solid #00baf277;
 }
 
 
@@ -1195,7 +1199,7 @@ button[type="submit"]:hover > span {
     }
 
     .login-field-area {
-        width: 75%;
+        width: 100%;
     }
 }
 
@@ -1225,6 +1229,21 @@ button[type="submit"]:hover > span {
         height: 100dvh;
     }
 
+    .login-title {
+        display: flex;
+        border-left: 8vw solid #00baf2;
+        border-right: 8vw solid #00abf2;
+        justify-content: center;
+    }
+
+    .login-title h1 {
+        font-size: 7vw;
+        text-align: center;
+        border: none;
+        margin: 0;
+        white-space: normal;
+    }
+
     .login-container form {
         height: 100vh;
         height: 100dvh;
@@ -1243,11 +1262,23 @@ button[type="submit"]:hover > span {
     }
 
     .login-field-area {
-        gap: 20vh;
+        gap: 20vw;
+    }
+
+    .login-field-area .input-field {
+        width: 100%;
     }
 
     .login-field-area .input-field input {
-        font-size: 7vw;
+        border: none;
+        width: 100%;
+        font-size: 9vw;
+        color: #fff;
+        background-color: #00baf277;
+    }
+
+    .login-field-area .input-field input::placeholder {
+        color: #fff;
     }
 
     .login-field-area .input-field label {
@@ -1261,8 +1292,10 @@ button[type="submit"]:hover > span {
     .login-button-container {
         display: flex;
         width: 100%;
-        height: 15vw;
-        border-top: 2px solid #F28500;
+    }
+
+    .login-button-container .login-button {
+        padding: 0;
     }
 
     .login-button-container button {
@@ -1270,14 +1303,15 @@ button[type="submit"]:hover > span {
         width: 100%;
         height: 100%;
         border: none;
-        border-top: 2px solid #F28500;
         font-style: normal;
-        color: #000;
+        border-left: 7vw solid #00baf2;
+        border-right: 7vw solid #00baf2;
     }
 
     .login-button-container span {
         letter-spacing: normal;
         font-size: 7vw;
+        white-space: normal;
     }
 
     .big-text-top,
@@ -1293,7 +1327,7 @@ button[type="submit"]:hover > span {
     }
 
     .create-field-area {
-        width: 75%;
+        width: 100%;
     }
 }
 
@@ -1304,22 +1338,47 @@ button[type="submit"]:hover > span {
         overflow: hidden;
     }
 
+    .create-title {
+        display: flex;
+        border-left: 10vw solid #f28500;
+        border-right: 10vw solid #f28500;
+        justify-content: center;
+    }
+
+    .create-title h1 {
+        font-size: 7vw;
+        text-align: center;
+        border: none;
+        margin: 0;
+        white-space: normal;
+    }
+
     .create-field-area {
-        gap: 5vh;
+        gap: 5vw;
+    }
+
+    .create-field-area .input-field {
+        width: 100%;
     }
 
     .create-field-area .input-field input {
-        font-size: 6vw;
+        border: none;
+        font-size: 10vw;
+        color: white;
+        background-color: #f2850077;
     }
 
-    .create-field-area .input-field label {
-        font-size: 4vw;
+    .create-field-area .input-field input::placeholder {
+        color: white;
     }
 
     .create-button-container {
         display: flex;
         width: 100%;
-        border-top: 8px solid #F28500;
+    }
+
+    .create-button-container .create-button {
+        padding: 0;
     }
 
     .create-button-container button {
@@ -1328,12 +1387,14 @@ button[type="submit"]:hover > span {
         height: 100%;
         border: none;
         font-style: normal;
-        color: #000;
+        border-left: 5vw solid #f28500;
+        border-right: 5vw solid #f28500;
     }
 
     .create-button-container span {
         letter-spacing: normal;
-        font-size: 6vw;
+        font-size: 7vw;
+        white-space: normal;
     }
 }
 

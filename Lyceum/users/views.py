@@ -23,13 +23,17 @@ def login(request):
             display_name = request.POST.get('login-name')
             password = request.POST.get('login-password')
 
-            user = authenticate(request, display_name=display_name, password=password)
-
-            if user is not None:
-                auth_login(request, user)
-                return redirect('/')
+            if User.objects.filter(display_name=display_name):
+                user = authenticate(request, display_name=display_name, password=password)
+                if user is not None:
+                    auth_login(request, user)
+                    return redirect('/')
+                else:
+                    message = "incorrect-password"
+                    context = {'message' : message}
+                    return render(request, 'profile/logIn.html', context)
             else:
-                message = "That profile doesn't seem to exist, if you forgot your password contact support@bantopia.com"
+                message = "nonexistent-display-name"
                 context = {'message' : message}
                 return render(request, 'profile/logIn.html', context)
         else:
@@ -62,14 +66,15 @@ def createProfile(request):
                         user = authenticate(request, display_name=display_name, password=password)
                         auth_login(request, user)
                         return redirect('/')
-                    except ValidationError as email_fail_info:
-                        message = 'That email was clearly invalid.'
-                    except ValueError:
-                        message = 'Fill. In. All. The. Fields.'
+                    except ValueError as value_error_info:
+                        if str(value_error_info) == 'empty-display-name':
+                            message = 'empty-display-name'
+                        elif str(value_error_info) == 'empty-password':
+                            message = 'empty-password'
                 else:
-                    message = 'That display name is already in use, contact support@bantopia.com to find the account using it.'
+                    message = 'display-name-taken'
             else:
-                message = "Those passwords don't match. Repeat. Those passwords don't match."
+                message = "mismatched-passwords"
 
             context = {'message' : message}
             
@@ -124,7 +129,7 @@ def dashboard(request, display_name):
                 user.save()
             
         watching = user.watching.all()
-        watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).order_by('-watchlist_activity_datetime')[:30]
+        watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).select_related('watchlist_activity_user', 'watchlist_activity_post').order_by('-watchlist_activity_datetime')[:30]
 
         timeframes = []
 

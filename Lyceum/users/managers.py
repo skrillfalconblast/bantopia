@@ -5,11 +5,11 @@ class UserManager(BaseUserManager):
     def create_user(self, display_name=None, password=None):
 
         if not display_name:
-            raise ValueError('Display Name must be set!')
+            raise ValueError('empty-display-name')
         #if not email:
             #raise ValueError('Email must be set!')
         if not password:
-            raise ValueError('Password must be set!')
+            raise ValueError('empty-password')
         #email = self.normalize_email(email)
         user = self.model(display_name=display_name)
         user.set_password(password)

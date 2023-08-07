@@ -74,7 +74,7 @@ def index(request):
         watching = user.watching.all()
         
         watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).select_related('watchlist_activity_user', 'watchlist_activity_post').order_by('-watchlist_activity_datetime')
-        
+
         #watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).order_by('-watchlist_activity_datetime')
 
         visits = Visit.objects.filter(visit_user=user).select_related('visit_post').order_by('-visit_datetime')
@@ -355,7 +355,7 @@ def csrf_failure(request, reason=""):
              'Your csrf verficiation token is super yucky, <span>reload</span> and get a new one!',
              "WOAAAAAAHHHHH, I ain't never seen a csrf token looking like that! <span>Reload</span> to heal my eyes!",
              "Your csrf verficaiton token is so ugly it crashed the server! <span>Reload</span> for all our sakes.", 
-             "I've seen some messed up things in my time, but that csrf verification token... *shudders* A sight like that could grow a baby a beard. <span>Reload</span>, because that's nasty!"]
+             "I've seen some messed up things in my time, but that csrf verification token... *shudders* A sight like that could give a baby a beard. <span>Reload</span>, because that's nasty!"]
     
     quip = random.choice(quip_list)
 

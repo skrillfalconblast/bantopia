@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chat and argue with people across the globe regarding any topic you choose, from video-games to bio-medical science. Welcome to Bantopia, the Choice Arena." />
     <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,19 +43,35 @@
                 <div class="form-area">
                     <div class="create-field-area">
                         <div class="input-field">
+                            {% if message == 'empty-display-name' or message == 'display-name-taken' %}
+                            <input class="erroneous-input" type="text" id="create-name" name="create-name" autocomplete="off" placeholder="Display Name">
+                            {% else %}
                             <input type="text" id="create-name" name="create-name" autocomplete="off" placeholder="Display Name">
+                            {% endif %}
                         </div>
                         <div class="input-field">
+                            {% if message == 'mismatched-passwords' or message == 'empty-password' %}
+                            <input class="erroneous-input" type="password" id="create-password" name="create-password" autocomplete="off" placeholder="Password">
+                            {% else %}
                             <input type="password" id="create-password" name="create-password" autocomplete="off" placeholder="Password">
+                            {% endif %}
                         </div>
                         <div class="input-field">
+                            {% if message == 'mismatched-passwords' or message == 'empty-password' %}
+                            <input class="erroneous-input" type="password" id="create-confirm" name="create-confirm-password" autocomplete="off" placeholder="Confirm Password">
+                            {% else %}
                             <input type="password" id="create-confirm" name="create-confirm-password" autocomplete="off" placeholder="Confirm Password">
+                            {% endif %}
                         </div>
                     </div>
-                    {% if message %}
-                    <div class="create-support-message"><p>{{ message }}</p></div>
+                    {% if message == 'empty-display-name' or message == 'empty-password' %}
+                    <div class="create-support-message"><p>Fill. In. All. The. Fields.</p></div>
+                    {% elif message == 'display-name-taken' %}
+                    <div class="create-support-message"><p>Snap, That display name has already been taken! Try another one.</p></div>
+                    {% elif message == 'mismatched-passwords' %}
+                    <div class="create-support-message"><p>Those passwords don't match. Repeat. Those passwords don't match.</p></div>
                     {% else %}
-                    <div class="create-support-message"><p>{{ message }}</p></div>
+                    <div class="login-support-message"><p></p></div>
                     {% endif %}
                 <!--
                     <div class="create-support-message"><p>Email support@bantopia.com if you need <u>any help whatsoever</u>, we'll try our best.</p></div>
