@@ -36,7 +36,7 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com', 'http://127.0.0.1']
 
 CSRF_FAILURE_VIEW = 'posts.views.csrf_failure'
 
@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'debug_toolbar',
     'users',
 ]
@@ -90,6 +92,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Lyceum.wsgi.application'
 
+# For the sites framework
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -218,6 +222,8 @@ else:
         },
     }
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-CONN_MAX_AGE = None
+if not DEBUG:
+
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    CONN_MAX_AGE = None

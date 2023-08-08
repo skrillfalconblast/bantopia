@@ -1,5 +1,7 @@
 from django.urls import path
 
+from django.views.generic import TemplateView
+
 from . import views
 
 urlpatterns = [
@@ -12,4 +14,6 @@ urlpatterns = [
     path('<str:post_code>/mastercases', views.commMastercases, name='mastercases'),
     path('<str:post_code>/counters', views.commCounters, name='counters'),
     path('<str:post_code>/dogs', views.commDogs, name='dogs'),
+
+    path('robots.txt/', TemplateView.as_view(template_name="bots/robots.txt", content_type='text/plain'))
 ]

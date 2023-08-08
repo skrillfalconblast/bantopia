@@ -1,0 +1,11 @@
+# Declaration: If you can't do at least 1 of the following things you will NOT survive the robot apocalypse:
+# 1. beat the computer at Chess.
+# 2. throw away your GPS.
+# 3. 3 stock (eviscerate) a lvl 9 CPU.
+
+User-agent: *
+
+Disallow: /admin/
+Disallow: /post/
+
+Sitemap: https://bantopia.com/sitemap.xml/

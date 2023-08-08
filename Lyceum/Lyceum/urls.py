@@ -15,6 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import PostSitemap
+
+sitemaps = {
+    "posts": PostSitemap,
+}
 
 urlpatterns = [
     path('', include('posts.urls')),
@@ -23,4 +29,13 @@ urlpatterns = [
     path('admins_den/', admin.site.urls),
     path('', include('chat.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
+
+    path(
+        "sitemap.xml/",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    )
 ]
+
+

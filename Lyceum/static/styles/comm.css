@@ -1017,56 +1017,6 @@ input:focus:-ms-input-placeholder {
         flex-direction: column;
     }
 
-    .cases-scroll {
-        overflow-y: scroll;
-        flex: 1;
-        height: auto;
-    }
-
-    .case-name {
-        font-size: 18px;
-    }
-
-    .cases {
-        justify-content: space-around;
-        padding-bottom: 0;
-    }
-
-    .case {
-        width: auto;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
-    .case a span {
-        font-size: 18px;
-    }
-
-    .case-upload input[type="file"]::file-selector-button {
-        font-size: 26px;
-    }
-
-    .case-upload input[type="submit"] {
-        box-shadow: inset 0 -15px 0 #F28500;
-    }
-
-    .case-upload {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        border: none;
-        border-top: 5px solid black;
-    }
-
-    .case-upload {
-        margin-top: none;
-        align-self: flex-end;
-    }
-
-    .case-upload form {
-        width: 90%;
-    }
-
     .upload-container {
         display: flex;
         position: static;
@@ -1134,7 +1084,7 @@ input:focus:-ms-input-placeholder {
     .rank-score {
         display: flex;
         height: 100%;
-        font-size: 3vw;
+        font-size: 5vw;
         align-items: center;
         margin-left: auto;
         margin-right: 10px;
@@ -1144,6 +1094,11 @@ input:focus:-ms-input-placeholder {
         border-top: 1vw solid #F28500;
         border-right: 1vw solid #F28500;
         border-bottom: 1vw solid #F28500;
+    }
+
+    .rank-score span {
+        margin-right: 2vw;
+
     }
 
 }

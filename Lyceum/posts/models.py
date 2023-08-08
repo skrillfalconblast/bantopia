@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.conf import settings
+from django.urls import reverse
 
 import time
 
@@ -37,6 +38,9 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         self.post_timestamp_created = time.time()
         super(Post, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("content", args=[str(self.post_code)])
 
 class Tag(models.Model):
     tag_text = models.CharField(max_length=50)

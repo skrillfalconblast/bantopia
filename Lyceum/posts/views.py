@@ -15,7 +15,6 @@ from users.models import WatchlistActivity
 import random
 
 
-
 # Create your views here.
 
 User = get_user_model()
@@ -41,6 +40,20 @@ def search(search_term):
 
 @csrf_exempt
 def index(request):
+
+    tab_texts = ["There's no place...",
+                "HomePage",
+                "Scrolling?",
+                "HomeBase",
+                "Welcome to",
+                "HomePage",
+                "Central Nexus",
+                "Scrolling?",
+                "How are you?", 
+                "Looking for trouble?",
+                ]
+    
+    tab_text = random.choice(tab_texts)
 
     user = request.user # Pulls user from request for authentication checks within the template.   
 
@@ -79,7 +92,7 @@ def index(request):
 
         visits = Visit.objects.filter(visit_user=user).select_related('visit_post').order_by('-visit_datetime')
 
-        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits}
+        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'tab_text' : tab_text}
 
         return render(request, 'index.html', context)
     else:
@@ -96,12 +109,24 @@ def index(request):
         else:
             posts = Post.objects.order_by('-post_datetime_created')
 
-        context = {'posts' : posts}
+        context = {'posts' : posts, 'tab_text' : tab_text}
 
         return render(request, 'index.html', context)
 
 
 def write(request):
+
+    tab_texts = ["Feeling Dangerous?",
+            "Post Something",
+            "Masterpiece Maker",
+            "Feeling Opinionated?",
+            "Start trouble?",
+            "What's on your mind?",
+            "Post something?",
+            "Post something?",
+            ]
+    
+    tab_text = random.choice(tab_texts)
 
     user = request.user
 
@@ -160,7 +185,7 @@ def write(request):
 
                         return redirect('/') # If something is posted, the user will always be redirected to the homepage.
                     else:
-                        return render(request, 'post/write.html')
+                        return render(request, 'post/write.html', {'tab_text' : tab_text})
                 
                 elif draftPressed: # If draft button was pressed
 
@@ -202,10 +227,10 @@ def write(request):
                     
                     else: # The queried draft doesn't exist or nothing is quereid
 
-                        return render(request, '/post/write.html')
+                        return render(request, '/post/write.html', {'tab_text' : tab_text})
 
             except:
-                return render(request, '/post/write.html')
+                return render(request, '/post/write.html', {'tab_text' : tab_text})
 
         else: # If the page is simply loading, without a POST request
 
@@ -217,14 +242,14 @@ def write(request):
 
                     draft = Draft.objects.get(draft_code=draft_code, draft_author=request.user)
 
-                    context = {'draft' : draft}
+                    context = {'draft' : draft, 'tab_text' : tab_text}
                     
                     return render(request, 'post/write.html', context)
                 else: # If the method is recognised as GET but the queried draft doesn't exist
-                    return render(request, 'post/write.html')
+                    return render(request, 'post/write.html', {'tab_text' : tab_text})
             
             else: # If the page is simply loading without any query
-                return render(request, '/post/write.html')
+                return render(request, '/post/write.html', {'tab_text' : tab_text})
     return redirect('/create-profile/')
              
 
@@ -232,9 +257,19 @@ def drafts(request):
     user = request.user
 
     if user.is_authenticated:
+        tab_texts = [
+            "Your Drafts",
+            "Draftin'",
+            "DraftCraft",
+            "Just Drafts",
+            "Looking for Drafts?",
+        ]
+    
+        tab_text = random.choice(tab_texts)
+
         drafts = Draft.objects.filter(draft_author=user)
 
-        context = {'drafts' : drafts}
+        context = {'drafts' : drafts, 'tab_text' : tab_text}
 
         return render(request, 'post/drafts.html', context)
     else:
@@ -242,11 +277,24 @@ def drafts(request):
 
 def posts(request):
     if request.user.is_authenticated:
+        tab_texts = [
+            "Your Posts",
+            "Beautiful, huh?",
+            "All yours...",
+            "Your Posts",
+            "Previous Posts",
+            "Previous Posts?",
+            "Sheeeeeesh",
+            "0_0"
+        ]
+    
+        tab_text = random.choice(tab_texts)
+
         if Post.objects.filter(post_author=request.user):
-            context = {'posts' : Post.objects.filter(post_author=request.user)}
+            context = {'posts' : Post.objects.filter(post_author=request.user), 'tab_text' : tab_text}
             return render(request, 'post/posts.html', context)
         else:
-            context = {'posts' : None}
+            context = {'posts' : None, 'tab_text' : tab_text}
             return render(request, 'post/posts.html', context)
     else:
         return redirect('/create-profile/')
@@ -351,11 +399,11 @@ def commDogs(request, post_code):
 ################ ERROR PAGES #######################  
 
 def csrf_failure(request, reason=""):
-    quip_list = ['Call me crazy, but it looks like you have a werid looking csrf verification token. Do me a favour and <span>reload</span> the page, to fix this digusting error.',
-             'Your csrf verficiation token is super yucky, <span>reload</span> and get a new one!',
-             "WOAAAAAAHHHHH, I ain't never seen a csrf token looking like that! <span>Reload</span> to heal my eyes!",
-             "Your csrf verficaiton token is so ugly it crashed the server! <span>Reload</span> for all our sakes.", 
-             "I've seen some messed up things in my time, but that csrf verification token... *shudders* A sight like that could give a baby a beard. <span>Reload</span>, because that's nasty!"]
+    quip_list = ['Call me crazy, but it looks like you have a werid looking csrf verification token. Do me a favour and <span>go back and try again</span>, to fix this digusting error.',
+             'Your csrf verficiation token is super yucky, <span>go back and try again</span> to get a new one!',
+             "WOAAAAAAHHHHH, I ain't never seen a csrf token looking like that! <span>Go back and try again</span> to heal my eyes!",
+             "Your csrf verficaiton token is so ugly it crashed the server! <span>Go back and try again</span> for all our sakes.", 
+             "I've seen some messed up things in my time, but that csrf verification token... *shudders* A sight like that could give a baby a beard. <span>Go back and try again</span>, because that's nasty!"]
     
     quip = random.choice(quip_list)
 
