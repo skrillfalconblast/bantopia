@@ -333,6 +333,7 @@ body {
 }
 
 .create-field-area .input-field input {
+    position: relative;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -343,6 +344,11 @@ body {
     border: 0.7vw solid #f2850077;
     padding: 2px;
     box-sizing: border-box;
+}
+
+.create-field-area .input-field input::-webkit-credentials-auto-fill-button {
+    position: absolute;
+    right: 0;
 }
 
 .create-field-area .input-field input:hover ~ label span {
@@ -404,6 +410,7 @@ body {
 }
 
 .login-field-area .input-field input {
+    position: relative;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -414,6 +421,11 @@ body {
     padding: 2px;
     box-sizing: border-box;
     border: 0.7vw solid #00baf277;
+}
+
+.login-field-area .input-field input::-webkit-credentials-auto-fill-button {
+    position: absolute;
+    right: 0;
 }
 
 

@@ -345,34 +345,39 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
+        user = self.scope["user"]
+
         text_data_json = json.loads(text_data)
 
         if 'message_id' in text_data_json.keys() and text_data_json['trigger'] == 'hover':
 
-            message_id = text_data_json['message_id']
-            message_code = message_id[4:] # Get the message code without the 'msg_' part
+            if user.is_authenticated:
 
-            message = await self.find_message(message_code=message_code)
-            user = self.scope["user"]
+                message_id = text_data_json['message_id']
+                message_code = message_id[4:] # Get the message code without the 'msg_' part
 
-            if await self.find_interaction(message, user):
-                interaction = await self.find_interaction(message, user)
-                if interaction.interaction_type == Interaction.LIKE:
+                message = await self.find_message(message_code=message_code)
+
+                if await self.find_interaction(message, user):
+                    interaction = await self.find_interaction(message, user)
+                    if interaction.interaction_type == Interaction.LIKE:
+                        await self.send(text_data=json.dumps({
+                            'message_id' : message_id,
+                            'state' : 'liked'
+                        }))
+                    elif interaction.interaction_type == interaction.DISLIKE:
+                        await self.send(text_data=json.dumps({
+                            'message_id' : message_id,
+                            'state' : 'disliked'
+                        }))
+
+                else:
                     await self.send(text_data=json.dumps({
                         'message_id' : message_id,
-                        'state' : 'liked'
+                        'state' : 'neutral'
                     }))
-                elif interaction.interaction_type == interaction.DISLIKE:
-                    await self.send(text_data=json.dumps({
-                        'message_id' : message_id,
-                        'state' : 'disliked'
-                    }))
-
             else:
-                await self.send(text_data=json.dumps({
-                    'message_id' : message_id,
-                    'state' : 'neutral'
-                }))
+                pass
 
         elif 'message_id' in text_data_json.keys() and text_data_json['trigger'] == 'click':
             message_id = text_data_json['message_id']

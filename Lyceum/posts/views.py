@@ -51,6 +51,7 @@ def index(request):
                 "Scrolling?",
                 "How are you?", 
                 "Looking for trouble?",
+                "On the hunt?",
                 ]
     
     tab_text = random.choice(tab_texts)
