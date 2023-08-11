@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import environ
 import dj_database_url
 from pathlib import Path
 
@@ -30,7 +31,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='03mi2%8#pqyczpchxark+4*p@f_v4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'PRODUCTION' not in os.environ
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
 ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com', 'bantopia.applikuapp.com' '127.0.0.1']
+
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com', 'http://127.0.0.1']
 
