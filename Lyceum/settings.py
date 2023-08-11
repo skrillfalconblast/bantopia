@@ -223,6 +223,8 @@ else:
     }
 
 if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     CONN_MAX_AGE = None
