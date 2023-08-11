@@ -36,8 +36,6 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com', 'bantopia.applikuapp.com' '127.0.0.1']
-
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com', 'http://127.0.0.1']
