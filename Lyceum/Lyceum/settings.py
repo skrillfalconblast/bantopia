@@ -41,7 +41,6 @@ CSRF_FAILURE_VIEW = 'posts.views.csrf_failure'
 INSTALLED_APPS = [
     'daphne',
     'channels',
-    'Lyceum',
     'posts',
     'chat',
     'admin_honeypot',

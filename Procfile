@@ -1,3 +1,3 @@
-release: python Lyceum/manage.py migrate
+release: python manage.py migrate
 web: daphne Lyceum.asgi:application 
-worker: python Lyceum/manage.py runworker channels --settings=Lyceum.settings -v2
+worker: python manage.py runworker channels --settings=Lyceum.settings -v2
