@@ -1,2 +1,2 @@
 release: python Lyceum/manage.py migrate
-web: daphne -b 0.0.0.0 Lyceum.asgi:application
+web: daphne Lyceum.asgi:application --port $PORT --bind 0.0.0.0 -v2
