@@ -12,10 +12,6 @@ import math
 
 # Create your models here.
 
-def allUsers():
-    User = settings.AUTH_GET_USER
-    return User.objtects.all()
-
 class User(AbstractBaseUser, PermissionsMixin):
     ORANGE = "OR"
     BLUE = "BL"
@@ -51,8 +47,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
-    watching = models.ManyToManyField('self', symmetrical=False, blank=True)
+    watching = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='watching_field')
     history = models.ManyToManyField(Post, through='posts.Visit')
+    puppets = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='puppets_field')
 
     USERNAME_FIELD = 'display_name'
 

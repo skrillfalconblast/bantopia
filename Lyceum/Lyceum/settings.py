@@ -28,13 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='03mi2%8#pqyczpchxark+4*p@f_v4h(z5sgfx0n6xjjxnu2_(#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = 'PRODUCTION' not in os.environ
 
 ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com', '127.0.0.1']
-
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com', 'http://127.0.0.1']
 
@@ -99,10 +95,12 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 if not DEBUG:
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
     DATABASES = {
         'default': dj_database_url.config(
             # Feel free to alter this value to suit your needs.
-            default='postgres://bantopia_database_user:XQ4nJE5GRKGt2xNrncthPz0QwmevkZeY@dpg-cj3ksml9aq0e0q7pjrbg-a/bantopia_database',
+            default=DATABASE_URL,
         )
     }
 else:
@@ -189,7 +187,7 @@ STATICFILES_DIRS = [
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
-    # in your application directory on Render.
+    # in your application directory
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -204,11 +202,13 @@ AUTH_USER_MODEL = 'users.user'
 ASGI_APPLICATION = "Lyceum.asgi.application"
 
 if not DEBUG:
+    REDIS_URL = os.environ.get('REDIS_URL')
+
     CHANNEL_LAYERS = {
         "default" : {
             "BACKEND" : "channels_redis.core.RedisChannelLayer",
             "CONFIG" : {
-                "hosts" : ["rediss://red-cj3thkp8g3n1jkkfhem0:cr1dBII7Uwo7P6s2kjzE02sWxLa8qJOD@oregon-redis.render.com:6379"],
+                "hosts" : [REDIS_URL],
             },
         },
     }
@@ -223,7 +223,6 @@ else:
     }
 
 if not DEBUG:
-
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     CONN_MAX_AGE = None
