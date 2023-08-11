@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='03mi2%8#pqyczpchxark+4*p@f_v4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'PRODUCTION' not in os.environ
 
-ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com', '127.0.0.1']
+ALLOWED_HOSTS = ['www.bantopia.com', 'bantopia.com', 'bantopia.applikuapp.com' '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.bantopia.com', 'http://127.0.0.1']
 
