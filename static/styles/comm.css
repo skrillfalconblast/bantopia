@@ -237,6 +237,7 @@ sup {
 .chat {
     display: flex;
     flex-direction: column-reverse;
+    flex: 1;
     overflow-y: auto;
 }
 
@@ -514,21 +515,86 @@ input:focus:-ms-input-placeholder {
 .chatbar-puppets {
     display: flex;
     align-self: center;
-    margin-top: 15px;
-    width: 90%;
-    gap: 1vw;
-    margin-bottom: 10px;
+    border-bottom: 5px solid #000;
+    width: 100%;
+    padding-left: 10px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.chatbar-puppets {
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .puppet {
-    border: none;
-    background-color: white;
+    height: fit-content;
 }
 
-.puppet {
+.puppet input {
+    display: none;
+}
+
+.puppet label {
     font-family: 'Poppins', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 26px;
+}
+
+.puppet label {
+    cursor: pointer;
+}
+
+.puppet input:checked + label{
+    font-size: 36px;
+}
+
+.puppet-shadow-OR {
+    box-shadow: inset 0 -8px 0 #f28500;
+}
+
+.puppet-shadow-BL {
+    box-shadow: inset 0 -8px 0 #00baf2;
+}
+
+.puppet-shadow-GR {
+    box-shadow: inset 0 -8px 0 #0fb300;
+}
+
+.puppet-shadow-RE {
+    box-shadow: inset 0 -8px 0 #fb3a3a;
+}
+
+.puppet-shadow-PU {
+    box-shadow: inset 0 -8px 0 #5934ff;
+}
+
+.puppet-shadow-PI {
+    box-shadow: inset 0 -8px 0 #cb0cd1;
+}
+
+.puppet-shadow-MA {
+    box-shadow: inset 0 -8px 0 #ac0000;
+}
+
+.puppet-shadow-AQ {
+    box-shadow: inset 0 -8px 0 #35d6b3;
+}
+
+/* width */
+.chatbar-puppets::-webkit-scrollbar {
+    height: 2px;
+}
+  
+  /* Track */
+.chatbar-puppets::-webkit-scrollbar-track {
+    background: none;
+}
+  
+  /* Handle */
+  .chatbar-puppets::-webkit-scrollbar-thumb {
+    background: #f28500;
+    border-radius: 0;
 }
 
 @media (hover: hover){

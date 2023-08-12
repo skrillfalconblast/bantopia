@@ -84,6 +84,16 @@
         </div>
     </div> 
     <div class="display">
+        {% if request.user.is_superuser %}
+        <div class="chatbar-puppets">
+            {% for puppet in puppets %}
+            <div class="puppet puppet-shadow-{{ puppet.color }}">
+                <input type="radio" name="puppet" value="{{ puppet.display_name }}" id="{{ puppet.display_name }}">
+                <label for="{{ puppet.display_name }}">{{ puppet.display_name }}</label><br>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
         <div class="chat">
             <div class="messages" id="messages-container">
                 {% for message in messages %}

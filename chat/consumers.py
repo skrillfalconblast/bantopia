@@ -27,7 +27,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except Post.DoesNotExist:
             return None
         
-
+    @database_sync_to_async
+    def get_user(self, display_name):
+        try:
+            user = User.objects.get(display_name=display_name)
+            return user
+        except User.DoesNotExist:
+            return None
 
 # --------------------------- Watchlist Activity Handlers --------------------------------
 
@@ -447,32 +453,60 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         await self.dog_check(message)
 
         elif 'message' in text_data_json.keys():
+
             user = self.scope["user"]
 
             if user.is_authenticated:
 
-                message = text_data_json["message"]
+                if 'puppet' in text_data_json.keys() and user.is_superuser:
 
-                if not message.startswith('/'):
+                    message = text_data_json["message"]
+                    puppet_name = text_data_json["puppet"]
 
-                    await self.handle_engage(user)
-                    await self.handle_active(user)
+                    puppet = await self.get_user(puppet_name)
 
-                    new_message = await self.log_message(message, user)
+                    if not message.startswith('/'):
 
-                    # Send message to post group
-                    await self.channel_layer.group_send(
-                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
-                    )
+                        await self.handle_engage(puppet)
+                        await self.handle_active(puppet)
+
+                        new_message = await self.log_message(message, puppet)
+
+                        # Send message to post group
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
+                        )
+                    else:
+
+                        result = await self.handle_command(message, user)
+
+                        await self.send(text_data=json.dumps({
+                            "alert" : "command_success",
+                            "message" : result,
+                        }))
+
                 else:
+                    message = text_data_json["message"]
 
-                    result = await self.handle_command(message, user)
+                    if not message.startswith('/'):
 
-                    await self.send(text_data=json.dumps({
-                        "alert" : "command_success",
-                        "message" : result,
-                    }))
+                        await self.handle_engage(user)
+                        await self.handle_active(user)
 
+                        new_message = await self.log_message(message, user)
+
+                        # Send message to post group
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
+                        )
+                    else:
+
+                        result = await self.handle_command(message, user)
+
+                        await self.send(text_data=json.dumps({
+                            "alert" : "command_success",
+                            "message" : result,
+                        }))
 
 
         elif 'voting' in text_data_json.keys():

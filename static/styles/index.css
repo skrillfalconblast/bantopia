@@ -127,6 +127,7 @@ input:focus:-ms-input-placeholder {
 }*/
 
 .logo {
+    display: flex;
     margin-right: 20px;
 }
 
@@ -219,7 +220,7 @@ input:focus:-ms-input-placeholder {
     gap: 5vh;
     width: 22.5%;
     margin-top: 25px;
-    margin-left: 30px;
+    margin-left: 25px;
 }
 
 .search-term-container h1 {
@@ -256,8 +257,8 @@ input:focus:-ms-input-placeholder {
     text-decoration: none;
     cursor: pointer;
     border: 5px solid #f28500;
-    border-left: 15px solid #f28500;
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
 
 .trending-post-border {
@@ -285,7 +286,7 @@ input:focus:-ms-input-placeholder {
 
 .post-bar {
     display: flex;
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 .post-bar h3 {
@@ -941,6 +942,10 @@ input:focus:-ms-input-placeholder {
         border-top: 3px solid #F28500;
         border-bottom: 3px solid #F28500;
         box-shadow: none;
+    }
+
+    .post:nth-child(2) {
+        border-top: none;
     }
 
     .post h1{

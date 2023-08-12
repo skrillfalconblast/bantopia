@@ -196,11 +196,26 @@ document.querySelector('#chat-input').onkeydown = function(e) {
 document.querySelector('#chat-submit').onclick = function(e) {
     const messageInputDom = document.querySelector('#chat-input');
     const message = messageInputDom.textContent;
+
     if (message != '') {
-        chatSocket.send(JSON.stringify({
-            'message' : message,
-        }));
-        messageInputDom.textContent = '';
+
+        if (document.querySelector('input[name="puppet"]:checked')){
+
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+            chatSocket.send(JSON.stringify({
+                'message' : message,
+                'puppet' : puppet
+            }));
+            messageInputDom.textContent = '';
+
+        } else {
+
+            chatSocket.send(JSON.stringify({
+                'message' : message,
+            }));
+            messageInputDom.textContent = '';
+        }
     };
 };
 

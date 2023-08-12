@@ -13,6 +13,8 @@ def chat(request, post_code):
 
     if Post.objects.filter(post_code=post_code):
 
+        user = request.user
+
         post = Post.objects.get(post_code=post_code)
 
         votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
@@ -21,6 +23,11 @@ def chat(request, post_code):
         messages = Message.objects.filter(message_post=post).select_related('message_author').order_by('-message_datetime_sent')[:50:-1]
 
         context = {'post' : post, 'messages' : messages, 'y' : votes["y"], 'n' : votes["n"]}
+
+        if user.is_superuser:
+            puppets = user.puppets.all()
+
+            context['puppets'] = puppets
 
         return render(request, 'comms/chat.html', context)
     

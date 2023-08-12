@@ -372,7 +372,7 @@ body {
     text-align: center;
 }
 
-.create-field-area .input-field label span{
+.create-field-area .input-field label span {
     color: rgb(0, 186, 242);
 }
 
@@ -1074,6 +1074,7 @@ button[type="submit"]:hover > span {
     display: flex;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     flex-direction: column;
 }
 
@@ -1106,7 +1107,7 @@ button[type="submit"]:hover > span {
 .edit-blocks {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 100%;
 }
 
 .password-edit-block {
@@ -1245,12 +1246,13 @@ button[type="submit"]:hover > span {
     .login-container {
         height: 100vh;
         height: 100dvh;
+        border-width: 10px;
     }
 
     .login-title {
         display: flex;
-        border-left: 8vw solid #00baf2;
-        border-right: 8vw solid #00abf2;
+        border-left: none;
+        border-right: none;
         justify-content: center;
     }
 
@@ -1270,7 +1272,6 @@ button[type="submit"]:hover > span {
     form {
         display: flex;
         flex-direction: column;
-        height: 100%;
     }
 
     .content {
@@ -1322,8 +1323,8 @@ button[type="submit"]:hover > span {
         height: 100%;
         border: none;
         font-style: normal;
-        border-left: 7vw solid #00baf2;
-        border-right: 7vw solid #00baf2;
+        border-left: none;
+        border-right: none;
     }
 
     .login-button-container span {
@@ -1354,12 +1355,13 @@ button[type="submit"]:hover > span {
         height: 100vh;
         height: 100dvh;
         overflow: hidden;
+        border-width: 10px;
     }
 
     .create-title {
         display: flex;
-        border-left: 10vw solid #f28500;
-        border-right: 10vw solid #f28500;
+        border-left: none;
+        border-right: none;
         justify-content: center;
     }
 
@@ -1405,8 +1407,8 @@ button[type="submit"]:hover > span {
         height: 100%;
         border: none;
         font-style: normal;
-        border-left: 5vw solid #f28500;
-        border-right: 5vw solid #f28500;
+        border-left: none;
+        border-right: none;
     }
 
     .create-button-container span {
@@ -1524,13 +1526,13 @@ button[type="submit"]:hover > span {
 
     .dashboard-identity a {
         margin-top: 0;
+        z-index: 1;
     }
 
     .dashboard-name {
         display: flex;
         margin: 0;
         font-size: 9vw;
-        z-index: 3;
     }
 
     .dashboard-colors {
@@ -1548,7 +1550,6 @@ button[type="submit"]:hover > span {
         height: 100%;
         margin: 0;
         width: 100%;
-        z-index: 2;
         gap: 4vh;
     }
 
@@ -1836,6 +1837,10 @@ button[type="submit"]:hover > span {
 }
 
 @media only screen and (max-width: 960px) {
+    .edit-container {
+        height: 100%;
+    }
+
     .password-edit-block h1 {
         margin-top: 10px;
         font-size: 10vw;
