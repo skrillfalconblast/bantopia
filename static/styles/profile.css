@@ -1263,12 +1263,7 @@ button[type="submit"]:hover > span {
         margin: 0;
         white-space: normal;
     }
-
-    .login-container form {
-        height: 100vh;
-        height: 100dvh;
-    }
-
+    
     form {
         display: flex;
         flex-direction: column;
@@ -1333,10 +1328,9 @@ button[type="submit"]:hover > span {
         white-space: normal;
     }
 
-    .big-text-top,
-    .big-text-bottom {
-        font-family: 'Poppins',sans-serif;
-        font-size: 5vw;
+    .login-support-message p {
+        margin: 0 10px;
+        font-size: 4.5vw;
     }
 }
 
@@ -1415,6 +1409,11 @@ button[type="submit"]:hover > span {
         letter-spacing: normal;
         font-size: 7vw;
         white-space: normal;
+    }
+
+    .create-support-message p {
+        margin: 0 10px;
+        font-size: 4.5vw;
     }
 }
 

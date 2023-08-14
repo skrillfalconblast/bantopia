@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 
 from channels.db import database_sync_to_async
+from django.shortcuts import render, redirect
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
@@ -330,6 +331,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         return tally
 
+    async def redirectTo(self, url):
+        return redirect(url)
 
     async def connect(self):
         self.post_code = self.scope["url_route"]["kwargs"]["post_code"]
@@ -507,6 +510,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             "alert" : "command_success",
                             "message" : result,
                         }))
+            else:
+                await self.send(text_data=json.dumps({
+                        "redirect" : "/create-profile/",
+                    }))
 
 
         elif 'voting' in text_data_json.keys():

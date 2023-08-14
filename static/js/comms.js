@@ -54,7 +54,7 @@ document.querySelector('#mobile-N').onclick = function(e) {
 const postCode = JSON.parse(document.getElementById('post-code').textContent);
 
 const chatSocket = new WebSocket (
-    'wss://'
+    'ws://'
     + window.location.host
     + '/ws/'
     + postCode
@@ -173,6 +173,8 @@ chatSocket.onmessage = function(e) {
 
             message_container.innerHTML += `<div class="message command-border"><div class="message-body"><div class="text"><div class="content neutral"><span></span><span class="message-actual-content command-text">&lt;${message_text}&gt;</span></div></div></div></div>`
         }
+    } else if ('redirect' in data) {
+        window.location.replace(data.redirect)
     }
 };
 
