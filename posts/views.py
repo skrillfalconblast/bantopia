@@ -83,7 +83,6 @@ def index(request):
             posts = Post.objects.order_by('-post_datetime_created')
 
         user = request.user # Pulls user from request for authentication checks within the template.   
-
         
         watching = user.watching.all()
         

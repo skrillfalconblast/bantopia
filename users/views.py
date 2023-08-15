@@ -4,9 +4,6 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
-
 from .models import WatchlistActivity
 
 from .forms import EditPasswordForm
@@ -62,12 +59,15 @@ def createProfile(request):
                     try:
                         other_users = User.objects.all()
                         user = User.objects.create_user(display_name=display_name, password=password)
+
                         for other_user in other_users: # This would add every previous user as part of the user's watch list to stimulate the community.
                             user.watching.add(other_user)
 
                         user = authenticate(request, display_name=display_name, password=password)
-                        auth_login(request, user)
+                        auth_login(request, user) # Log them in
+
                         return redirect('/')
+                    
                     except ValueError as value_error_info:
                         if str(value_error_info) == 'empty-display-name':
                             message = 'empty-display-name'

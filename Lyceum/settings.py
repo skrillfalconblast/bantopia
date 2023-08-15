@@ -234,3 +234,14 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     CONN_MAX_AGE = None
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.titan.email'
+if not DEBUG:
+    EMAIL_USE_TLS = True
+else:
+    EMAIL_USE_TLS = False
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'support@bantopia.com'
+EMAIL_HOST_PASSWORD = 'TitanMaster$1'

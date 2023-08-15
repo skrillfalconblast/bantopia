@@ -54,7 +54,7 @@ document.querySelector('#mobile-N').onclick = function(e) {
 const postCode = JSON.parse(document.getElementById('post-code').textContent);
 
 const chatSocket = new WebSocket (
-    'ws://'
+    'wss://'
     + window.location.host
     + '/ws/'
     + postCode

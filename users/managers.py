@@ -1,5 +1,8 @@
 from django.contrib.auth.models import BaseUserManager
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 class UserManager(BaseUserManager):
 
     def create_user(self, display_name=None, password=None):
@@ -12,6 +15,12 @@ class UserManager(BaseUserManager):
             raise ValueError('empty-password')
         #email = self.normalize_email(email)
         user = self.model(display_name=display_name)
+        if not password == 'password':
+            subject = 'New User!'
+            message = f"Hey Aiden! A new account was made with the name {display_name}, how charming!"
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = ['skrillfalconblast@icloud.com', ]
+            send_mail(subject, message, email_from, recipient_list)
         user.set_password(password)
         user.save()
         return user
