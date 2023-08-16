@@ -8,12 +8,14 @@ from .models import User, WatchlistActivity, Report
 class UserAdmin(BaseUserAdmin):
     readonly_fields = ["date_joined", "last_login"]
     filter_horizontal = ('user_permissions', 'groups', 'watching', 'puppets')
-    list_display = ('display_name', 'password', 'color', 'email', 'is_admin', 'is_active', 'is_superuser', 'is_staff')
+    list_display = ('display_name', 'password', 'color', 'date_joined', 'email', 'is_admin', 'is_active', 'is_superuser', 'is_staff')
 
     fieldsets = (
         (None, {'fields': ('display_name', 'password', 'watching', 'color', 'email', 'puppets')}),
         ('Boolean Permissions', {'fields': ('is_admin', 'is_active', 'is_superuser', 'is_staff')}),
     )
+
+    search_fields = ('display_name', )
 
     ordering = ('display_name',)
 

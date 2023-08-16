@@ -38,6 +38,10 @@ sup {
     border-radius: 10px;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .mobile-menu {
     display: none;
 }
@@ -131,6 +135,7 @@ sup {
 }
 
 .display {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -434,6 +439,43 @@ sup {
     display: flex;
     flex-direction: column;
     max-width: 73vw;
+}
+
+.new-messages-alert {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+
+.new-messages-alert {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.new-messages-alert {
+    border: none;
+    outline: none;
+    border-top: 5px solid #000;
+    background-color: #f28500;
+    color: #ffffff;
+}
+
+.new-messages-alert span {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.new-messages-alert svg {
+    width: 16px;
+    margin-right: 10px;
+    rotate: 90deg;
+    filter: invert(100%);
 }
 
 .chat-bar {

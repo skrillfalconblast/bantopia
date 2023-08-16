@@ -21,6 +21,14 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
   }
 
+function jumpToBottom() {
+    console.log('bob')
+    const chat = document.getElementById('chat')
+
+    console.log(chat.scrollTo)
+    chat.scrollTo(0, chat.scrollHeight);
+};
+
 // -------------------------- Voting System -------------------------- //
  
 document.querySelector('#Y').onclick = function(e) {
@@ -67,14 +75,23 @@ chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
 
     if ('message' in data && 'author' in data) {
+        const chat = document.getElementById('chat')
         const message_container = document.getElementById('messages-container')
 
         message_id = 'msg_' + data.message_code
 
-        message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content neutral" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`
+        message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content neutral" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
     
-        message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message) // A long chain leading to the middle span of the message 'content' div
-        message_container.lastElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.author
+        message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // A long chain leading to the middle span of the message 'content' div
+        message_container.lastElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.author;
+
+        if (chat.scrollTop != 0) {
+            document.getElementById('new-messages-alert').classList.remove('hidden');
+        } else {
+            document.getElementById('new-messages-alert').classList.add('hidden');
+        }
+
+
     } else if ('message_id' in data && 'state' in data) {
 
         id = data.message_id
@@ -133,7 +150,7 @@ chatSocket.onmessage = function(e) {
             superScore.classList.remove('disliked')
         }
 
-    } else if ('interaction' in data) {
+    } else if ('interaction' in data) { // An interaction here is defined as someone else interacting with a message.
         id = data.message_id
 
         if (data.interaction === 'like') {
@@ -162,8 +179,8 @@ chatSocket.onmessage = function(e) {
         document.getElementById('Y').firstElementChild.innerText = 'yes=' + data.y
         document.getElementById('N').firstElementChild.innerText = 'no=' + data.n
 
-        document.getElementById('mobile-Y').firstElementChild.innerText = 'yes=' + data.y
-        document.getElementById('mobile-N').firstElementChild.innerText = 'no=' + data.n
+        document.getElementById('mobile-Y').innerText = 'yes=' + data.y
+        document.getElementById('mobile-N').innerText = 'no=' + data.n
 
     } else if ('alert' in data) {
         if (data.alert == 'command_success') {
@@ -217,6 +234,7 @@ document.querySelector('#chat-submit').onclick = function(e) {
                 'message' : message,
             }));
             messageInputDom.textContent = '';
+
         }
     };
 };
@@ -247,3 +265,17 @@ document.addEventListener("click", function(e) {
     }
   })
 
+var timer; 
+document.getElementById('chat').addEventListener('scroll', event => {
+
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        const {scrollTop} = event.target;
+        if (Math.abs(scrollTop) < 10) {
+            document.getElementById('new-messages-alert').classList.add('hidden');
+        };
+    }, 250)
+
+});
+
+document.getElementById('new-messages-alert').onclick = function(){jumpToBottom()}

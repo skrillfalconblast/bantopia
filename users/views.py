@@ -60,8 +60,8 @@ def createProfile(request):
                         other_users = User.objects.all()
                         user = User.objects.create_user(display_name=display_name, password=password)
 
-                        for other_user in other_users: # This would add every previous user as part of the user's watch list to stimulate the community.
-                            user.watching.add(other_user)
+                         # This would add every previous user as part of the user's watch list to stimulate the community.
+                        user.watching.set(other_users)
 
                         user = authenticate(request, display_name=display_name, password=password)
                         auth_login(request, user) # Log them in

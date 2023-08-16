@@ -951,17 +951,17 @@ input:focus:-ms-input-placeholder {
 
     .post h1{
         font-family: 'Poppins', sans-serif;
-        font-size: 8vw;
+        font-size: 9vw;
         color: black;
         padding: 15px 20px 0px 20px;
     }
 
     .post-title-de {
-        box-shadow: inset 0 -4vw 0 #f28500;
+        box-shadow: inset 0 -5vw 0 #f28500;
     }
 
     .post-title-th {
-        box-shadow: inset 0 -4vw 0 #30f200;
+        box-shadow: inset 0 -5vw 0 #30f200;
     }
 
     .post-bar {
@@ -980,6 +980,10 @@ input:focus:-ms-input-placeholder {
         font-size: 4vw;
         color: black;
         margin: 0px 20px 5px 20px;
+    }
+
+    .post-div {
+        border-width: 3px;
     }
 
     .post h4 {
