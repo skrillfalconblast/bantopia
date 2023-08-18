@@ -864,42 +864,61 @@ button[type="submit"]:hover > span {
     margin-left: 15px;
 }
 
-#dashboard-tips {
+#dashboard-partners {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
 }
 
-.dashboard-tip-group {
+.dashboard-partner-group {
     margin-bottom: 30px;
 }
 
-#dashboard-tips {
-    margin-bottom: 1vw;
-    margin-top: 1vw;
+#dashboard-partners {
+    padding: 1vw 0;
 }
 
-.dashboard-tip-group h2 {
+.dashboard-partner-main-title {
+    margin: 0 15px;
+    margin-bottom: 30px;
+}
+
+.dashboard-partner-main-title h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2vw;
+    font-weight: 700;
+    text-align: center;
+    color: #f28500;
+}
+
+.dashboard-partner-group h2 {
     font-size: 1.8vw;
     font-family: 'Poppins', sans-serif;
 }
 
-.dashboard-tip-title {
+.dashboard-partner-title {
     font-weight: 700;
-    margin-left: 15px;
+    margin: 0 1vw;
+    margin-bottom: 15px;
 }
 
-.dashboard-tip {
+.dashboard-partner {
     display: flex;
     flex-direction: column;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
 }
 
-.dashboard-tip p {
+.dashboard-partner p {
     font-size: 1.3vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
+}
+
+.dashboard-partner-link {
+    font-weight: 600;
+    color: #5865F2;
+    text-decoration: none
 }
 
 .dashboard-watchlist-pane {
@@ -1602,6 +1621,14 @@ button[type="submit"]:hover > span {
         padding-left: 3vw;
     }
 
+    .dashboard-minutes {
+        font-size: 6.2vw;
+    }
+
+    .dashboard-seconds {
+        font-size: 7vw;
+    }
+
     .dashboard-invisible {
         border: none;
     }
@@ -1686,25 +1713,41 @@ button[type="submit"]:hover > span {
         font-size: 3.9vw;
     }
 
-    #dashboard-tips {
+    #dashboard-partners {
         flex: 1;
     }
 
-    .dashboard-tip-group h2 {
-        font-size: 3vw;
+    #dashboard-partners {
+        flex: 1;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 10px;
     }
 
-    .dashboard-tip-title {
+    .dashboard-partner-main-title h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 10vw;
+    }
+
+    .dashboard-partner-group {
+        margin-bottom: 30px;
+    }
+
+    .dashboard-partner-group h2 {
+        font-size: 6vw;
+    }
+
+    .dashboard-partner-title {
         margin-left: 2vw;
     }
 
-    .dashboard-tip {
-        margin-left: 2vw;
-        margin-right: 20px;
+    .dashboard-partner {
+        margin-left: 3vw;
+        margin-right: 3vw;
     }
 
-    .dashboard-tip p {
-        font-size: 2vw;
+    .dashboard-partner p {
+        font-size: 5vw;
     }
 
     #dashboard-commands {
@@ -1758,34 +1801,6 @@ button[type="submit"]:hover > span {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
         font-size: 30px;
-    }
-
-    #dashboard-tips {
-        flex: 1;
-        margin-top: 0;
-        margin-bottom: 0;
-        padding-top: 10px;
-    }
-
-    .dashboard-tip-group {
-        margin-bottom: 30px;
-    }
-
-    .dashboard-tip-group h2 {
-        font-size: 6vw;
-    }
-
-    .dashboard-tip-title {
-        margin-left: 2vw;
-    }
-
-    .dashboard-tip {
-        margin-left: 3vw;
-        margin-right: 0;
-    }
-
-    .dashboard-tip p {
-        font-size: 5vw;
     }
 }
 

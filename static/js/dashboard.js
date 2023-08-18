@@ -3,11 +3,11 @@
 
 const command_pane = document.getElementById("dashboard-commands")
 const rules_pane = document.getElementById("dashboard-rules")
-const tips_pane = document.getElementById("dashboard-tips")
+const partners_pane = document.getElementById("dashboard-partners")
 
 const command_tab = document.getElementById("dashboard-commands-tab")
 const rules_tab = document.getElementById("dashboard-rules-tab")
-const tips_tab = document.getElementById("dashboard-tips-tab")
+const partners_tab = document.getElementById("dashboard-partners-tab")
 
 
 
@@ -15,18 +15,18 @@ command_tab.onclick = function(e){
     command_pane.classList.remove('hidden')
 
     rules_pane.classList.add('hidden')
-    tips_pane.classList.add('hidden')
+    partners_pane.classList.add('hidden')
 }
 
 rules_tab.onclick = function(e){
     rules_pane.classList.remove('hidden')
 
     command_pane.classList.add('hidden')
-    tips_pane.classList.add('hidden')
+    partners_pane.classList.add('hidden')
 }
 
-tips_tab.onclick = function(e){
-    tips_pane.classList.remove('hidden')
+partners_tab.onclick = function(e){
+    partners_pane.classList.remove('hidden')
 
     rules_pane.classList.add('hidden')
     command_pane.classList.add('hidden')
