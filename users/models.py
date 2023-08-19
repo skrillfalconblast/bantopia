@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     color = models.CharField(max_length=2, choices=COLOR_CHOICES, default=ORANGE)
 
-    date_joined = models.DateField(auto_now_add=True)
+    datetime_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
 
     is_admin = models.BooleanField(default=False)

@@ -38,20 +38,20 @@
         <a href="/" class="option">
             <h1>Back</h1>
         </a>
-        <a href="/{{post.post_code}}" class="option"> 
+        <a href="/{{post.post_code}}/{{post.post_slug}}" class="option"> 
             <h1>Content</h1>
         </a>
-        <a href="/ws/{{post.post_code}}/chat" class="option"> 
+        <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option"> 
             <h1>Chat</h1>
         </a>
-        <a href="/{{post.post_code}}/counters" class="option">
+        <a href="/{{post.post_code}}/{{post.post_slug}}/counters" class="option">
             <h1>Counters</h1>
         </a>
         <a class="option" id="balance-option">
             <div id="Y"><h1>yes={{ y }}</h1></div>
             <div id="N"><h1>no={{ n }}</h1></div>
         </a>
-        <a href="/{{post.post_code}}/dogs" class="option">
+        <a href="/{{post.post_code}}/{{post.post_slug}}/dogs" class="option">
             <h1>Top Dogs</h1>
         </a>
     </div>
@@ -63,10 +63,10 @@
                 </a>
             </div>
             <div class="level">
-                <a href="/{{post.post_code}}/dogs" class="option">
+                <a href="/{{post.post_code}}/{{post.post_slug}}/dogs" class="option">
                     <h1>Top Dogs</h1>
                 </a>
-                <a href="/{{post.post_code}}/counters" class="option">
+                <a href="/{{post.post_code}}/{{post.post_slug}}/counters" class="option">
                     <h1>Counters</h1>
                 </a>
             </div>
@@ -74,7 +74,7 @@
                 <a class="option" id="mobile-balance-option-Y">
                     <h1 id="mobile-Y">yes={{ y }}</h1>
                 </a>
-                <a href="/ws/{{post.post_code}}/chat" class="option"> 
+                <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option"> 
                     <h1>C</h1>
                 </a>
                 <a class="option" id="mobile-balance-option-N">

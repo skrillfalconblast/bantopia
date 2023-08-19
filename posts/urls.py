@@ -10,10 +10,10 @@ urlpatterns = [
     path('post/your-drafts', views.drafts, name='drafts'),
     path('post/your-posts', views.posts, name='posts'),
 
-    path('<str:post_code>', views.commContent, name='content'),
-    path('<str:post_code>/mastercases', views.commMastercases, name='mastercases'),
-    path('<str:post_code>/counters', views.commCounters, name='counters'),
-    path('<str:post_code>/dogs', views.commDogs, name='dogs'),
+    path('<str:post_code>/<str:post_slug>', views.commContent, name='content'),
+    path('<str:post_code>/<str:post_slug>/mastercases', views.commMastercases, name='mastercases'),
+    path('<str:post_code>/<str:post_slug>/counters', views.commCounters, name='counters'),
+    path('<str:post_code>/<str:post_slug>/dogs', views.commDogs, name='dogs'),
 
     path('robots.txt/', TemplateView.as_view(template_name="bots/robots.txt", content_type='text/plain'))
 ]

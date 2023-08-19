@@ -65,7 +65,7 @@
             <div class="post-scroll new-rail" id="post-scroll">
                 {% for post in posts %}
                 <h1 class="post-label"><i>#{{ forloop.counter }}</i></h1>
-                <a href="/{{post.post_code}}" class="post">
+                <a href="/{{post.post_code}}/{{post.post_slug}}" class="post">
                     {% if post.post_type == "DE" %}
                     <h1 class="post-title"><span class="post-title-de">Declaration:</span> {{post.post_title}}</h1>
                     <div class="post-bar">

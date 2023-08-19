@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 
+from django.template.defaultfilters import slugify
+
 import time
 
 # Create your models here.
@@ -35,8 +37,11 @@ class Post(models.Model):
     post_number_of_yes_votes = models.IntegerField(default=0)
     post_number_of_no_votes = models.IntegerField(default=0)
 
+    post_slug = models.SlugField(default='post')
+
     def save(self, *args, **kwargs):
         self.post_timestamp_created = time.time()
+        self.post_slug = slugify(self.post_title)
         super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

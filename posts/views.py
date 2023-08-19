@@ -301,7 +301,7 @@ def posts(request):
     
 # ------------------------------------------------
 
-def commContent(request, post_code):
+def commContent(request, post_code, post_slug):
     
     if Post.objects.filter(post_code=post_code):
 
@@ -330,7 +330,7 @@ def commContent(request, post_code):
         return redirect('/') # Make a 404 error page 
         
 
-def commMastercases(request, post_code):
+def commMastercases(request, post_code, post_slug):
     if Post.objects.filter(post_code=post_code):
 
         post = Post.objects.get(post_code=post_code)
@@ -343,7 +343,7 @@ def commMastercases(request, post_code):
     else:
         return redirect('/') # Make a 404 error page 
 
-def commCounters(request, post_code):
+def commCounters(request, post_code, post_slug):
     if Post.objects.filter(post_code=post_code):
         post = Post.objects.get(post_code=post_code)
        
@@ -372,7 +372,7 @@ def commCounters(request, post_code):
     else:
         return redirect('/') # Make a 404 error page 
 
-def commDogs(request, post_code):  
+def commDogs(request, post_code, post_slug):  
     if Post.objects.filter(post_code=post_code):
 
         post = Post.objects.get(post_code=post_code)

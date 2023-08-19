@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def chat(request, post_code):
+def chat(request, post_code, post_slug):
 
     if Post.objects.filter(post_code=post_code):
 
