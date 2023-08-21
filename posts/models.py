@@ -1,7 +1,6 @@
 from django.db import models
 
 from django.conf import settings
-from django.urls import reverse
 
 from django.template.defaultfilters import slugify
 
@@ -32,20 +31,17 @@ class Post(models.Model):
 
     post_datetime_created = models.DateTimeField(verbose_name='date and time created', auto_now_add=True)
     post_number_of_messages = models.IntegerField(default=0)
-    post_timestamp_created = models.IntegerField()
+    post_timestamp_created = models.IntegerField() # Unix Timestamp for sorting calculations.
 
     post_number_of_yes_votes = models.IntegerField(default=0)
     post_number_of_no_votes = models.IntegerField(default=0)
 
-    post_slug = models.SlugField(default='post')
+    post_slug = models.SlugField(default='post', max_length=500)
 
     def save(self, *args, **kwargs):
         self.post_timestamp_created = time.time()
         self.post_slug = slugify(self.post_title)
         super(Post, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse("content", args=[str(self.post_code)])
 
 class Tag(models.Model):
     tag_text = models.CharField(max_length=50)

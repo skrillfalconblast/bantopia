@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchRank, SearchQuery, SearchVector
 from django.views.decorators.csrf import csrf_exempt
 
-from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField
+from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField, Max
 from django.db.models.functions import Round, Log, Greatest, Abs
 
 
@@ -20,10 +20,14 @@ import random
 User = get_user_model()
 
 def sort_trending():
-    posts = Post.objects.annotate(score=ExpressionWrapper(
-        Round((F('post_timestamp_created') / 45000) + Log(10, Greatest(F('post_number_of_messages'), 1)), precision=7), output_field=FloatField()
-        ), sort=Value("trending")).order_by('-score')[:100]
+    #posts = Post.objects.annotate(score=ExpressionWrapper(
+        #Round((F('post_timestamp_created') / 45000) + Log(10, Greatest(F('post_number_of_messages'), 1)), precision=7), output_field=FloatField()
+        #), sort=Value("trending")).order_by('-score')[:100]
     
+    posts = Post.objects.alias(
+        latest_message=Max('message__message_datetime_sent')
+    ).order_by('-latest_message')
+
     return posts
         
 def sort_controversial():

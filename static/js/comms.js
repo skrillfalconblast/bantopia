@@ -189,6 +189,12 @@ chatSocket.onmessage = function(e) {
             message_text = data.message
 
             message_container.innerHTML += `<div class="message command-border"><div class="message-body"><div class="text"><div class="content neutral"><span></span><span class="message-actual-content command-text">&lt;${message_text}&gt;</span></div></div></div></div>`
+        } else if (data.alert == 'message_failure') {
+            const message_container = document.getElementById('messages-container')
+
+            message_text = data.message
+
+            message_container.innerHTML += `<div class="message command-border"><div class="message-body"><div class="text"><div class="content neutral"><span></span><span class="message-actual-content command-text">&lt;${message_text}&gt;</span></div></div></div></div>`
         }
     } else if ('redirect' in data) {
         window.location.replace(data.redirect)
@@ -210,6 +216,11 @@ document.querySelector('#chat-input').onkeydown = function(e) {
         e.preventDefault();
     }
 };
+
+document.querySelector('#chat-input').addEventListener('paste', function(e) {
+    e.preventDefault();
+    e.target.innerText = e.clipboardData.getData("text/plain");
+});
 
 // Sends message and clears chat bar
 document.querySelector('#chat-submit').onclick = function(e) {
@@ -279,3 +290,4 @@ document.getElementById('chat').addEventListener('scroll', event => {
 });
 
 document.getElementById('new-messages-alert').onclick = function(){jumpToBottom()}
+

@@ -470,18 +470,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                     if not message.startswith('/'):
 
-                        await self.handle_engage(puppet)
-                        await self.handle_active(puppet)
+                        if len(message) <= 255:
 
-                        new_message = await self.log_message(message, puppet)
+                            await self.handle_engage(puppet)
+                            await self.handle_active(puppet)
 
-                        # Send message to post group
-                        await self.channel_layer.group_send(
-                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
-                        )
+                            new_message = await self.log_message(message, puppet)
+
+                            # Send message to post group
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
+                            )
+                        else:
+                            await self.send(text_data=json.dumps({
+                                "alert" : "message_error",
+                                "message" : result,
+                            }))
                     else:
 
-                        result = await self.handle_command(message, user)
+                        result = await self.handle_command(message, puppet)
 
                         await self.send(text_data=json.dumps({
                             "alert" : "command_success",
@@ -493,15 +500,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                     if not message.startswith('/'):
 
-                        await self.handle_engage(user)
-                        await self.handle_active(user)
+                        if len(message) <= 1000:
 
-                        new_message = await self.log_message(message, user)
+                            await self.handle_engage(user)
+                            await self.handle_active(user)
 
-                        # Send message to post group
-                        await self.channel_layer.group_send(
-                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
-                        )
+                            new_message = await self.log_message(message, user)
+
+                            # Send message to post group
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
+                            )
+                        else:
+                            await self.send(text_data=json.dumps({
+                                "alert" : "message_failure",
+                                "message" : "That message goes over 1000 characters. Just shorten it down or split it up to send it properly.",
+                            }))
                     else:
 
                         result = await self.handle_command(message, user)

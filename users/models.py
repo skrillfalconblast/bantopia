@@ -8,6 +8,8 @@ from django.contrib.auth.models import PermissionsMixin
 
 from posts.models import Post
 
+from django.core.exceptions import ValidationError
+
 import math
 
 # Create your models here.
@@ -65,6 +67,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def __str__(self):
         return self.display_name
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        display_name = cleaned_data.get("display_name")
+        if not display_name:
+            raise ValidationError
+        return cleaned_data
     
     ordering = ('display_name',)
 

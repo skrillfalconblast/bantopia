@@ -44,7 +44,7 @@
         <div class="dashboard-bottom">
             <div class="dashboard-left" id="dashboard-left">
                 <div class="dashboard-identity mobile-hidden" id="dashboard-identity">
-                    <a href="../edit-profile">
+                    <a href="../edit-profile/">
                         <h1 class="dashboard-name"><span>{</span>Edit Your Profile<span>}</span></h1>
                     </a>
                     <div class="dashboard-colors">
@@ -227,31 +227,31 @@
                             {% for activity, timeframe in watchlist_activity %}
                                 {% if activity.watchlist_activity_type == 'ACTIVE' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - We noticed that <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> appears very active in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - We noticed that <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> appears very active in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></ax>
                                 </div>
                                 {% elif activity.watchlist_activity_type == 'DECLARE' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Look at that, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> declared that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Look at that, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> declared that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></a>
                                 </div>
                                 {% elif activity.watchlist_activity_type == 'THEORISE' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Oooh, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> theorised that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Oooh, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> theorised that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></a>
                                 </div>
                                 {% elif activity.watchlist_activity_type == 'ENGAGE' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Here we go, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> dropped a line in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Here we go, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> dropped a line in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></a>
                                 </div>
                                 {% elif activity.watchlist_activity_type == 'POPULAR' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Jee whiz, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> has been getting very popular in </span> <span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span>!</p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Jee whiz, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> has been getting very popular in </span> <span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span>!</a>
                                 </div>
                                 {% elif activity.watchlist_activity_type == 'INFAMOUS' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Golly, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> has grown seriously infamous in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Golly, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> has grown seriously infamous in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></a>
                                 </div>
                                 {% elif activity.watchlist_activity_type == 'CONTROVERSIAL' %}
                                 <div class="dashboard-activity">
-                                    <p><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Woah, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> just got really controversial in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></p>
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Woah, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> just got really controversial in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title }}</span></a>
                                 </div>
                                 {% endif %}
                             {% endfor %}

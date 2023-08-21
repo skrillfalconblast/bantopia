@@ -101,9 +101,9 @@
                     {% if visits %}
                         {% for visit in visits %}
                             {% if visit.visit_post.post_type == 'DE' %}
-                            <li><span class="DE-shadow-history">{{ visit.visit_post.post_title }}</span></li>
+                            <li><a href="{{ visit.visit_post.post_code }}/{{ visit.visit_post.post_slug }}"><span class="DE-shadow-history">{{ visit.visit_post.post_title }}</span></a></li>
                             {% elif visit.visit_post.post_type == 'TH' %}
-                            <li><span class="TH-shadow-history">{{ visit.visit_post.post_title }}</span></li>
+                            <li><a href="{{ visit.visit_post.post_code }}/{{ visit.visit_post.post_slug }}"><span class="TH-shadow-history">{{ visit.visit_post.post_title }}</span></a></li>
                             {% endif %}
                         {% endfor %}
                     {% else %}
@@ -119,31 +119,31 @@
                         {% for activity in watchlist_activity %}
                             {% if activity.watchlist_activity_type == 'ACTIVE' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'DECLARE' %}
                             <div class="dashboard-activity">
-                                <li>Wow, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> declared <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Wow, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> declared <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'THEORISE' %}
                             <div class="dashboard-activity">
-                                <li>Interesting, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> theorized that <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Interesting, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> theorized that <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'ENGAGE' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> dived in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> dived in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'POPULAR' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> became the main man in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> became the main man in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'INFAMOUS' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is antagonising peopole in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is antagonising peopole in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'CONTROVERSIAL' %}
                             <div class="dashboard-activity">
-                                <li><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is spitting factz in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is spitting factz in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title }}</span></a></li>
                             </div>
                             {% endif %}
                         {% endfor %}

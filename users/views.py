@@ -55,26 +55,29 @@ def createProfile(request):
 
             if password1 == password2:
                 password = password1
-                if not User.objects.filter(display_name=display_name):
-                    try:
-                        other_users = User.objects.all()
-                        user = User.objects.create_user(display_name=display_name, password=password)
+                if not len(display_name) > 20:
+                    if not User.objects.filter(display_name=display_name):
+                        try:
+                            other_users = User.objects.all()
+                            user = User.objects.create_user(display_name=display_name, password=password)
 
-                         # This would add every previous user as part of the user's watch list to stimulate the community.
-                        user.watching.set(other_users)
+                                # This would add every previous user as part of the user's watch list to stimulate the community.
+                            user.watching.set(other_users)
 
-                        user = authenticate(request, display_name=display_name, password=password)
-                        auth_login(request, user) # Log them in
+                            user = authenticate(request, display_name=display_name, password=password)
+                            auth_login(request, user) # Log them in
 
-                        return redirect('/')
-                    
-                    except ValueError as value_error_info:
-                        if str(value_error_info) == 'empty-display-name':
-                            message = 'empty-display-name'
-                        elif str(value_error_info) == 'empty-password':
-                            message = 'empty-password'
+                            return redirect('/')
+                        
+                        except ValueError as value_error_info:
+                            if str(value_error_info) == 'empty-display-name':
+                                message = 'empty-display-name'
+                            elif str(value_error_info) == 'empty-password':
+                                message = 'empty-password'
+                    else:
+                        message = 'display-name-taken'
                 else:
-                    message = 'display-name-taken'
+                    message = 'display-name-overflow'
             else:
                 message = "mismatched-passwords"
 

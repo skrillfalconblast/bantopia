@@ -388,14 +388,20 @@ input:focus:-ms-input-placeholder {
 
 .history li {
     box-sizing: border-box;
-    padding: 5px 10px;
     font-family: 'Poppins', sans-serif;
     font-size: 2vw;
     color: black;
     font-weight: 600;
     width: 100%;
     border-bottom: 4px solid #f2850068;
+}
+
+.history a {
+    display: block;
+    padding: 5px 10px;
     padding-bottom: 1vw;
+    text-decoration: none;
+    color: #000;
 }
 
 .history-empty-splash {
@@ -440,13 +446,20 @@ input:focus:-ms-input-placeholder {
 
 .watchlist li {
     box-sizing: border-box;
-    padding: 7.5px 10px;
     font-family: 'Poppins', sans-serif;
     font-size: 1.2vw;
     color: black;
     font-weight: 500;
     border-bottom: 4px solid #f2850068;
     width: 100%;
+}
+
+.watchlist a {
+    display: block;
+    padding: 7.5px 10px;
+    padding-top: 5px;
+    text-decoration: none;
+    color: #000;
 }
 
 .watchlist-empty-splash {

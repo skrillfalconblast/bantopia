@@ -963,6 +963,11 @@ button[type="submit"]:hover > span {
     border-left: 20px solid #f28500;
 }
 
+.dashboard-activity a {
+    color: #000;
+    text-decoration: none;
+}
+
 .dashboard-logout-link {
     margin-top: auto;
     text-decoration: none;
@@ -1109,7 +1114,6 @@ button[type="submit"]:hover > span {
     text-decoration: none;
     background-color: white;
     border: 4px solid #F28500;
-    border-top: none;
     box-sizing: border-box;
 }
 

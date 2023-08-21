@@ -9,7 +9,7 @@ class Message(models.Model):
     message_code = models.CharField(max_length=12, unique=True)
 
     message_post = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
-    message_content = models.CharField(max_length=255)
+    message_content = models.TextField()
     message_score = models.IntegerField(default=0)
 
     message_datetime_sent = models.DateTimeField(verbose_name='date and time sent', auto_now_add=True)
