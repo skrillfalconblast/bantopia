@@ -20,14 +20,14 @@ class Post(models.Model):
     post_code = models.CharField(max_length=8)
 
     post_type = models.CharField(max_length=2, choices=POST_TYPE_CHOICES, default=DECLARATION) # This is names 'post_type' instead of simply 'type' because that conflicts with some python built-in variable name.
-    post_title = models.CharField(max_length=100)
+    post_title = models.CharField(max_length=255)
     post_desc = models.TextField()# Add max_length
 
     post_author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="post_author", on_delete=models.CASCADE)
     post_author_name = models.CharField(max_length=20)
 
-    post_TPP = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="post_TPP", on_delete=models.SET_NULL, null=True)
-    post_PEN1 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="post_PEN1", on_delete=models.SET_NULL, null=True)
+    post_TPP = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="post_TPP", on_delete=models.SET_NULL, null=True, blank=True)
+    post_PEN1 = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="post_PEN1", on_delete=models.SET_NULL, null=True, blank=True)
 
     post_datetime_created = models.DateTimeField(verbose_name='date and time created', auto_now_add=True)
     post_number_of_messages = models.IntegerField(default=0)
@@ -36,7 +36,7 @@ class Post(models.Model):
     post_number_of_yes_votes = models.IntegerField(default=0)
     post_number_of_no_votes = models.IntegerField(default=0)
 
-    post_slug = models.SlugField(default='post', max_length=500)
+    post_slug = models.SlugField(default='post', max_length=255)
 
     def save(self, *args, **kwargs):
         self.post_timestamp_created = time.time()
