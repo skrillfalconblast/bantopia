@@ -22,7 +22,6 @@ class UserManager(BaseUserManager):
             recipient_list = ['skrillfalconblast@icloud.com', ]
             send_mail(subject, message, email_from, recipient_list)
         user.set_password(password)
-        self.clean()
         user.save()
         return user
         
