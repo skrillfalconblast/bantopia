@@ -4,6 +4,8 @@ from django.conf import settings
 
 from django.template.defaultfilters import slugify
 
+from django.urls import reverse
+
 import time
 
 # Create your models here.
@@ -42,6 +44,9 @@ class Post(models.Model):
         self.post_timestamp_created = time.time()
         self.post_slug = slugify(self.post_title)
         super(Post, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('content', kwargs={'post_code': str(self.post_code), 'post_slug' : str(self.post_slug)})
 
 class Tag(models.Model):
     tag_text = models.CharField(max_length=50)

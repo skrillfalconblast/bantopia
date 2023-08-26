@@ -479,6 +479,43 @@ sup {
     filter: invert(100%);
 }
 
+.disconnect-alert {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+
+.disconnect-alert {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.disconnect-alert {
+    border: none;
+    outline: none;
+    border-top: 5px solid #000;
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.disconnect-alert span {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.disconnect-alert img {
+    width: 24px;
+    margin-right: 10px;
+    filter: invert(100%);
+}
+
 .chat-bar {
     display: flex;
     justify-content: center;
@@ -648,31 +685,6 @@ input:focus:-ms-input-placeholder {
 
 .chat-bar button:active > svg {
     filter: invert(55%) sepia(75%) saturate(3223%) hue-rotate(10deg) brightness(102%) contrast(107%);
-}
-
-.anonymous-screen {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(0, 0, 0);
-}
-
-.anonymous-poem h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 5.5vw;
-    font-weight: 700;
-    color: rgb(255, 255, 255);
-}
-
-.anonymous-poem a {
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.anonymous-poem a h1 {
-    color: #F28500;
 }
 
 .counter-board {
@@ -1328,6 +1340,15 @@ input:focus:-ms-input-placeholder {
 
     .new-messages-alert {
         font-size: 4vw;
+    }
+
+    .disconnect-alert {
+        font-size: 4vw;
+        padding: 0 10px;
+    }
+
+    .disconnect-alert img {
+        width: 4.5vw;
     }
 }
 
