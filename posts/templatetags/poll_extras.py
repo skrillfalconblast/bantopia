@@ -52,3 +52,7 @@ def truncatesmart(value, limit=80):
 @register.filter
 def stripcommas(value):
     return sub(',', '', value)
+
+@register.filter(name='times') 
+def times(number):
+    return range(number)

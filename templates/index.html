@@ -65,30 +65,43 @@
             <div class="post-scroll new-rail" id="post-scroll">
                 {% for post in posts %}
                 <h1 class="post-label"><i>#{{ forloop.counter }}</i></h1>
-                <a href="/{{post.post_code}}/{{post.post_slug}}" class="post">
+                <a href="/{{post.post_code}}/{{post.post_slug}}" class="post nick-left-in nick-right-in">
                     {% if post.post_type == "DE" %}
                     <h1 class="post-title"><span class="post-title-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
-                    <div class="post-bar">
-                        <h2 class="post-author">By <span class="post-author-name">{{post.post_author_name}}</span></h2>
-                        <div class="messages-box">
-                            <h3 class="messages">{{post.post_number_of_messages}}</h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z"/></svg>
-                            <div class="post-icon"></div>
+                    <div class="post-counter-ticker-wrapper">
+                        <div class="post-counter-ticker">
+                            {% if post.counters %} 
+                                <h2 class="post-counter">{% for i in 12|times %}{{ post.counters|safe }} {% endfor %}</h2>
+                            {% else %}
+                                <h2 class="post-counter">{{ post.ticker_text|safe }}</h2>
+                            {% endif %}
                         </div>
                     </div>
                     <hr class="post-div">
                     <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
+                    {% if post.last_message %}
+                    <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt=""><h1 class="last-message"><span>Last Message:</span> {<span>{{ post.last_message|truncatesmart:35 }}</span>}</h1></div>
+                    {% else %}
+                    <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt=""><h1 class="last-message"><span>This chat is totally empty!</span></h1></div>
+                    {% endif %}
                     {% elif post.post_type == "TH" %}
                     <h1 class="post-title"><span class="post-title-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
-                    <div class="post-bar">
-                        <h2 class="post-author">By <span class="post-author-name">{{post.post_author_name}}</span></h2>
-                        <div class="messages-box">
-                            <h3 class="messages">{{post.post_number_of_messages}}</h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64h96v80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64z"/></svg>
+                    <div class="post-counter-ticker-wrapper">
+                        <div class="post-counter-ticker">
+                            {% if post.counters %} 
+                                <h2 class="post-counter">{% for i in 24|times %}{{ post.counters|safe }} {% endfor %}</h2>
+                            {% else %}
+                                <h2 class="post-counter">{{ post.ticker_text|safe }}</h2>
+                            {% endif %}
                         </div>
                     </div>
                     <hr class="post-div">
                     <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
+                    {% if post.last_message %}
+                    <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt=""><h1 class="last-message"><span>Last Message:</span> {<span>{{ post.last_message|truncatesmart:35 }}</span>}</h1></div>
+                    {% else %}
+                    <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt=""><h1 class="last-message">This chat is totally empty!</h1></div>
+                    {% endif %}
                     {% endif %}
                 </a>
                 {% endfor %}
@@ -167,4 +180,5 @@
     </div>
 </body>
 <script src="{% static 'js/index.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sp-supermarquee@latest/dist/SuperMarqueeWC.min.js"></script>
 </html>

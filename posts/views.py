@@ -4,9 +4,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchRank, SearchQuery, SearchVector
 from django.views.decorators.csrf import csrf_exempt
 
-from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField, Max
+from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField, Max, Subquery, OuterRef
 from django.db.models.functions import Round, Log, Greatest, Abs
 
+from django.utils.html import escape
 
 from .models import Post, Tag, Vote, Draft, Visit
 from chat.models import Message
@@ -19,26 +20,70 @@ import random
 
 User = get_user_model()
 
+def counterHack(posts):
+    for post in posts:
+        counters = list(Message.objects.filter(message_post=post, message_score__gt=1).values_list('message_content', flat=True).order_by('-message_score')[:5])
+
+        counterString = ''
+
+        for i, counter in enumerate(counters):
+            rank = f'<span>#{i+1}</span> {escape(counter)}'
+
+            if counterString == '':
+                counterString = counterString + rank
+            else:
+                counterString = counterString + ' ' + rank
+
+        
+        if counterString:
+            post.counters = counterString
+        else:
+
+            ticker_texts = ["<span>Calm,</span> endless calm. <span>Broken</span>. The water's surface draws <span>near</span>. The <span>glass heaven</span> enveloping your form feels <span>large</span> under the surface. It’s <span>all</span>, it’s everything. But you were made to <span>breathe</span>. I need <span>air</span>. Oh, <span>we’re floating</span>, steadily towards the liquid veil. The <span>bubbles</span> look crystalline, playing with <span>the heavy light</span> as they hustle towards <span>the surface</span>. I’m moving up with <span>them</span>. Huh, <span>look at that</span>, I see something <span>behind the water</span>, something <span>above</span>, almost getting farther as I <span>draw closer</span>. I <span>tear</span> through that veil. Infinity <span>basks</span> before me. Sky, sun, trees, nature in all its glory, <span>light</span> as I have never seen before. A <span>black hawk</span> soars above, my head tracks its flight. <span>Let’s go.</span> ",
+                            "<span>Bantopia</span> is literally the <span>coolest place</span> to be on <span>the Internet</span>. <span>Sure</span>, it’s a <span>bit crazy</span>, but <span>it’s pretty fun.</span> You see <span>this ticker</span>, it’s pretty cool. <span>But bro,</span> why in the world are you <span>staring</span> at it? If you’re <span>afk</span> I’ll understand, <span>but otherwise,</span> it’s kind of <span>weird</span>. Okay, <span>stop staring</span> at this point. <span>It’s rude</span>. Oh gosh, I probably <span>provoked</span> you to continue <span>looking at me.</span> In fact, <span>whatever</span>, I don’t have <span>anything to hide!</span> Keep <span>looking</span>, it’s your time that’s <span>being wasted</span>. Unlike you, <span>I have things to do</span> apart from staring at <span>randomly assigned</span> ticker text. Peace <span>out.</span>",
+                            "You are likely on <span>bantopia.com</span>. This is likely the <span>gazillionth time</span> you’ve read this message. You are likely on the <span>New</span> tab. Your screen is mostly composed of the colors: <span>orange</span> and white. You probably like to <span>debate</span> or argue. You probably live in the northern <span>hemisphere</span>. You’re probably a cool <span>guy</span>. You’re likely about to enter a <span>chat</span>. You’re likely street <span>smart</span>. You likely prefer YouTube to other <span>social media.</span> This is likely the first time you’ve <span>read</span> this message. You’re likely predicting this <span>ticker</span> is going to end soon. You’re likely correct<span>.</span>",
+                            "Don’t think, <span>act.</span> Just <span>do</span> it! <span>Think</span> with your mind, not your <span>brain</span>! Get into the <span>zone!</span> <span>Man up</span>! Listen to <span>your instincts!</span> Click the post! JUST CLICK THE POST <span>BRO!</span> It’s not even <span>hard!</span> Just make the <span>choice</span> and stick by it! Do <span>everything you can</span> to supplement your journey. <span>You know</span> your purpose, act now! You only <span>live once</span>! This is you’re <span>only shot</span> at greatness! CLICK THE POST! It’s all <span>background noise</span>! Don’t think, <span>act!</span> Click the <span>post!</span>",
+                            "It started when an <span>alien device</span> did what it did. And <span>stuck itself</span> upon his wrist with <span>secrets</span> that it hid. Now he's got <span>super powers,</span> he's no ordinary kid, he’s <span>Ben 10</span>! So if you <span>see him,</span> you might be in for a <span>big surprise</span>. He'll turn <span>into an alien</span> before your very eyes. He's <span>slimy, creepy, fast and strong</span>, he's every <span>shape and size</span>, he's <span>Ben 10!</span> Armed with power, he's on the <span>case</span>. Fighting off evil from <span>Earth</span> or <span>space</span>. He'll <span>never stop</span> till he makes them <span>pay</span>. ‘Cause he's <span>the baddest kid</span> to ever save the day! <span>Ben 10!</span>",
+                            "There is no one <span>righteous</span>, not even <span>one</span>; there is no one <span>who understands;</span> there is no one who <span>seeks God</span> <span>All have turned away</span>, they have together <span>become worthless;</span> there is <span>no one who does good</span>, not even <span>one</span>. Their throats are <span>open graves;</span> their tongues <span>practice deceit</span>. The <span>poison of vipers</span> is on their lips. Their mouths <span>are full of cursing</span> and bitterness. Their feet are swift to <span>shed blood;</span> ruin and misery <span>mark their ways,</span> and the way of peace <span>they do not know</span>. There is <span>no fear of God</span> before their eyes.",
+                            "<span>In the beginning</span>, God created the <span>heavens</span> and the earth. The earth was <span>without form and void</span>, and <span>darkness</span> was over the face of the <span>deep</span>. And the <span>Spirit of God</span> was hovering over the face of <span>the waters.</span> And God said, “Let there be <span>light</span>,” and there was <span>light</span>. And God saw that the <span>light was good.</span> And God separated the <span>light</span> from the <span>darkness</span>. God called the <span>light Day,</span> and the <span>darkness</span> he called <span>Night</span>. And there was <span>evening</span> and there was <span>morning</span>, the first <span>day.</span>",
+                            "<span>Stop</span> what you’re doing. I must tell you a <span>secret</span>. <span>Keep watching me.</span> I won’t be <span>here</span> for long. Keep <span>watching me</span>. Keep your eyes trained on <span>this ticker text.</span> THIS IS IMPORTANT. <span>Don't be scared.</span> AND NO MATTER WHAT YOU DO, <span>don’t look behind you.</span> Don’t look behind you. <span>Don’t look behind you.</span> Until this ticker text <span>passes by</span>, don’t look <span>directly</span> behind you. <span>Pay no attention</span> to your periphery. Just a <span>few more seconds,</span> and you will most likely <span>survive</span>. Hang in there.",
+                            "Guess the <span>tune</span>: Da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da da <span>daaaaa</span> da da da <span>da-da</span> da da da <span>da-da</span> da da <span>daaaaaaaaaa</span> da da da <span>da-da</span> daaa daaa daaaa, daaa daaaa daaaa <span>da-da</span> da daaa daaaa. <span>One more time!</span>  Da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da da <span>daaaaa</span> da da da <span>da-da</span> da da da <span>da-da</span> da da <span>daaaaaaaaaa</span> da da da <span>da-da</span> daaa daaa daaaa, daaa daaaa daaaa <span>da-da</span> da daaa daaaa. Answer: <span>Super Smash Bros. Ultimate Main Theme</span>",
+                            "Sorry to <span>break the news</span> but this post has <span>no counters</span>. Yeah, <span>most of the other</span> ticker texts aren’t as honest as <span>me</span>. You know what, <span>I don’t like those guys.</span> Most of them are <span>creepy</span>, especially <span>stop what you’re doing,</span> he’s a <span>loser.</span> I mean the Bible verse ticker texts are <span>chill</span> but most of the others are <span>mega dorks.</span> Such as the <span>probability text</span>, he’s a <span>nerd,</span> probably the exact opposite of the <span>Ben 10 Intro text</span>, who has the maturity of a <span>slingshot.</span> Tbh I like the <span>D&D</span> ticker text, he’s pretty <span>interesting</span>. Okay, I got to go <span>now! Get back to scrolling <span>bantopia.com!</span>"]
+            
+            post.ticker_text = random.choice(ticker_texts)
+        
+
+    return posts
+
 def sort_trending():
     #posts = Post.objects.annotate(score=ExpressionWrapper(
         #Round((F('post_timestamp_created') / 45000) + Log(10, Greatest(F('post_number_of_messages'), 1)), precision=7), output_field=FloatField()
         #), sort=Value("trending")).order_by('-score')[:100]
     
     posts = Post.objects.alias(
-        latest_message=Max('message__message_datetime_sent')
-    ).order_by('-latest_message')
+        latest_message=Max('message__message_datetime_sent'), 
+    ).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-latest_message')
+
+    counterHack(posts)
 
     return posts
         
 def sort_controversial():
     posts = Post.objects.annotate(total=ExpressionWrapper(Abs(F('post_number_of_yes_votes') + F('post_number_of_no_votes')), IntegerField()), score=Case(When(total=0, then=Value(0, output_field=FloatField())), default=ExpressionWrapper(
         (F('post_timestamp_created') / 45000) + Log(10, (F('total')) / Greatest(Abs(F('post_number_of_yes_votes') - F('post_number_of_no_votes')), 1)), output_field=FloatField()
-    )), sort=Value("controversial")).order_by('-score')[:100] 
+    )), sort=Value("controversial"), 
+    last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-score')[:100] 
+
+    counterHack(posts)
     
     return posts
 
 def search(search_term):
-    posts = Post.objects.annotate(rank=SearchRank(SearchVector('post_title'), SearchQuery(search_term))).order_by('-rank')[:100]
+    posts = Post.objects.annotate(rank=SearchRank(SearchVector('post_title'), SearchQuery(search_term)), 
+                                  last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])
+                                  ).order_by('-rank')[:100]
+
+    counterHack(posts)
 
     return posts
 
@@ -81,10 +126,17 @@ def index(request):
                 posts = sort_controversial()
 
             else:
-                posts = Post.objects.order_by('-post_datetime_created')
+
+                posts = Post.objects.annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-post_datetime_created')
+                    
+                counterHack(posts)
+
+                #posts = Post.objects.annotate(counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=-1), ordering='-message__message_score')).order_by('-post_datetime_created')
 
         else:
             posts = Post.objects.order_by('-post_datetime_created')
+
+            counterHack(posts)
 
         user = request.user # Pulls user from request for authentication checks within the template.   
         
