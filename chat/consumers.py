@@ -19,7 +19,7 @@ from django.db.models import Sum
 User = get_user_model()
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    # Function to used to fetch user asynchronously
+    # Function to used to fetch post asynchronously
     @database_sync_to_async
     def get_post(self):
         try:
@@ -28,6 +28,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except Post.DoesNotExist:
             return None
         
+    # Function to used to fetch user asynchronously
     @database_sync_to_async
     def get_user(self, display_name):
         try:
@@ -66,7 +67,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             pass
 
     @database_sync_to_async
-    def handle_active(self, user): # Can't plug in normal async functions because they reutrn co-routinie objectcs.
+    def handle_active(self, user): # Can't plug in normal async functions because they reutrn co-routinie objetcs.
         try:
             try:
                 post = Post.objects.get(post_code=self.post_code)
@@ -84,6 +85,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         except:
             pass
+
+# -------------------------------- For Notifications --------------------------------
+
+    @database_sync_to_async
+    def notify(self):
+
+        # Gets the post (exactly the same logic as the get_post function)
+        try:
+            post = Post.objects.get(post_code=self.post_code)
+        except Post.DoesNotExist:
+            post = None
+        
+        users = User.objects.all()
+
+        post.notified.set(users)
+
+    @database_sync_to_async
+    def denotify(self, user):
+        try:
+            post = Post.objects.get(post_code=self.post_code)
+        except Post.DoesNotExist:
+            post = None
+
+        post.notified.remove(user)
 
 # --------------------------------- FOR CHAT -----------------------------
 
@@ -547,6 +572,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             await self.channel_layer.group_send(
                                 self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
                             )
+
+                            await self.notify() # Notify the users of a new message
                         else:
                             await self.send(text_data=json.dumps({
                                 "alert" : "message_error",
@@ -577,6 +604,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             await self.channel_layer.group_send(
                                 self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color}
                             )
+
+                            await self.notify() # Notify the users of a new message
                         else:
                             await self.send(text_data=json.dumps({
                                 "alert" : "message_failure",
@@ -624,6 +653,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'y' : tally['y'],
                         'n' : tally['n'],
                     }))
+        elif 'connection_ping' in text_data_json.keys():
+
+            if user.is_authenticated:
+
+                user = self.scope["user"]
+
+                await self.denotify(user)
 
     # Receive message from post group
     async def chat_message(self, event):
@@ -631,6 +667,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
         author_name = event["author_name"]
         color = event["author_color"]
+
+        user = self.scope["user"]
+
+        await self.denotify(user)
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({

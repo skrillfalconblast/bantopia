@@ -23,12 +23,12 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('', include('posts.urls')),
-    path('', include('users.urls')),
+    path("__debug__/", include("debug_toolbar.urls")),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('admins_den/', admin.site.urls),
+    path('', include('users.urls')),
+    path('', include('posts.urls')),
     path('', include('chat.urls')),
-    path("__debug__/", include("debug_toolbar.urls")),
 
     path(
         "sitemap.xml/",

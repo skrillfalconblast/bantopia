@@ -51,7 +51,14 @@ def counterHack(posts):
                             "Sorry to <span>break the news</span> but this post has <span>no counters</span>. Yeah, <span>most of the other</span> ticker texts aren’t as honest as <span>me</span>. You know what, <span>I don’t like those guys.</span> Most of them are <span>creepy</span>, especially <span>stop what you’re doing,</span> he’s a <span>loser.</span> I mean the Bible verse ticker texts are <span>chill</span> but most of the others are <span>mega dorks.</span> Such as the <span>probability text</span>, he’s a <span>nerd,</span> probably the exact opposite of the <span>Ben 10 Intro text</span>, who has the maturity of a <span>slingshot.</span> Tbh I like the <span>D&D</span> ticker text, he’s pretty <span>interesting</span>. Okay, I got to go <span>now! Get back to scrolling <span>bantopia.com!</span>"]
             
             post.ticker_text = random.choice(ticker_texts)
-        
+
+    return posts
+
+def sort_new():
+
+    posts = Post.objects.annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-post_datetime_created')
+                    
+    posts = counterHack(posts)
 
     return posts
 
@@ -64,7 +71,7 @@ def sort_trending():
         latest_message=Max('message__message_datetime_sent'), 
     ).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-latest_message')
 
-    counterHack(posts)
+    posts = counterHack(posts)
 
     return posts
         
@@ -74,7 +81,7 @@ def sort_controversial():
     )), sort=Value("controversial"), 
     last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-score')[:100] 
 
-    counterHack(posts)
+    posts = counterHack(posts)
     
     return posts
 
@@ -127,16 +134,13 @@ def index(request):
 
             else:
 
-                posts = Post.objects.annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-post_datetime_created')
-                    
-                counterHack(posts)
+                posts = sort_new()
 
                 #posts = Post.objects.annotate(counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=-1), ordering='-message__message_score')).order_by('-post_datetime_created')
 
         else:
-            posts = Post.objects.order_by('-post_datetime_created')
 
-            counterHack(posts)
+            posts = sort_new()
 
         user = request.user # Pulls user from request for authentication checks within the template.   
         
@@ -144,28 +148,34 @@ def index(request):
         
         watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).select_related('watchlist_activity_user', 'watchlist_activity_post').order_by('-watchlist_activity_datetime')
 
-        #watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).order_by('-watchlist_activity_datetime')
-
         visits = Visit.objects.filter(visit_user=user).select_related('visit_post').order_by('-visit_datetime')
 
-        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'tab_text' : tab_text}
+        user_notified_set = set(user.post_set.values_list('pk',flat=True))
+
+        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'tab_text' : tab_text, 'user_notified_set' : user_notified_set}
 
         return render(request, 'index.html', context)
     else:
         if request.method == 'GET':
+
             sort = request.GET.get('sort')
 
             if sort == 'trending': 
+
                 posts = sort_trending()
+
             elif sort == 'controversial':
+
                 posts = sort_controversial()
+
             else:
-                posts = Post.objects.order_by('-post_datetime_created')
+
+                posts = sort_new()
 
         else:
-            posts = Post.objects.order_by('-post_datetime_created')
+            posts = sort_new()
 
-        context = {'posts' : posts, 'tab_text' : tab_text}
+        context = {'posts' : posts, 'tab_text' : tab_text, 'user_notified_set' : None}
 
         return render(request, 'index.html', context)
 

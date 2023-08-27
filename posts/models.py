@@ -40,6 +40,8 @@ class Post(models.Model):
 
     post_slug = models.SlugField(default='post', max_length=255)
 
+    notified = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+
     def save(self, *args, **kwargs):
         self.post_timestamp_created = time.time()
         self.post_slug = slugify(self.post_title)

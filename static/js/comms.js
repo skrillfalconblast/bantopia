@@ -74,6 +74,10 @@ function connect(){
         document.getElementById('disconnect-alert').classList.add('hidden');
 
         document.getElementById('disconnect-alert-text').innerText = "Oops, you're disconnected from the chat. Click here to reconnect!";
+
+        chatSocket.send(JSON.stringify({
+            'connection_ping' : 'ping',
+        }));
     }
 
     chatSocket.onmessage = function(e) {
