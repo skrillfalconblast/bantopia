@@ -30,6 +30,10 @@ body {
     display: none;
 }
 
+.hidden {
+    display: none !important; 
+}
+
 .create-container {
     display: flex;
     flex-direction: column;
@@ -736,10 +740,6 @@ button[type="submit"]:hover > span {
     min-height: 0;
 }
 
-.hidden {
-    display: none !important; 
-}
-
 #dashboard-commands {
     display: flex;
     flex-direction: column;
@@ -1207,6 +1207,20 @@ button[type="submit"]:hover > span {
     background-color: transparent;
     padding: 2px;
     font-size: 18px;
+}
+
+.edit-profile-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.edit-profile-error {
+    font-size: 1.8vw;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: rgba(250, 59, 59, 0.9);
 }
 
 .edit-button-container {
@@ -1887,6 +1901,13 @@ button[type="submit"]:hover > span {
 
     .edit-input-container input {
         border-bottom: 4px solid #00baf279;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .edit-profile-error {
+        text-align: center;
+        font-size: 4.5vw;
     }
 
     .edit-submit {

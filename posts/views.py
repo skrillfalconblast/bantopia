@@ -4,8 +4,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchRank, SearchQuery, SearchVector
 from django.views.decorators.csrf import csrf_exempt
 
-from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField, Max, Subquery, OuterRef
+from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField, Max, Subquery, OuterRef, Prefetch, Q
 from django.db.models.functions import Round, Log, Greatest, Abs
+
+from django.contrib.postgres.aggregates.general import ArrayAgg
 
 from django.utils.html import escape
 
@@ -22,7 +24,9 @@ User = get_user_model()
 
 def counterHack(posts):
     for post in posts:
-        counters = list(Message.objects.filter(message_post=post, message_score__gt=1).values_list('message_content', flat=True).order_by('-message_score')[:5])
+        #counters = list(Message.objects.filter(message_post=post, message_score__gt=1).values_list('message_content', flat=True).order_by('-message_score')[:5])
+        
+        counters = post.counters[:5]
 
         counterString = ''
 
@@ -56,8 +60,8 @@ def counterHack(posts):
 
 def sort_new():
 
-    posts = Post.objects.annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-post_datetime_created')
-                    
+    posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-post_datetime_created')
+
     posts = counterHack(posts)
 
     return posts
@@ -67,28 +71,28 @@ def sort_trending():
         #Round((F('post_timestamp_created') / 45000) + Log(10, Greatest(F('post_number_of_messages'), 1)), precision=7), output_field=FloatField()
         #), sort=Value("trending")).order_by('-score')[:100]
     
-    posts = Post.objects.alias(
+    posts = Post.objects.prefetch_related(Prefetch('message_set')).alias(
         latest_message=Max('message__message_datetime_sent'), 
-    ).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-latest_message')
+    ).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-latest_message')
 
     posts = counterHack(posts)
 
     return posts
         
 def sort_controversial():
-    posts = Post.objects.annotate(total=ExpressionWrapper(Abs(F('post_number_of_yes_votes') + F('post_number_of_no_votes')), IntegerField()), score=Case(When(total=0, then=Value(0, output_field=FloatField())), default=ExpressionWrapper(
+    posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(total=ExpressionWrapper(Abs(F('post_number_of_yes_votes') + F('post_number_of_no_votes')), IntegerField()), score=Case(When(total=0, then=Value(0, output_field=FloatField())), default=ExpressionWrapper(
         (F('post_timestamp_created') / 45000) + Log(10, (F('total')) / Greatest(Abs(F('post_number_of_yes_votes') - F('post_number_of_no_votes')), 1)), output_field=FloatField()
     )), sort=Value("controversial"), 
-    last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])).order_by('-score')[:100] 
+    last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-score')[:100] 
 
     posts = counterHack(posts)
     
     return posts
 
 def search(search_term):
-    posts = Post.objects.annotate(rank=SearchRank(SearchVector('post_title'), SearchQuery(search_term)), 
+    posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(rank=SearchRank(SearchVector('post_title'), SearchQuery(search_term)), 
                                   last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])
-                                  ).order_by('-rank')[:100]
+                                  , counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-rank')[:100]
 
     counterHack(posts)
 

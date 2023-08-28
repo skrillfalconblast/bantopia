@@ -938,7 +938,7 @@ input:focus:-ms-input-placeholder {
 .dog-user {
     display: flex;
     flex-direction: column;
-    max-width: 60vw;
+    word-wrap: break-word;
 }
 
 .dog-user {

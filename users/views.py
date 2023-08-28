@@ -194,6 +194,8 @@ def edit_profile(request, display_name):
 
         tab_text = random.choice(tab_texts)
 
+        message = ''
+
         if request.method == 'POST':
 
             user = request.user
@@ -213,13 +215,13 @@ def edit_profile(request, display_name):
 
                         return redirect('../dashboard')
                     else:
-                        print("That isn't your old password!")
+                        message = 'incorrect-old-password'
                 else:
-                    print("Your new passwords don't match!")
+                    message = 'mismatched-new-passwords'
             else:
-                print("Please enter and confirm a new password!")
+                message = 'empty-new-password'
 
-        context = {'tab_text' : tab_text}
+        context = {'tab_text' : tab_text, 'message' : message}
 
         context['password_form'] = EditPasswordForm()
 

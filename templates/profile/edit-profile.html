@@ -32,7 +32,7 @@
 </head>
 <body>
     <div class="edit-container">
-        <a href="../dashboard" class="edit-back">
+        <a href="./dashboard" class="edit-back">
             <h1><span>{</span>Back to Dashboard<span>}</span></h1>
         </a>
         <div class="edit-blocks">
@@ -49,6 +49,21 @@
                         {% endfor %}
                     </div>
                     <div class="edit-button-container">
+                        
+                        {% if message == 'incorrect-old-password' %}
+
+                        <div class="edit-profile-error">That old password was incorrect. Contact support@bantopia.com if you need some quick help.</div>
+
+                        {% elif message == 'mismatched-new-passwords' %}
+
+                        <div class="edit-profile-error">Those new passwords aren't matching! Get your head on straight and try again!</div>
+
+                        {% elif message == 'empty-new-password' %}
+
+                        <div class="edit-profile-error">Just come up with a new password, it isn't that hard!</div>
+
+                        {% endif %}
+
                         <button type="submit" class="edit-submit" id="edit-password-submit" value="Edit">
                             <span id="password-edit-text">Edit...</span>
                         </button>
