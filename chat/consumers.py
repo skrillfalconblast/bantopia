@@ -670,7 +670,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         user = self.scope["user"]
 
-        await self.denotify(user)
+        if user.is_authenticated:
+            await self.denotify(user)
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
