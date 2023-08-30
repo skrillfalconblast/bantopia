@@ -81,12 +81,12 @@
                     <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
                     {% if post.last_message %}
                         {% if post.pk in user_notified_set %}
-                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="last-message"><span>New Message:</span> {<span>{{ post.last_message|truncatesmart:35 }}</span>}</h1></div>
+                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message">New Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
                         {% else %}
-                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="last-message"><span>Last Message:</span> {<span>{{ post.last_message|truncatesmart:35 }}</span>}</h1></div>
+                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message">Last Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
                         {% endif %}
                     {% else %}
-                    <div class="message-bar"><h1 class="last-message"><span>This chat is totally empty!</span></h1></div>
+                    <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
                     {% endif %}
                     {% elif post.post_type == "TH" %}
                     <h1 class="post-title"><span class="post-title-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
@@ -103,12 +103,12 @@
                     <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
                     {% if post.last_message %}
                         {% if post.pk in user_notified_set %}
-                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="last-message"><span>New Message:</span> {<span>{{ post.last_message|truncatesmart:35 }}</span>}</h1></div>
+                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message">New Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
                         {% else %}
-                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="last-message"><span>Last Message:</span> {<span>{{ post.last_message|truncatesmart:35 }}</span>}</h1></div>
+                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message">Last Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
                         {% endif %}
                     {% else %}
-                    <div class="message-bar"><h1 class="last-message"><span>This chat is totally empty!</span></h1></div>
+                    <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
                     {% endif %}
                     {% endif %}
                 </a>
@@ -141,31 +141,31 @@
                         {% for activity in watchlist_activity %}
                             {% if activity.watchlist_activity_type == 'ACTIVE' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is going hyper in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'DECLARE' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Wow, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> declared <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Wow, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> declared <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'THEORISE' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Interesting, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> theorized that <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Interesting, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> theorized that <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'ENGAGE' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> dived in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> dived in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'POPULAR' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> became the main man in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> became the main man in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'INFAMOUS' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is antagonising peopole in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is antagonising peopole in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'CONTROVERSIAL' %}
                             <div class="dashboard-activity">
-                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is spitting factz in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> is spitting factz in <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% endif %}
                         {% endfor %}
