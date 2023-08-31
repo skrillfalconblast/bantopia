@@ -150,9 +150,9 @@ def index(request):
         
         watching = user.watching.all()
         
-        watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).select_related('watchlist_activity_user', 'watchlist_activity_post').order_by('-watchlist_activity_datetime')
+        watchlist_activity = WatchlistActivity.objects.filter(watchlist_activity_user__in=watching).select_related('watchlist_activity_user', 'watchlist_activity_post').order_by('-watchlist_activity_datetime')[:50]
 
-        visits = Visit.objects.filter(visit_user=user).select_related('visit_post').order_by('-visit_datetime')
+        visits = Visit.objects.filter(visit_user=user).select_related('visit_post').order_by('-visit_datetime')[:50]
 
         user_notified_set = set(user.post_set.values_list('pk',flat=True))
 
