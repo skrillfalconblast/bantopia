@@ -417,8 +417,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message_id = text_data_json['message_id']
             message_code = message_id[4:]
 
-            user = self.scope["user"]
-
             if user.is_authenticated:
 
                 if 'puppet' in text_data_json.keys() and user.is_superuser:
@@ -548,8 +546,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         elif 'message' in text_data_json.keys():
 
-            user = self.scope["user"]
-
             if user.is_authenticated:
 
                 if 'puppet' in text_data_json.keys() and user.is_superuser:
@@ -657,9 +653,43 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             if user.is_authenticated:
 
-                user = self.scope["user"]
-
                 await self.denotify(user)
+
+        elif 'typing_status' in text_data_json.keys():
+            
+            if user.is_authenticated:
+
+                if text_data_json["typing_status"] == 'started':
+
+                    if 'puppet' in text_data_json.keys() and user.is_superuser:
+
+                        puppet_name = text_data_json["puppet"]
+
+                        puppet = await self.get_user(puppet_name)
+
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  puppet.display_name, "typing_color" : puppet.color, "typing_status" : "started", "typing_channel" : self.channel_name}
+                        )
+                    else:
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  user.display_name, "typing_color" : user.color, "typing_status" : "started", "typing_channel" : self.channel_name}
+                        )
+                
+                if text_data_json["typing_status"] == 'stopped':
+
+                    if 'puppet' in text_data_json.keys() and user.is_superuser:
+
+                        puppet_name = text_data_json["puppet"]
+
+                        puppet = await self.get_user(puppet_name)
+
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  puppet.display_name, "typing_color" : puppet.color, "typing_status" : "stopped", "typing_channel" : self.channel_name}
+                        )
+                    else:
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  user.display_name, "typing_color" : user.color, "typing_status" : "stopped", "typing_channel" : self.channel_name}
+                        )
 
     # Receive message from post group
     async def chat_message(self, event):
@@ -690,4 +720,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 "message_id" : message_id,
                 "interaction" : interaction,
+            }))
+
+    async def typing_alert(self, event):
+        typing_user = event["typing_display_name"]
+        typing_color = event["typing_color"]
+        typing_status = event["typing_status"]
+
+        typing_channel = event["typing_channel"]
+
+        if self.channel_name != typing_channel:
+            await self.send(text_data=json.dumps({
+                "typing_user" : typing_user,
+                "typing_color" : typing_color,
+                "typing_status" : typing_status
             }))

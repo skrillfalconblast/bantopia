@@ -7,7 +7,7 @@ navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('menu-collapsed')
 });
 
-// -------------------------- Function -------------------------- //
+// -------------------------- Functions -------------------------- //
 
 function escapeHtml(text) {
     var map = {
@@ -19,7 +19,19 @@ function escapeHtml(text) {
     };
     
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-  }
+}
+
+function removeAllItems(arr, value) {
+    var i = 0;
+    while (i < arr.length) {
+      if (arr[i] === value) {
+        arr.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+    return arr
+}
 
 function jumpToBottom() {
     const chat = document.getElementById('chat')
@@ -56,10 +68,47 @@ function connect(){
     };
 
 
+    // Typing function
+
+    function updateTyping() {
+            const typingIndicator = document.getElementById('typing-indicator')
+
+            if (typers.length > 0) {
+
+                indicatorContent = ''
+
+                if (typers.length == 1) {
+                    
+                    indicatorContent = `${typers[0]} is typing...`
+
+                } else {
+
+                    for (let i = 0; i < typers.length; i++) {
+                        if (i == 0) {
+                            indicatorContent = typers[i]
+                        } else if ((i + 1) == typers.length) {
+                            indicatorContent += ` and ${typers[i]} are typing...`
+                        } else {
+                            indicatorContent += `, ${typers[i]}`
+                        }
+                    }
+
+                }
+
+                typingIndicator.innerHTML = indicatorContent
+                typingIndicator.classList.remove('hidden')
+            } else {
+                typingIndicator.innerHTML = ''
+                typingIndicator.classList.add('hidden')
+            }
+    }
+
 
     // For the chat -----------------------
 
     const postCode = JSON.parse(document.getElementById('post-code').textContent);
+
+    const chatInput = document.getElementById('chat-input')
 
     const chatSocket = new WebSocket (
         'wss://'
@@ -100,6 +149,11 @@ function connect(){
             } else {
                 document.getElementById('new-messages-alert').classList.add('hidden');
             }
+
+            // Clear typing
+            userSpan = `<span class="color-${data.author_color}">${data.author}</span>`
+            removeAllItems(typers, userSpan);
+            updateTyping(); 
 
 
         } else if ('message_id' in data && 'state' in data) {
@@ -207,34 +261,123 @@ function connect(){
                 message_container.innerHTML += `<div class="message command-border"><div class="message-body"><div class="text"><div class="content neutral"><span></span><span class="message-actual-content command-text">&lt;${message_text}&gt;</span></div></div></div></div>`
             }
         } else if ('redirect' in data) {
+
             window.location.replace(data.redirect)
+
+        } else if ('typing_user' in data && 'typing_status' in data) {
+
+            const userSpan = `<span class="color-${data.typing_color}">${data.typing_user}</span>`
+
+            var dwellingTimer;
+
+            if (data.typing_status == 'started') {
+
+                removeAllItems(typers, userSpan);
+
+                typers.push(userSpan)
+
+                clearTimeout(dwellingTimer);
+                dwellingTimer = setTimeout(function() { 
+                    removeAllItems(typers, userSpan);
+                    updateTyping(); 
+                }, 30000);
+
+            } else if (data.typing_status == 'stopped') {
+
+                removeAllItems(typers, userSpan);
+
+            }
+
+            updateTyping()
+
         }
+
     };
 
     chatSocket.onclose = function(e) {
         document.getElementById('disconnect-alert').classList.remove('hidden');
+        doneTyping()
     };
 
-    document.querySelector('#chat-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {
-            document.querySelector('#chat-submit').click();
-        }
-    };
-
-    document.querySelector('#chat-input').onkeydown = function(e) {
-        if (e.keyCode === 13) {
+    chatInput.onkeydown = function(e) {
+        if (e.key === 'Enter') {
             e.preventDefault();
         }
     };
 
-    document.querySelector('#chat-input').addEventListener('paste', function(e) {
-        e.preventDefault();
-        e.target.innerText = e.clipboardData.getData("text/plain");
+    var typers = []
+
+    var typingTimer; //timer identifier
+    var doneTypingInterval = 3000; //time in ms
+    var timerIsOn
+
+    chatInput.onkeyup = function(e) {
+        if (e.key === 'Enter') {
+            document.querySelector('#chat-submit').click();
+        }
+
+
+        if (document.querySelector('input[name="puppet"]:checked')){
+            if (!timerIsOn) {
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+                chatSocket.send(JSON.stringify({
+                    'typing_status' : 'started',
+                    'puppet' : puppet
+                }))
+            }
+        } else {
+            if (!timerIsOn) {
+                chatSocket.send(JSON.stringify({
+                    'typing_status' : 'started',
+                }))
+            }
+        }
+
+        clearTimeout(typingTimer);
+        if (document.querySelector('input[name="puppet"]:checked')){
+
+            doneTypingInterval = 1000
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+
+        } else {
+
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+
+        }
+        timerIsOn = true
+    }
+
+    function doneTyping () {
+        if (document.querySelector('input[name="puppet"]:checked')){
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+            chatSocket.send(JSON.stringify({
+                'typing_status' : 'stopped',
+                'puppet' : puppet
+            }))
+           timerIsOn = false
+        } else {
+            chatSocket.send(JSON.stringify({
+                'typing_status' : 'stopped',
+            }))
+           timerIsOn = false
+        }
+    }
+
+    chatInput.addEventListener('paste', function(e) {
+    // cancel paste
+    e.preventDefault();
+
+    // get text representation of clipboard
+    var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+    // insert text manually
+    document.execCommand("insertHTML", false, text);
     });
 
     // Sends message and clears chat bar
     document.querySelector('#chat-submit').onclick = function(e) {
-        const messageInputDom = document.querySelector('#chat-input');
+        const messageInputDom = chatInput;
         const message = messageInputDom.textContent;
 
         if (message != '') {

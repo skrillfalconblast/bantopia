@@ -248,6 +248,7 @@ sup {
 
 .chatbar-container {
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     border-top: 5px solid black;
@@ -257,7 +258,6 @@ sup {
 .messages {
     display: flex;
     flex-direction: column;
-    gap: 5vw;
 }
 
 .message {
@@ -290,52 +290,43 @@ sup {
 }
 
 .author-shadow-OR {
+    color: #f28000;
     box-shadow: inset 0 -10px 0 #F28500;
 }
 
 .author-shadow-BL {
+    color: #00baf2;
     box-shadow: inset 0 -10px 0 #00baf2;
 }
 
 .author-shadow-GR {
+    color: #0fb300;
     box-shadow: inset 0 -10px 0 #0fb300;
 }
 
 .author-shadow-RE {
+    color: #fb3a3a;
     box-shadow: inset 0 -10px 0 #fb3a3a;
 }
 
 .author-shadow-PU {
+    color: #5934ff;
     box-shadow: inset 0 -10px 0 #5934ff;
 }
 
 .author-shadow-PI {
+    color: #cb0cd1;
     box-shadow: inset 0 -10px 0 #cb0cd1;
 }
 
 .author-shadow-MA {
+    color: #ac0000;
     box-shadow: inset 0 -10px 0 #ac0000;
 }
 
 .author-shadow-AQ {
+    color: #35d6b3;
     box-shadow: inset 0 -10px 0 #35d6b3;
-}
-
-.reply {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.reply-label {
-    box-shadow: inset 0 -8px 0 #30f200;
-}
-
-.reply-tag {
-    color: #F28500;
-}
-
-.reply span:hover {
-    cursor: pointer;
 }
 
 .content {
@@ -592,6 +583,28 @@ input:focus:-ms-input-placeholder {
     cursor: pointer;
 }
 
+.typing-indicator {
+    position: absolute;
+    bottom: 22px;
+    margin-right: 60px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.typing-indicator {
+    -moz-animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    -webkit-animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: fade-bounce;
+    -webkit-animation-name: fade-bounce;
+    animation-name: fade-bounce;
+    animation-duration: 0.75s;
+}
+
 .chatbar-puppets {
     display: flex;
     align-self: center;
@@ -675,6 +688,34 @@ input:focus:-ms-input-placeholder {
   .chatbar-puppets::-webkit-scrollbar-thumb {
     background: #f28500;
     border-radius: 0;
+}
+
+@-webkit-keyframes fade-bounce {
+    0% {
+      opacity: 100%;
+    }
+  
+    50% {
+        opacity: 25%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+  
+@keyframes fade-bounce {
+    0% {
+        opacity: 100%;
+      }
+    
+      50% {
+          opacity: 25%;
+      }
+  
+      100% {
+          opacity: 100%;
+      }
 }
 
 @media (hover: hover){
@@ -1141,7 +1182,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .message:last-child {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     .dog {
@@ -1297,7 +1338,7 @@ input:focus:-ms-input-placeholder {
 
     .mobile-header h2 {
         padding: 1.2vw;
-        font-size: 14px;
+        font-size: 16px;
         text-align: center;
     }
 
@@ -1311,27 +1352,38 @@ input:focus:-ms-input-placeholder {
 
     .message {
         font-size: 10vw;
-        margin: 10px 0 0px 15px;
+        margin: 5px 0 0px 15px;
+        padding: 0;
     }
 
     .chatbar-container {
-        padding: 15px 0 25px 0;
+        padding: 5px 0 27px 0;
+        border-top: 5px solid #000;
+        border-bottom: 5px solid #f28500;
+    }
+
+    .chat-bar {
+        border-bottom: 5px solid #000;
     }
 
     .chat-bar button {
         width: 22px;
+        margin-bottom: 4px;
     }
 
     .chat-bar p {
+        border: none;
         padding: 0;
+        padding-bottom: 4px;
         width: 80%;
         margin-right: 30px;
         font-weight: 600;
     }
 
-    .reply {
-        font-size: 12px;
-        text-indent: 1em;
+    .typing-indicator {
+        bottom: 2px;
+        left: 10px;
+        margin: 0;
     }
 
     .text {
@@ -1379,7 +1431,7 @@ input:focus:-ms-input-placeholder {
 
     .message {
         font-size: 10vw;
-        margin: 10px 0 0 10px;
+        margin: 10px 0 0 5px;
     }
 
     .reply {
@@ -1393,6 +1445,10 @@ input:focus:-ms-input-placeholder {
 
     .author {
         margin-bottom: 1px;
+    }
+
+    .chat-bar p {
+        margin-right: 5.5vw;
     }
 
     .author-shadow-OR {
@@ -1425,10 +1481,6 @@ input:focus:-ms-input-placeholder {
     
     .author-shadow-AQ {
         box-shadow: inset 0 -7px 0 #35d6b3;
-    }
-
-    .chat-bar p {
-        margin-right: 4.7vw;
     }
 
     #dog-display {
