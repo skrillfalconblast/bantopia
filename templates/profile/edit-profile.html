@@ -35,41 +35,63 @@
         <a href="./dashboard" class="edit-back">
             <h1><span>{</span>Back to Dashboard<span>}</span></h1>
         </a>
-        <div class="edit-blocks">
-            <div class="password-edit-block">
-                <form method="POST">
-                    <h1>Edit Password</h1>
-                    <div class="edit-inputs">
+        <div class="edit-block">
+            <form method="POST">
+                <div class="edit-inputs">
+                    <h1>Edit Display Name</h1>
+                    <div class="edit-attribute">
                         {% csrf_token %}
-                        {% for field in password_form %}
                         <div class="edit-input-container">
-                            <label>{{ field.label }}</label>
-                            {{ field }}
+                            <label for="new_display_name">New Display Name<span class="edit-colon">:</span></label>
+                            <input class="edit-text-input" name="new_display_name" id="new_display_name" type="text" autocomplete="off">
                         </div>
-                        {% endfor %}
                     </div>
-                    <div class="edit-button-container">
-                        
-                        {% if message == 'incorrect-old-password' %}
-
-                        <div class="edit-profile-error">That old password was incorrect. Contact support@bantopia.com if you need some quick help.</div>
-
-                        {% elif message == 'mismatched-new-passwords' %}
-
-                        <div class="edit-profile-error">Those new passwords aren't matching! Get your head on straight and try again!</div>
-
-                        {% elif message == 'empty-new-password' %}
-
-                        <div class="edit-profile-error">Just come up with a new password, it isn't that hard!</div>
-
-                        {% endif %}
-
-                        <button type="submit" class="edit-submit" id="edit-password-submit" value="Edit">
-                            <span id="password-edit-text">Edit...</span>
-                        </button>
+                    <h1>Change Password</h1>
+                    <div class="edit-attribute">
+                        {% csrf_token %}
+                        <div class="edit-input-container">
+                            <label for="old_password">Old Password<span class="edit-colon">:</span></label>
+                            <input class="edit-text-input" name="old_password" id="old_password" type="password">
+                        </div>
+                        <div class="edit-input-container">
+                            <label for="new_password">New Password<span class="edit-colon">:</span></label>
+                            <input class="edit-text-input" name="new_password" id="new_password" type="password">
+                        </div>
+                        <div class="edit-input-container">
+                            <label for="confirm_new_password">Confirm New Password<span class="edit-colon">:</span></label>
+                            <input class="edit-text-input" name="confirm_new_password" id="confirm_new_password" type="password">
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="edit-button-container">
+                    
+                    {% if message == 'incorrect-old-password' %}
+
+                    <div class="edit-profile-error">That old password was incorrect. Contact support@bantopia.com if you need some quick help.</div>
+
+                    {% elif message == 'mismatched-new-passwords' %}
+
+                    <div class="edit-profile-error">Those new passwords aren't matching! Get your head on straight and try again!</div>
+
+                    {% elif message == 'empty-fields' %}
+
+                    <div class="edit-profile-error">At least one form should be fully filled in!</div>
+
+                    {% elif message == 'display-name-overflow' %}
+
+                    <div class="edit-profile-error">That username is tooooo looooooooooooooong!!! (Keep it under 20 characters)</div>
+
+                    {% elif message == 'invalid-characters' %}
+
+                    <div class="edit-profile-error">Those are some odd characters. Use some letters, numberz, dashes and underscores instead.</div>
+
+                    {% endif %}
+
+                    <button type="submit" class="edit-submit" id="edit-password-submit" value="Edit">
+                        <span id="password-edit-text">Edit...</span>
+                    </button>
+                </div>
+            </form>
         </div>
 </body>
 <script src="../../js/login.js"></script>

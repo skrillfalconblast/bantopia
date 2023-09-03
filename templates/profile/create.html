@@ -59,7 +59,7 @@
                 <div class="form-area">
                     <div class="create-field-area">
                         <div class="input-field">
-                            {% if message == 'empty-display-name' or message == 'display-name-taken' or message == 'display-name-overflow' %}
+                            {% if message == 'empty-display-name' or message == 'display-name-taken' or message == 'display-name-overflow' or message == 'invalid-characters' %}
                             <input class="erroneous-input" type="text" id="create-name" name="create-name" autocomplete="off" placeholder="Display Name">
                             {% else %}
                             <input type="text" id="create-name" name="create-name" autocomplete="off" placeholder="Display Name">
@@ -88,6 +88,8 @@
                     <div class="create-support-message"><p>Those passwords don't match. Repeat. Those passwords don't match.</p></div>
                     {% elif message == 'display-name-overflow' %}
                     <div class="create-support-message"><p>That display name is over 20 characters! Shorten it down.</p></div>
+                    {% elif message == 'invalid-characters' %}
+                    <div class="create-support-message"><p>No weird characters! Keep your display_name alphanumerical dawg.</p></div>
                     {% else %}
                     <div class="create-support-message"><p></p></div>
                     {% endif %}

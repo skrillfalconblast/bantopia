@@ -6,9 +6,8 @@ from django.contrib.auth import logout as auth_logout
 
 from .models import WatchlistActivity
 
-from .forms import EditPasswordForm
-
 import random
+import re
 
 User = get_user_model()
 
@@ -55,27 +54,30 @@ def createProfile(request):
 
             if password1 == password2:
                 password = password1
-                if not len(display_name) > 20:
-                    if not User.objects.filter(display_name=display_name):
-                        try:
-                            other_users = User.objects.all()
-                            user = User.objects.create_user(display_name=display_name, password=password)
+                if len(display_name) <= 20:
+                    if re.fullmatch('^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$', display_name):
+                        if not User.objects.filter(display_name=display_name):
+                            try:
+                                other_users = User.objects.all()
+                                user = User.objects.create_user(display_name=display_name, password=password)
 
-                                # This would add every previous user as part of the user's watch list to stimulate the community.
-                            user.watching.set(other_users)
+                                    # This would add every previous user as part of the user's watch list to stimulate the community.
+                                user.watching.set(other_users)
 
-                            user = authenticate(request, display_name=display_name, password=password)
-                            auth_login(request, user) # Log them in
+                                user = authenticate(request, display_name=display_name, password=password)
+                                auth_login(request, user) # Log them in
 
-                            return redirect('/')
-                        
-                        except ValueError as value_error_info:
-                            if str(value_error_info) == 'empty-display-name':
-                                message = 'empty-display-name'
-                            elif str(value_error_info) == 'empty-password':
-                                message = 'empty-password'
+                                return redirect('/')
+                            
+                            except ValueError as value_error_info:
+                                if str(value_error_info) == 'empty-display-name':
+                                    message = 'empty-display-name'
+                                elif str(value_error_info) == 'empty-password':
+                                    message = 'empty-password'
+                        else:
+                            message = 'display-name-taken'
                     else:
-                        message = 'display-name-taken'
+                        message = 'invalid-characters'
                 else:
                     message = 'display-name-overflow'
             else:
@@ -204,26 +206,70 @@ def edit_profile(request, display_name):
             new_pass1 = request.POST.get('new_password')
             new_pass2 = request.POST.get('confirm_new_password')
 
-            if new_pass1 and new_pass2:
+            new_name = request.POST.get('new_display_name')
+
+            if new_pass1 and new_pass2 and not new_name:
                 if new_pass1 == new_pass2:
                     if user.check_password(old_pass):
                         user.set_password(new_pass1)
                         user.save()
 
                         user = authenticate(request, display_name=user.display_name, password=new_pass1)
-                        login(request, user)
+                        auth_login(request, user)
 
-                        return redirect('../dashboard')
+                        return redirect('./dashboard')
                     else:
                         message = 'incorrect-old-password'
                 else:
                     message = 'mismatched-new-passwords'
+            elif new_name and not new_pass1 and not new_pass2 and not old_pass:
+
+                if len(new_name) <= 20:
+                    if re.fullmatch('^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$', new_name):
+
+                        if not User.objects.filter(display_name=new_name):
+
+                            user.display_name = new_name
+
+                            user.save()
+                            return redirect(f'/{user.display_name}/dashboard')
+                        else:
+                            message = 'display-name-taken'
+
+                    else:
+                        message = 'invalid-characters'
+
+                else:
+                    message = 'display-name-overflow'
+
+            elif new_pass1 and new_pass2 and new_name:
+                if new_pass1 == new_pass2:
+                    if len(new_name) <= 20:
+                        if re.fullmatch('^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$', new_name):
+                            if not User.objects.filter(display_name=new_name):
+                                if user.check_password(old_pass):
+                                    user.display_name = new_name
+                                    user.set_password(new_pass1)
+                                    user.save()
+
+                                    user = authenticate(request, display_name=new_name, password=new_pass1)
+                                    auth_login(request, user)
+
+                                    return redirect(f'/{user.display_name}/dashboard')
+                                else:
+                                    message = 'incorrect-old-password'
+                            else:
+                                message = 'display-name-taken'
+                        else:
+                            message = 'invalid-characters'
+                    else:
+                        message = 'display-name-overflow'
+                else:
+                    message = 'mismatched-new-passwords'
             else:
-                message = 'empty-new-password'
+                message = 'empty-fields'
 
         context = {'tab_text' : tab_text, 'message' : message}
-
-        context['password_form'] = EditPasswordForm()
 
         return render(request, 'profile/edit-profile.html', context)
     

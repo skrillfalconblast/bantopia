@@ -1080,6 +1080,31 @@ input:focus:-ms-input-placeholder {
         justify-content: center;
     }
 
+    .post-counter-ticker {
+        animation-play-state: paused;
+        -moz-animation-play-state: paused;
+        -webkit-animation-play-state: paused;
+        animation-duration: 120s;
+    }
+
+    .post-counter-ticker {
+        -moz-animation-timing-function: linear;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite;
+        -moz-animation-iteration-count: infinite;
+        -moz-animation-name: ticker;
+        -webkit-animation-name: ticker;
+        animation-name: ticker;
+    }
+
+    .unpaused {
+        animation-play-state: running;
+        -moz-animation-play-state: running;
+        -webkit-animation-play-state: running;
+    }
+
     .bottom {
         display: flex;
         flex-direction: row;

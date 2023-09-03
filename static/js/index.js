@@ -87,3 +87,20 @@ if (search) {
 
   }
 }
+
+const observer = new IntersectionObserver((entries) => { 
+  entries.forEach((entry) => {
+    if (!entries[0].isIntersecting) {
+      entry.target.querySelector('.post-counter-ticker').classList.remove('unpaused')
+    }
+    else {
+      entry.target.querySelector('.post-counter-ticker').classList.add('unpaused')
+    }
+  })
+}); 
+
+document.querySelectorAll('.post').forEach((i) => {
+  if (i) {
+      observer.observe(i);
+  }
+})

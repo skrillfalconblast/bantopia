@@ -1127,13 +1127,13 @@ button[type="submit"]:hover > span {
     color: #F28500;
 }
 
-.edit-blocks {
+.edit-block {
     display: flex;
     flex-direction: row;
     height: 100%;
 }
 
-.password-edit-block {
+.edit-block {
     position: relative;
     height: fit-content;
     width: 100%;
@@ -1145,7 +1145,7 @@ button[type="submit"]:hover > span {
     box-sizing: border-box;
 }
 
-.password-edit-block h1 {
+.edit-block h1 {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 56px;
@@ -1153,13 +1153,14 @@ button[type="submit"]:hover > span {
     padding: 0.5% 0 0 2%;
 }
 
-.password-edit-block form {
+.edit-block form {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
 }
 
-.edit-inputs {
+.edit-attribute {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -1170,7 +1171,7 @@ button[type="submit"]:hover > span {
 .edit-input-container {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
     border-bottom: 4px solid #00baf279;
     width: 90%;
@@ -1181,6 +1182,7 @@ button[type="submit"]:hover > span {
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: 600;
+    color: #f28500;
 }
 
 .edit-input-container input:active {
@@ -1873,17 +1875,25 @@ button[type="submit"]:hover > span {
         height: 100%;
     }
 
-    .password-edit-block h1 {
+    .edit-block h1 {
         margin-top: 10px;
-        font-size: 10vw;
+        font-size: 8vw;
         text-align: center;
         padding: 0;
     }
 
     .edit-inputs {
-        height: 50%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .edit-attribute {
         justify-content: space-evenly;
         padding-left: 0;
+    }
+
+    .edit-block h1 {
+        margin-bottom: 1vh;
     }
 
     .edit-input-container {
@@ -1897,6 +1907,10 @@ button[type="submit"]:hover > span {
         text-align: center;
         font-size: 5vw;
         font-weight: 600;
+    }
+
+    .edit-profile-colon {
+        display: none;
     }
 
     .edit-input-container input {
