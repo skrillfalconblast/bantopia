@@ -91,9 +91,9 @@
     <div class="content-display">
         <div class="content-title">
             {% if post.post_type == 'DE' %}
-            <h1><span class="post-title-de">Declaration:</span> {{post.post_title}}</h1>
+            <h1><span class="post-title-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
             {% elif post.post_type == 'TH' %}
-            <h1><span class="post-title-th">Theory:</span> {{post.post_title}}</h1>
+            <h1><span class="post-title-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
             {% endif %}
         </div>
         <div class="content-author">

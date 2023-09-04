@@ -1,4 +1,5 @@
 {% load static %}
+{% load poll_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +72,7 @@
                     <h1 id="mobile-Y">yes={{ y }}</h1>
                 </a>
                 <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option"> 
-                    <h1>C</h1>
+                    <h1>Chat</h1>
                 </a>
                 <a class="option" id="mobile-balance-option-N">
                     <h1 id="mobile-N">no={{ n }}</h1>
@@ -83,17 +84,27 @@
                 <div class="toggle"><img src="{% static 'images/chevron-up-solid.svg' %}" alt=""></div>
             </div>
             <div class="level mobile-header">
-                <a href="">
+                <a href="/{{post.post_code}}/{{post.post_slug}}">
                     {% if post.post_type == 'DE' %}
-                    <h2><span class="mobile-header-shadow-de">Declaration:</span> {{post.post_title}}</h2>
+                    <h2><span class="mobile-header-shadow-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
                     {% elif post.post_type == 'TH' %}
-                    <h2><span class="mobile-header-shadow-th">Theory:</span> {{post.post_title}}</h2>
+                    <h2><span class="mobile-header-shadow-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
                     {% endif %}
                 </a>
             </div>
         </div>
     </div> 
     <div class="display">
+        <div class="header">
+            <a href="/{{post.post_code}}/{{post.post_slug}}">
+                {% if post.post_type == 'DE' %}
+                <h2><span class="header-shadow-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
+                {% elif post.post_type == 'TH' %}
+                <h2><span class="header-shadow-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
+                {% endif %}
+            </a>
+            <div class="pingster"><h1>Ping: <span id="ping-reading">???</span></h1></div>
+        </div>
         {% if request.user.is_superuser %}
         <div class="chatbar-puppets">
             {% for puppet in puppets %}

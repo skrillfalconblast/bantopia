@@ -649,11 +649,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'y' : tally['y'],
                         'n' : tally['n'],
                     }))
-        elif 'connection_ping' in text_data_json.keys():
+        elif 'ping' in text_data_json.keys():
 
-            if user.is_authenticated:
+            if text_data_json['ping'] == 'performance':
+                    await self.send(text_data=json.dumps({
+                        'pong' : 'performance',
+                    }))
 
-                await self.denotify(user)
+            elif text_data_json['ping'] == 'initial':
+
+                if user.is_authenticated:
+
+                    await self.denotify(user)
 
         elif 'typing_status' in text_data_json.keys():
             

@@ -125,10 +125,19 @@ function connect(){
         document.getElementById('disconnect-alert-text').innerText = "Oops, you're disconnected from the chat. Click here to reconnect!";
 
         chatSocket.send(JSON.stringify({
-            'connection_ping' : 'ping',
+            'ping' : 'initial',
         }));
     }
 
+    var intervalPing = window.setInterval(function(){
+        window.start = performance.now();
+        chatSocket.send(JSON.stringify({
+            'ping' : 'performance',
+        }));
+      }, 200);
+
+    const pingReading = document.getElementById('ping-reading')
+    
     chatSocket.onmessage = function(e) {
 
         const data = JSON.parse(e.data);
@@ -286,17 +295,24 @@ function connect(){
 
                 removeAllItems(typers, userSpan);
 
-            }
+            } 
 
-            updateTyping()
+            updateTyping();
 
+        } else if ('pong' in data) {
+            pingReading.innerText = Math.round(performance.now() - start) + 'ms'
         }
-
     };
 
     chatSocket.onclose = function(e) {
         document.getElementById('disconnect-alert').classList.remove('hidden');
         doneTyping()
+
+        clearInterval(intervalPing)
+
+        const expressions = ['(o_O) ?', '(((; ఠ ਉ ఠ))', '( Ŏ艸Ŏ)', '(｢ ⊙Д⊙)｢', '(☉_ ☉)', '( •́ ⍨ •̀)', '(ↁ_ↁ)']
+
+        pingReading.innerText = expressions[Math.floor(Math.random()*expressions.length)];
     };
 
     chatInput.onkeydown = function(e) {
