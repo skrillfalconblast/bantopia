@@ -44,27 +44,63 @@ function connect(){
 // -------------------------- Voting System -------------------------- //
  
     document.querySelector('#Y').onclick = function(e) {
-        chatSocket.send(JSON.stringify({
-            'voting' : 'Y',
-        }));
+        if (document.querySelector('input[name="puppet"]:checked')){
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+            chatSocket.send(JSON.stringify({
+                'voting' : 'Y',
+                'puppet' : puppet
+            }));
+        } else {
+            chatSocket.send(JSON.stringify({
+                'voting' : 'Y',
+            }));
+        }
     };
 
     document.querySelector('#N').onclick = function(e) {
-        chatSocket.send(JSON.stringify({
-            'voting' : 'N',
-        }));
+        if (document.querySelector('input[name="puppet"]:checked')){
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+            chatSocket.send(JSON.stringify({
+                'voting' : 'N',
+                'puppet' : puppet
+            }));
+        } else {
+            chatSocket.send(JSON.stringify({
+                'voting' : 'N',
+            }));
+        }
     };
 
     document.querySelector('#mobile-Y').onclick = function(e) {
-        chatSocket.send(JSON.stringify({
-            'voting' : 'Y',
-        }));
+        if (document.querySelector('input[name="puppet"]:checked')){
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+            chatSocket.send(JSON.stringify({
+                'voting' : 'Y',
+                'puppet' : puppet
+            }));
+        } else {
+            chatSocket.send(JSON.stringify({
+                'voting' : 'Y',
+            }));
+        }
     };
 
     document.querySelector('#mobile-N').onclick = function(e) {
-        chatSocket.send(JSON.stringify({
-            'voting' : 'N',
-        }));
+        if (document.querySelector('input[name="puppet"]:checked')){
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+            chatSocket.send(JSON.stringify({
+                'voting' : 'N',
+                'puppet' : puppet
+            }));
+        } else {
+            chatSocket.send(JSON.stringify({
+                'voting' : 'N',
+            }));
+        }
     };
 
 
@@ -247,13 +283,13 @@ function connect(){
                 message_scoreDOM = messageDOM.lastElementChild
                 message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + 1
             }
-        } else if ('y' in data || 'n' in data) {
+        } else if ('y_votes' in data || 'n_votes' in data) {
 
-            document.getElementById('Y').firstElementChild.innerText = 'yes=' + data.y
-            document.getElementById('N').firstElementChild.innerText = 'no=' + data.n
+            document.getElementById('Y').firstElementChild.innerText = 'yes=' + data.y_votes
+            document.getElementById('N').firstElementChild.innerText = 'no=' + data.n_votes
 
-            document.getElementById('mobile-Y').innerText = 'yes=' + data.y
-            document.getElementById('mobile-N').innerText = 'no=' + data.n
+            document.getElementById('mobile-Y').innerText = 'yes=' + data.y_votes
+            document.getElementById('mobile-N').innerText = 'no=' + data.n_votes
 
         } else if ('alert' in data) {
             if (data.alert == 'command_success') {

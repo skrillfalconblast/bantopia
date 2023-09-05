@@ -624,7 +624,35 @@ class ChatConsumer(AsyncWebsocketConsumer):
         elif 'voting' in text_data_json.keys():
             user = self.scope["user"]
 
-            if user.is_authenticated:
+            if 'puppet' in text_data_json.keys() and user.is_superuser:
+
+                puppet_name = text_data_json["puppet"]
+
+                puppet = await self.get_user(puppet_name)
+
+                vote = text_data_json["voting"]
+
+                if vote == 'N':
+
+                    await self.handle_vote('N', puppet)
+
+                    tally = await self.tally_votes()
+
+                    await self.channel_layer.group_send(
+                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                    )
+
+                elif vote == 'Y':
+
+                    await self.handle_vote('Y', puppet)
+
+                    tally = await self.tally_votes()
+
+                    await self.channel_layer.group_send(
+                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                    )
+
+            elif user.is_authenticated:
 
                 vote = text_data_json["voting"]
 
@@ -634,10 +662,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                     tally = await self.tally_votes()
 
-                    await self.send(text_data=json.dumps({
-                        'y' : tally['y'],
-                        'n' : tally['n'],
-                    }))
+                    await self.channel_layer.group_send(
+                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                    )
 
                 elif vote == 'Y':
 
@@ -645,10 +672,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                     tally = await self.tally_votes()
 
-                    await self.send(text_data=json.dumps({
-                        'y' : tally['y'],
-                        'n' : tally['n'],
-                    }))
+                    await self.channel_layer.group_send(
+                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                    )
+            else:
+                await self.send(text_data=json.dumps({
+                    "redirect" : "/create-profile/",
+                }))
+
         elif 'ping' in text_data_json.keys():
 
             if text_data_json['ping'] == 'performance':
@@ -742,3 +773,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "typing_color" : typing_color,
                 "typing_status" : typing_status
             }))
+
+    async def update_vote(self, event):
+        y_votes= event["y_votes"]
+        n_votes = event["n_votes"]
+
+        await self.send(text_data=json.dumps({
+            "y_votes" : y_votes,
+            "n_votes" : n_votes,
+        }))
