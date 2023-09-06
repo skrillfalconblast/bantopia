@@ -99,16 +99,19 @@
                         </div>
                         {% endif %}
                         <div class="post-input">
-                            <label for="title">Title: </label>
+                            <label for="title" class="char-label">Title: </label>
                             <input type="text" name="title" id="title" autocomplete="off" placeholder="e.g. Cats are better than dogs" value="{{ draft.draft_title }}">
+                            <label for="title" class="char-mobile-label">Title</label>
                         </div>
                         <div class="post-input" id="post-input-text">
-                            <label for="text">Text: </label>
+                            <label for="text" class="char-label">Text: </label>
                             <textarea name="text" id="text" maxlength="3000" autocomplete="off" placeholder="e.g. Let's be real, in the context of modern society, cats are better than dogs. The only question is by how much...">{{ draft.draft_desc|linebreaksbr }}</textarea>
+                            <label for="text" class="char-mobile-label">Text</label>
                         </div>
                         <div class="post-input">
-                            <label for="tags">Tags: </label>
-                            <input type="text" name="tags" id="tags" autocomplete="off" placeholder="e.g. #cats, #dogs, #straightfactz" value="{{ draft.draft_tags }}">
+                            <label for="tags" class="char-label">Tags: </label>
+                            <input type="text" name="tags" id="tags" autocomplete="off" placeholder="e.g. #cats, #dogs, #debate" value="{{ draft.draft_tags }}">
+                            <label for="tags" class="char-mobile-label">Tags</label>
                         </div>
                     </div>
                     <div class="mobile-bottom">
