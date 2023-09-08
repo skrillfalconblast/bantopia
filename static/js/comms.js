@@ -42,66 +42,68 @@ function jumpToBottom() {
 function connect(){
 
 // -------------------------- Voting System -------------------------- //
- 
-    document.querySelector('#Y').onclick = function(e) {
-        if (document.querySelector('input[name="puppet"]:checked')){
-            const puppet = document.querySelector('input[name="puppet"]:checked').value;
 
-            chatSocket.send(JSON.stringify({
-                'voting' : 'Y',
-                'puppet' : puppet
-            }));
-        } else {
-            chatSocket.send(JSON.stringify({
-                'voting' : 'Y',
-            }));
-        }
-    };
-
-    document.querySelector('#N').onclick = function(e) {
-        if (document.querySelector('input[name="puppet"]:checked')){
-            const puppet = document.querySelector('input[name="puppet"]:checked').value;
-
-            chatSocket.send(JSON.stringify({
-                'voting' : 'N',
-                'puppet' : puppet
-            }));
-        } else {
-            chatSocket.send(JSON.stringify({
-                'voting' : 'N',
-            }));
-        }
-    };
-
-    document.querySelector('#mobile-Y').onclick = function(e) {
-        if (document.querySelector('input[name="puppet"]:checked')){
-            const puppet = document.querySelector('input[name="puppet"]:checked').value;
-
-            chatSocket.send(JSON.stringify({
-                'voting' : 'Y',
-                'puppet' : puppet
-            }));
-        } else {
-            chatSocket.send(JSON.stringify({
-                'voting' : 'Y',
-            }));
-        }
-    };
-
-    document.querySelector('#mobile-N').onclick = function(e) {
-        if (document.querySelector('input[name="puppet"]:checked')){
-            const puppet = document.querySelector('input[name="puppet"]:checked').value;
-
-            chatSocket.send(JSON.stringify({
-                'voting' : 'N',
-                'puppet' : puppet
-            }));
-        } else {
-            chatSocket.send(JSON.stringify({
-                'voting' : 'N',
-            }));
-        }
-    };
+    if (document.querySelector('#Y')) {
+        document.querySelector('#Y').onclick = function(e) {
+            if (document.querySelector('input[name="puppet"]:checked')){
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+    
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'Y',
+                    'puppet' : puppet
+                }));
+            } else {
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'Y',
+                }));
+            }
+        };
+    
+        document.querySelector('#N').onclick = function(e) {
+            if (document.querySelector('input[name="puppet"]:checked')){
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+    
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'N',
+                    'puppet' : puppet
+                }));
+            } else {
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'N',
+                }));
+            }
+        };
+    
+        document.querySelector('#mobile-Y').onclick = function(e) {
+            if (document.querySelector('input[name="puppet"]:checked')){
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+    
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'Y',
+                    'puppet' : puppet
+                }));
+            } else {
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'Y',
+                }));
+            }
+        };
+    
+        document.querySelector('#mobile-N').onclick = function(e) {
+            if (document.querySelector('input[name="puppet"]:checked')){
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+    
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'N',
+                    'puppet' : puppet
+                }));
+            } else {
+                chatSocket.send(JSON.stringify({
+                    'voting' : 'N',
+                }));
+            }
+        };
+    }
 
 
     // Typing function
