@@ -624,7 +624,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         elif 'voting' in text_data_json.keys():
             user = self.scope["user"]
             
-            post = Post.objects.get(post_code=self.post_code)
+            post = await self.get_post()
 
             if post.post_type != 'QU':
 
