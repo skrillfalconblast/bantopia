@@ -62,6 +62,8 @@
                                 <h1><span>Decleration:</span> {{ draft.draft_title }}</h1>
                                 {% elif draft.draft_type == 'TH' %}
                                 <h1><span>Theory:</span> {{ draft.draft_title }}</h1>
+                                {% elif draft.draft_type == 'QU' %}
+                                <h1><span>Question:</span> {{ draft.draft_title }}</h1>
                                 {% endif %}
                             </div>
                             <div class="draft-description">

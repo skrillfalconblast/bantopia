@@ -238,6 +238,10 @@
                                 <div class="dashboard-activity">
                                     <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Oooh, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> theorised that </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a>
                                 </div>
+                                {% elif activity.watchlist_activity_type == 'ASK' %}
+                                <div class="dashboard-activity">
+                                    <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Cool, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> asked everyone </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a>
+                                </div>
                                 {% elif activity.watchlist_activity_type == 'ENGAGE' %}
                                 <div class="dashboard-activity">
                                     <a href="/{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}"><span class="dashboard-{{ timeframe }}">{{ activity.longAgo }}</span> - Here we go, <span class="dashboard-bold dashboard-orange">{{ activity.watchlist_activity_user.display_name }}</span><span> dropped a line in </span><span class="dashboard-bold dashboard-shadow-{{ activity.watchlist_activity_post.post_type }}">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a>

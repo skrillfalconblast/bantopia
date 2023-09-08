@@ -47,10 +47,12 @@
         <a href="/{{post.post_code}}/{{post.post_slug}}/counters" class="option">
             <h1>Counters</h1>
         </a>
+        {% if post.post_type != 'QU' %}
         <a class="option" id="balance-option">
             <div id="Y"><h1>yes={{ y }}</h1></div>
             <div id="N"><h1>no={{ n }}</h1></div>
         </a>
+        {% endif %}
         <a href="/{{post.post_code}}/{{post.post_slug}}/dogs" class="option">
             <h1>Top Dogs</h1>
         </a>
@@ -71,15 +73,19 @@
                 </a>
             </div>
             <div class="level" id="chat-level">
+                {% if post.post_type != 'QU' %}
                 <a class="option" id="mobile-balance-option-Y">
                     <h1 id="mobile-Y">yes={{ y }}</h1>
                 </a>
+                {% endif %}
                 <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option"> 
                     <h1>Chat</h1>
                 </a>
+                {% if post.post_type != 'QU' %}
                 <a class="option" id="mobile-balance-option-N">
                     <h1 id="mobile-N">no={{ n }}</h1>
                 </a>
+                {% endif %}
             </div>
         </div>
         <div class="option" id="nav-toggle">
@@ -91,9 +97,11 @@
     <div class="content-display">
         <div class="content-title">
             {% if post.post_type == 'DE' %}
-            <h1><span class="post-title-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
+            <h1><span class="post-title-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
             {% elif post.post_type == 'TH' %}
-            <h1><span class="post-title-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
+            <h1><span class="post-title-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
+            {% elif post.post_type == 'QU' %}
+            <h1><span class="post-title-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h1>
             {% endif %}
         </div>
         <div class="content-author">

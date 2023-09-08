@@ -75,6 +75,7 @@ class WatchlistActivity(models.Model):
     ACTIVE = "ACTIVE"
     DECLARE = "DECLARE"
     THEORISE = "THEORISE"
+    ASK = "ASK"
     ENGAGE = "ENGAGE"
     POPULAR = "POPULAR"
     INFAMOUS = "INFAMOUS"
@@ -86,6 +87,7 @@ class WatchlistActivity(models.Model):
         (ACTIVE, 'Active'),
         (DECLARE, 'Declare'),
         (THEORISE, 'Theorise'),
+        (ASK, 'Ask'),
         (ENGAGE, 'Engage'),
         (POPULAR, 'Popular'),
         (INFAMOUS, 'Infamous'),

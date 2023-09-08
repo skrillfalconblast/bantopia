@@ -67,7 +67,12 @@
                 <h1 class="post-label"><i>#{{ forloop.counter }}</i></h1>
                 <a href="/{{post.post_code}}/{{post.post_slug}}" class="post nick-left-in nick-right-in">
                     {% if post.post_type == "DE" %}
-                    <h1 class="post-title"><span class="post-title-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
+                    <h1 class="post-title"><span class="post-title-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
+                    {% elif post.post_type == "TH" %}
+                    <h1 class="post-title"><span class="post-title-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
+                    {% elif post.post_type == "QU" %}
+                    <h1 class="post-title"><span class="post-title-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h1>
+                    {% endif %}
                     <div class="post-counter-ticker-wrapper">
                         <div class="post-counter-ticker">
                             {% if post.counters %} 
@@ -88,29 +93,6 @@
                     {% else %}
                     <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
                     {% endif %}
-                    {% elif post.post_type == "TH" %}
-                    <h1 class="post-title"><span class="post-title-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
-                    <div class="post-counter-ticker-wrapper">
-                        <div class="post-counter-ticker">
-                            {% if post.counters %} 
-                                <h2 class="post-counter">{% for i in 24|times %}{{ post.counters|safe }} {% endfor %}</h2>
-                            {% else %}
-                                <h2 class="post-counter">{{ post.ticker_text|safe }}</h2>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <hr class="post-div">
-                    <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
-                    {% if post.last_message %}
-                        {% if post.pk in user_notified_set %}
-                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message">New Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
-                        {% else %}
-                        <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message">Last Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
-                        {% endif %}
-                    {% else %}
-                    <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
-                    {% endif %}
-                    {% endif %}
                 </a>
                 {% endfor %}
             </div>
@@ -126,6 +108,8 @@
                             <li><a href="{{ visit.visit_post.post_code }}/{{ visit.visit_post.post_slug }}"><span class="DE-shadow-history">{{ visit.visit_post.post_title | truncatesmart:60 }}</span></a></li>
                             {% elif visit.visit_post.post_type == 'TH' %}
                             <li><a href="{{ visit.visit_post.post_code }}/{{ visit.visit_post.post_slug }}"><span class="TH-shadow-history">{{ visit.visit_post.post_title | truncatesmart:60 }}</span></a></li>
+                            {% elif visit.visit_post.post_type == 'QU' %}
+                            <li><a href="{{ visit.visit_post.post_code }}/{{ visit.visit_post.post_slug }}"><span class="QU-shadow-history">{{ visit.visit_post.post_title | truncatesmart:60 }}</span></a></li>
                             {% endif %}
                         {% endfor %}
                     {% else %}
@@ -150,6 +134,10 @@
                             {% elif activity.watchlist_activity_type == 'THEORISE' %}
                             <div class="dashboard-activity">
                                 <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Interesting, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> theorized that <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
+                            </div>
+                            {% elif activity.watchlist_activity_type == 'ASK' %}
+                            <div class="dashboard-activity">
+                                <li><a href="{{ activity.watchlist_activity_post.post_code }}/{{ activity.watchlist_activity_post.post_slug }}">Fascinating, <span class="gn-orange">{{ activity.watchlist_activity_user.display_name }}</span> just asked <span class="{{ activity.watchlist_activity_post.post_type }}-shadow-watchlist watchlist-bold">{{ activity.watchlist_activity_post.post_title | truncatesmart:60 }}</span></a></li>
                             </div>
                             {% elif activity.watchlist_activity_type == 'ENGAGE' %}
                             <div class="dashboard-activity">

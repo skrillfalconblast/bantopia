@@ -14,9 +14,11 @@ class Post(models.Model):
 
     DECLARATION = "DE"
     THEORY = "TH"
+    QUESTION = "QU"
     POST_TYPE_CHOICES = [
         (DECLARATION, "Declaration"),
         (THEORY, "Theory"),
+        (QUESTION, "Question"),
     ]
 
     post_code = models.CharField(max_length=8)
@@ -70,9 +72,11 @@ class Draft(models.Model):
 
     DECLARATION = "DE"
     THEORY = "TH"
+    QUESTION = "QU"
     DRAFT_TYPE_CHOICES = [
         (DECLARATION, "Declaration"),
         (THEORY, "Theory"),
+        (QUESTION, "Question")
     ]
 
     draft_code = models.CharField(max_length=8)

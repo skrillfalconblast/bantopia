@@ -44,10 +44,12 @@
         <a href="/{{post.post_code}}/{{post.post_slug}}/counters" class="option">
             <h1>Counters</h1>
         </a>
+        {% if post.post_type != 'QU' %}
         <a class="option" id="balance-option">
             <div id="Y"><h1>yes={{ y }}</h1></div>
             <div id="N"><h1>no={{ n }}</h1></div>
         </a>
+        {% endif %}
         <a href="/{{post.post_code}}/{{post.post_slug}}/dogs" class="option">
             <h1>Top Dogs</h1>
         </a>
@@ -68,15 +70,19 @@
                 </a>
             </div>
             <div class="level" id="chat-level">
+                {% if post.post_type != 'QU' %}
                 <a class="option" id="mobile-balance-option-Y">
                     <h1 id="mobile-Y">yes={{ y }}</h1>
                 </a>
+                {% endif %}
                 <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option"> 
                     <h1>Chat</h1>
                 </a>
+                {% if post.post_type != 'QU' %}
                 <a class="option" id="mobile-balance-option-N">
                     <h1 id="mobile-N">no={{ n }}</h1>
                 </a>
+                {% endif %}
             </div>
         </div>
         <div class="option" id="bottom-option">
@@ -86,9 +92,11 @@
             <div class="level mobile-header">
                 <a href="/{{post.post_code}}/{{post.post_slug}}">
                     {% if post.post_type == 'DE' %}
-                    <h2><span class="mobile-header-shadow-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
+                    <h2><span class="mobile-header-shadow-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
                     {% elif post.post_type == 'TH' %}
-                    <h2><span class="mobile-header-shadow-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
+                    <h2><span class="mobile-header-shadow-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
+                    {% elif post.post_type == 'QU' %}
+                    <h2><span class="mobile-header-shadow-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h2>
                     {% endif %}
                 </a>
             </div>
@@ -98,9 +106,11 @@
         <div class="header">
             <a href="/{{post.post_code}}/{{post.post_slug}}">
                 {% if post.post_type == 'DE' %}
-                <h2><span class="header-shadow-de">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
+                <h2><span class="header-shadow-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
                 {% elif post.post_type == 'TH' %}
-                <h2><span class="header-shadow-th">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
+                <h2><span class="header-shadow-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
+                {% elif post.post_type == 'QU' %}
+                <h2><span class="header-shadow-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h2>
                 {% endif %}
             </a>
             <div class="pingster"><h1>Ping: <span id="ping-reading">???</span></h1></div>

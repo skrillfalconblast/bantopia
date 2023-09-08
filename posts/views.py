@@ -252,6 +252,8 @@ def write(request):
                             WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.DECLARE)
                         elif draft_type == 'TH':
                             WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.THEORISE)
+                        elif draft_type == 'QU':
+                            WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
 
                         return redirect('/') # If something is posted, the user will always be redirected to the homepage.
                     else:

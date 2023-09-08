@@ -623,62 +623,66 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         elif 'voting' in text_data_json.keys():
             user = self.scope["user"]
+            
+            post = Post.objects.get(post_code=self.post_code)
 
-            if 'puppet' in text_data_json.keys() and user.is_superuser:
+            if post.post_type != 'QU':
 
-                puppet_name = text_data_json["puppet"]
+                if 'puppet' in text_data_json.keys() and user.is_superuser:
 
-                puppet = await self.get_user(puppet_name)
+                    puppet_name = text_data_json["puppet"]
 
-                vote = text_data_json["voting"]
+                    puppet = await self.get_user(puppet_name)
 
-                if vote == 'N':
+                    vote = text_data_json["voting"]
 
-                    await self.handle_vote('N', puppet)
+                    if vote == 'N':
 
-                    tally = await self.tally_votes()
+                        await self.handle_vote('N', puppet)
 
-                    await self.channel_layer.group_send(
-                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
-                    )
+                        tally = await self.tally_votes()
 
-                elif vote == 'Y':
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                        )
 
-                    await self.handle_vote('Y', puppet)
+                    elif vote == 'Y':
 
-                    tally = await self.tally_votes()
+                        await self.handle_vote('Y', puppet)
 
-                    await self.channel_layer.group_send(
-                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
-                    )
+                        tally = await self.tally_votes()
 
-            elif user.is_authenticated:
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                        )
 
-                vote = text_data_json["voting"]
+                elif user.is_authenticated:
 
-                if vote == 'N':
+                    vote = text_data_json["voting"]
 
-                    await self.handle_vote('N', self.scope["user"])
+                    if vote == 'N':
 
-                    tally = await self.tally_votes()
+                        await self.handle_vote('N', self.scope["user"])
 
-                    await self.channel_layer.group_send(
-                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
-                    )
+                        tally = await self.tally_votes()
 
-                elif vote == 'Y':
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                        )
 
-                    await self.handle_vote('Y', self.scope["user"])
+                    elif vote == 'Y':
 
-                    tally = await self.tally_votes()
+                        await self.handle_vote('Y', self.scope["user"])
 
-                    await self.channel_layer.group_send(
-                        self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
-                    )
-            else:
-                await self.send(text_data=json.dumps({
-                    "redirect" : "/create-profile/",
-                }))
+                        tally = await self.tally_votes()
+
+                        await self.channel_layer.group_send(
+                            self.post_group_name, {"type" : "update_vote", "y_votes" :  tally['y'], "n_votes" : tally['n']}
+                        )
+                else:
+                    await self.send(text_data=json.dumps({
+                        "redirect" : "/create-profile/",
+                    }))
 
         elif 'ping' in text_data_json.keys():
 
