@@ -327,6 +327,14 @@ sup {
     word-wrap: break-word;
 }
 
+.editable:hover {
+    color: #999999;
+}
+
+.editable:focus {
+    outline: 0;
+}
+
 .command-border {
     border-color: #000 !important;
 }

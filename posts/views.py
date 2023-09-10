@@ -235,8 +235,8 @@ def write(request):
                         tags = stringToList(draft_tags)
 
                         for tag in tags:
-
-                            tag = Tag(tag_text=tag, tag_post=post)
+                            
+                            tag = Tag(tag_text=tag[:50], tag_post=post)
                             tag.save()
 
 
@@ -299,10 +299,10 @@ def write(request):
                     
                     else: # The queried draft doesn't exist or nothing is quereid
 
-                        return render(request, '/post/write.html', {'tab_text' : tab_text})
+                        return render(request, 'post/write.html', {'tab_text' : tab_text})
 
             except:
-                return render(request, '/post/write.html', {'tab_text' : tab_text})
+                return render(request, 'post/write.html', {'tab_text' : tab_text})
 
         else: # If the page is simply loading, without a POST request
 
@@ -321,7 +321,7 @@ def write(request):
                     return render(request, 'post/write.html', {'tab_text' : tab_text})
             
             else: # If the page is simply loading without any query
-                return render(request, '/post/write.html', {'tab_text' : tab_text})
+                return render(request, 'post/write.html', {'tab_text' : tab_text})
     return redirect('/create-profile/')
              
 

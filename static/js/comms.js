@@ -186,7 +186,7 @@ function connect(){
 
             message_id = 'msg_' + data.message_code
 
-            message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content neutral" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+            message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content neutral" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content editable"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
         
             message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // A long chain leading to the middle span of the message 'content' div
             message_container.lastElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.author;
@@ -216,6 +216,8 @@ function connect(){
                 document.getElementById(id).lastElementChild.classList.remove('disliked')
                 document.getElementById(id).lastElementChild.classList.add('liked')
 
+            } else if (data.state === 'editable') {
+                console.log('editable')
             }
         } else if ('message_id' in data && 'action' in data) {
             if (data.action === 'like') {
@@ -227,9 +229,7 @@ function connect(){
                 superScore.classList.remove('disliked')
                 superScore.classList.add('liked')
 
-            }
-            
-            if (data.action === 'unlike') {
+            } else if (data.action === 'unlike') {
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
@@ -238,9 +238,7 @@ function connect(){
                 superScore.classList.remove('disliked')
                 superScore.classList.remove('liked')
 
-            } 
-            
-            if (data.action === 'dislike') {
+            } else if (data.action === 'dislike') {
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
@@ -249,9 +247,7 @@ function connect(){
                 superScore.classList.remove('liked')
                 superScore.classList.add('disliked')
 
-            }
-            
-            if (data.action == 'undislike') {
+            } else if (data.action == 'undislike') {
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
@@ -259,6 +255,13 @@ function connect(){
 
                 superScore.classList.remove('liked')
                 superScore.classList.remove('disliked')
+            } else if (data.action == 'edit') {
+                id = data.message_id
+
+                const messageActualContent = document.getElementById(id).querySelector('.message-actual-content')
+
+                messageActualContent.contentEditable = 'true';
+                messageActualContent.focus()
             }
 
         } else if ('interaction' in data) { // An interaction here is defined as someone else interacting with a message.
@@ -285,6 +288,12 @@ function connect(){
                 message_scoreDOM = messageDOM.lastElementChild
                 message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + 1
             }
+        } else if ('edited_content' in data) {
+
+            message_id = 'msg_' + data.message_code
+
+            document.getElementById(message_id).querySelector('.message-actual-content').textContent = data.edited_content
+
         } else if ('y_votes' in data || 'n_votes' in data) {
 
             document.getElementById('Y').firstElementChild.innerText = 'yes=' + data.y_votes
@@ -460,6 +469,7 @@ function connect(){
         if (e.target.id.startsWith('msg_')) {
             chatSocket.send(JSON.stringify({
                 'message_id' : e.target.id,
+                'target' : 'message',
                 'trigger' : 'hover'
             }))
         }
@@ -474,6 +484,7 @@ function connect(){
 
                 chatSocket.send(JSON.stringify({
                     'message_id' : e.target.closest('.content').id,
+                    'target' : 'tag',
                     'trigger' : 'click',
                     'attempt' : 'like',
                     'puppet' : puppet
@@ -483,6 +494,7 @@ function connect(){
 
                 chatSocket.send(JSON.stringify({
                     'message_id' : e.target.closest('.content').id,
+                    'target' : 'tag',
                     'trigger' : 'click',
                     'attempt' : 'like'
                 }))
@@ -495,6 +507,7 @@ function connect(){
 
                 chatSocket.send(JSON.stringify({
                     'message_id' : e.target.closest('.content').id,
+                    'target' : 'tag',
                     'trigger' : 'click',
                     'attempt' : 'dislike',
                     'puppet' : puppet
@@ -504,13 +517,54 @@ function connect(){
 
                 chatSocket.send(JSON.stringify({
                     'message_id' : e.target.closest('.content').id,
+                    'target' : 'tag',
                     'trigger' : 'click',
                     'attempt' : 'dislike'
                 }))
                 
             }
+        } else if (classNames.includes('message-actual-content')) {
+            chatSocket.send(JSON.stringify({
+                'message_id' : e.target.parentElement.id,
+                'target' : 'content',
+                'trigger' : 'click',
+                //'attempt' : 'edit' This is currenty unecessary to send because the target has only one kind of attempt assosiated with it.
+            }))
         }
     })
+
+    document.addEventListener("focusout", function(e) {
+        if (e.target.className.toString().split(' ').includes('message-actual-content')) {
+            messageId = e.target.parentElement.id
+            chatSocket.send(JSON.stringify({
+                'message_id' : e.target.parentElement.id,
+                'edit' : e.target.textContent,
+            }))
+        }
+    });
+
+    document.querySelectorAll('.message-actual-content').forEach(content =>
+
+        content.addEventListener("paste", function(e) {
+            // cancel paste
+            e.preventDefault();
+
+            // get text representation of clipboard
+            var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+            // insert text manually
+            document.execCommand("insertHTML", false, text);
+        })
+    )
+
+    document.querySelectorAll('.message-actual-content').forEach(content =>
+        content.addEventListener("keypress", function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                e.target.blur()
+            }
+        })
+    )
 
     var timer; 
     document.getElementById('chat').addEventListener('scroll', event => {
@@ -525,7 +579,9 @@ function connect(){
 
     });
 
-    document.getElementById('new-messages-alert').onclick = function(){jumpToBottom()}
+    document.getElementById('new-messages-alert').onclick = function(){
+        jumpToBottom()
+    };
 
     document.getElementById('disconnect-alert').onclick = function(){
         document.getElementById('disconnect-alert-text').innerText = "Connecting...";

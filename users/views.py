@@ -56,18 +56,20 @@ def createProfile(request):
                 password = password1
                 if len(display_name) <= 20:
                     if re.fullmatch('^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$', display_name):
-                        if not User.objects.filter(display_name=display_name):
+                        if not User.objects.filter(display_name=display_name).exists():
                             try:
                                 other_users = User.objects.all()
                                 user = User.objects.create_user(display_name=display_name, password=password)
 
+                                if user:
                                     # This would add every previous user as part of the user's watch list to stimulate the community.
-                                user.watching.set(other_users)
+                                    user.watching.set(other_users)
 
-                                user = authenticate(request, display_name=display_name, password=password)
-                                auth_login(request, user) # Log them in
-
-                                return redirect('/')
+                                    user = authenticate(request, display_name=display_name, password=password)
+                                    auth_login(request, user) # Log them in
+                                    return redirect('/')
+                                else:
+                                    message = 'display-name-taken'
                             
                             except ValueError as value_error_info:
                                 if str(value_error_info) == 'empty-display-name':

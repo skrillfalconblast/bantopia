@@ -1,4 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
+from django.db import IntegrityError
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -22,8 +23,12 @@ class UserManager(BaseUserManager):
             recipient_list = ['skrillfalconblast@icloud.com', ]
             send_mail(subject, message, email_from, recipient_list)
         user.set_password(password)
-        user.save()
-        return user
+        try:
+            user.save()
+            return user
+        except IntegrityError as e:
+            return None
+        
         
     def create_superuser(self, display_name=None, email=None, password=None):
 

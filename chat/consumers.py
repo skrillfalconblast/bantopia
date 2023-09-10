@@ -136,6 +136,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
         return message
     
     @database_sync_to_async
+    def edit_message(self, message_code, edit_content, user):
+        try:
+            message = Message.objects.get(message_code=message_code)
+            if message.message_author == user:
+                message.message_content = edit_content
+                message.save()
+            else:
+                message = None
+        except Message.DoesNotExist:
+            message = None
+        
+        
+
+        return message
+    
+    @database_sync_to_async
     def handle_interaction(self, message, user, option):
         
         if option == 'LIKE':
@@ -383,166 +399,179 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         text_data_json = json.loads(text_data)
 
-        if 'message_id' in text_data_json.keys() and text_data_json['trigger'] == 'hover':
+        if 'target' in text_data_json.keys() and 'message_id' in text_data_json.keys() and 'trigger' in text_data_json.keys():
+            if text_data_json["trigger"] == 'hover':
 
-            if user.is_authenticated:
+                if user.is_authenticated:
 
+                    if text_data_json["target"] == 'message':
+
+                        message_id = text_data_json['message_id']
+                        message_code = message_id[4:] # Get the message code without the 'msg_' part
+
+                        message = await self.find_message(message_code=message_code)
+
+                        if await self.find_interaction(message, user):
+                            interaction = await self.find_interaction(message, user)
+                            if interaction.interaction_type == Interaction.LIKE:
+                                await self.send(text_data=json.dumps({
+                                    'message_id' : message_id,
+                                    'state' : 'liked'
+                                }))
+                            elif interaction.interaction_type == interaction.DISLIKE:
+                                await self.send(text_data=json.dumps({
+                                    'message_id' : message_id,
+                                    'state' : 'disliked'
+                                }))
+
+                        else:
+                            await self.send(text_data=json.dumps({
+                                'message_id' : message_id,
+                                'state' : 'neutral'
+                            }))
+
+            elif text_data_json["trigger"] == "click":
                 message_id = text_data_json['message_id']
-                message_code = message_id[4:] # Get the message code without the 'msg_' part
+                message_code = message_id[4:]
 
-                message = await self.find_message(message_code=message_code)
+                if user.is_authenticated:
 
-                if await self.find_interaction(message, user):
-                    interaction = await self.find_interaction(message, user)
-                    if interaction.interaction_type == Interaction.LIKE:
-                        await self.send(text_data=json.dumps({
-                            'message_id' : message_id,
-                            'state' : 'liked'
+                    if text_data_json["target"] == 'tag':
+
+                        if 'puppet' in text_data_json.keys() and user.is_superuser:
+
+                            puppet_name = text_data_json['puppet']
+
+                            puppet = await self.get_user(puppet_name)
+                            
+                            if text_data_json['attempt'] == 'like':
+
+                                message = await self.find_message(message_code=message_code)
+
+                                if await self.find_interaction(message, puppet):
+                                    if (await self.find_interaction(message, puppet, interaction_type=Interaction.LIKE)):
+                                        await self.send(text_data=json.dumps({
+                                            'message_id' : message_id,
+                                            'action' : 'unlike'
+                                        }))
+
+                                        await self.handle_interaction(message, puppet, 'UNLIKE')
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "unlike", "interacting_channel" : self.channel_name}
+                                        )
+
+                                        await self.dog_check(message)
+                                else:
+                                    await self.send(text_data=json.dumps({
+                                        'message_id' : message_id,
+                                        'action' : 'like'
+                                    }))
+
+                                    await self.handle_interaction(message, puppet, 'LIKE')
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "like", "interacting_channel" : self.channel_name}
+                                    )
+
+                                    await self.dog_check(message)
+
+                            elif text_data_json['attempt'] == 'dislike':
+
+                                message = await self.find_message(message_code=message_code)
+
+                                if await self.find_interaction(message, puppet):
+                                    if await self.find_interaction(message, puppet, interaction_type=Interaction.DISLIKE):
+                                        await self.find_interaction(message, puppet, interaction_type=Interaction.DISLIKE)
+                                        await self.send(text_data=json.dumps({
+                                            'message_id' : message_id,
+                                            'action' : 'undislike'
+                                        }))
+                                        await self.handle_interaction(message, puppet, 'UNDISLIKE')
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "undislike", "interacting_channel" : self.channel_name}
+                                        )
+
+                                        await self.dog_check(message)
+                                else:
+                                    await self.send(text_data=json.dumps({
+                                        'message_id' : message_id,
+                                        'action' : 'dislike'
+                                    }))
+                                    await self.handle_interaction(message, puppet, 'DISLIKE')
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "dislike", "interacting_channel" : self.channel_name}
+                                    )
+
+                                    await self.dog_check(message)
+
+                        else:
+
+                            if text_data_json['attempt'] == 'like':
+                                message = await self.find_message(message_code=message_code)
+
+                                if await self.find_interaction(message, user):
+                                    if (await self.find_interaction(message, user, interaction_type=Interaction.LIKE)):
+                                        await self.send(text_data=json.dumps({
+                                            'message_id' : message_id,
+                                            'action' : 'unlike'
+                                        }))
+
+                                        await self.handle_interaction(message, user, 'UNLIKE')
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "unlike", "interacting_channel" : self.channel_name}
+                                        )
+
+                                        await self.dog_check(message)
+                                else:
+                                    await self.send(text_data=json.dumps({
+                                        'message_id' : message_id,
+                                        'action' : 'like'
+                                    }))
+
+                                    await self.handle_interaction(message, user, 'LIKE')
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "like", "interacting_channel" : self.channel_name}
+                                    )
+
+                                    await self.dog_check(message)
+
+                            elif text_data_json['attempt'] == 'dislike':
+
+                                message = await self.find_message(message_code=message_code)
+
+                                if await self.find_interaction(message, user):
+                                    if await self.find_interaction(message, user, interaction_type=Interaction.DISLIKE):
+                                        await self.find_interaction(message, user, interaction_type=Interaction.DISLIKE)
+                                        await self.send(text_data=json.dumps({
+                                            'message_id' : message_id,
+                                            'action' : 'undislike'
+                                        }))
+                                        await self.handle_interaction(message, user, 'UNDISLIKE')
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "undislike", "interacting_channel" : self.channel_name}
+                                        )
+
+                                        await self.dog_check(message)
+                                else:
+                                    await self.send(text_data=json.dumps({
+                                        'message_id' : message_id,
+                                        'action' : 'dislike'
+                                    }))
+                                    await self.handle_interaction(message, user, 'DISLIKE')
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "dislike", "interacting_channel" : self.channel_name}
+                                    )
+
+                                    await self.dog_check(message)
+
+                    elif text_data_json["target"] == 'content':
+
+                        message = await self.find_message(message_code=message_code)
+                        
+                        if message.message_author_name == user.display_name:
+                            await self.send(text_data=json.dumps({
+                                'message_id' : message_id,
+                                'action' : 'edit'
                         }))
-                    elif interaction.interaction_type == interaction.DISLIKE:
-                        await self.send(text_data=json.dumps({
-                            'message_id' : message_id,
-                            'state' : 'disliked'
-                        }))
-
-                else:
-                    await self.send(text_data=json.dumps({
-                        'message_id' : message_id,
-                        'state' : 'neutral'
-                    }))
-            else:
-                pass
-
-        elif 'message_id' in text_data_json.keys() and text_data_json['trigger'] == 'click':
-            message_id = text_data_json['message_id']
-            message_code = message_id[4:]
-
-            if user.is_authenticated:
-
-                if 'puppet' in text_data_json.keys() and user.is_superuser:
-
-                    puppet_name = text_data_json['puppet']
-
-                    puppet = await self.get_user(puppet_name)
-                    
-                    if text_data_json['attempt'] == 'like':
-
-                        message = await self.find_message(message_code=message_code)
-
-                        if await self.find_interaction(message, puppet):
-                            if (await self.find_interaction(message, puppet, interaction_type=Interaction.LIKE)):
-                                await self.send(text_data=json.dumps({
-                                    'message_id' : message_id,
-                                    'action' : 'unlike'
-                                }))
-
-                                await self.handle_interaction(message, puppet, 'UNLIKE')
-                                await self.channel_layer.group_send(
-                                    self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "unlike", "interacting_channel" : self.channel_name}
-                                )
-
-                                await self.dog_check(message)
-                        else:
-                            await self.send(text_data=json.dumps({
-                                'message_id' : message_id,
-                                'action' : 'like'
-                            }))
-
-                            await self.handle_interaction(message, puppet, 'LIKE')
-                            await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "like", "interacting_channel" : self.channel_name}
-                            )
-
-                            await self.dog_check(message)
-
-                    elif text_data_json['attempt'] == 'dislike':
-
-                        message = await self.find_message(message_code=message_code)
-
-                        if await self.find_interaction(message, puppet):
-                            if await self.find_interaction(message, puppet, interaction_type=Interaction.DISLIKE):
-                                await self.find_interaction(message, puppet, interaction_type=Interaction.DISLIKE)
-                                await self.send(text_data=json.dumps({
-                                    'message_id' : message_id,
-                                    'action' : 'undislike'
-                                }))
-                                await self.handle_interaction(message, puppet, 'UNDISLIKE')
-                                await self.channel_layer.group_send(
-                                    self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "undislike", "interacting_channel" : self.channel_name}
-                                )
-
-                                await self.dog_check(message)
-                        else:
-                            await self.send(text_data=json.dumps({
-                                'message_id' : message_id,
-                                'action' : 'dislike'
-                            }))
-                            await self.handle_interaction(message, puppet, 'DISLIKE')
-                            await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "dislike", "interacting_channel" : self.channel_name}
-                            )
-
-                            await self.dog_check(message)
-
-                else:
-
-                    if text_data_json['attempt'] == 'like':
-                        message = await self.find_message(message_code=message_code)
-
-                        if await self.find_interaction(message, user):
-                            if (await self.find_interaction(message, user, interaction_type=Interaction.LIKE)):
-                                await self.send(text_data=json.dumps({
-                                    'message_id' : message_id,
-                                    'action' : 'unlike'
-                                }))
-
-                                await self.handle_interaction(message, user, 'UNLIKE')
-                                await self.channel_layer.group_send(
-                                    self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "unlike", "interacting_channel" : self.channel_name}
-                                )
-
-                                await self.dog_check(message)
-                        else:
-                            await self.send(text_data=json.dumps({
-                                'message_id' : message_id,
-                                'action' : 'like'
-                            }))
-
-                            await self.handle_interaction(message, user, 'LIKE')
-                            await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "like", "interacting_channel" : self.channel_name}
-                            )
-
-                            await self.dog_check(message)
-
-                    elif text_data_json['attempt'] == 'dislike':
-
-                        message = await self.find_message(message_code=message_code)
-
-                        if await self.find_interaction(message, user):
-                            if await self.find_interaction(message, user, interaction_type=Interaction.DISLIKE):
-                                await self.find_interaction(message, user, interaction_type=Interaction.DISLIKE)
-                                await self.send(text_data=json.dumps({
-                                    'message_id' : message_id,
-                                    'action' : 'undislike'
-                                }))
-                                await self.handle_interaction(message, user, 'UNDISLIKE')
-                                await self.channel_layer.group_send(
-                                    self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "undislike", "interacting_channel" : self.channel_name}
-                                )
-
-                                await self.dog_check(message)
-                        else:
-                            await self.send(text_data=json.dumps({
-                                'message_id' : message_id,
-                                'action' : 'dislike'
-                            }))
-                            await self.handle_interaction(message, user, 'DISLIKE')
-                            await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "message_interaction", "message_id" :  message_id, "interaction" : "dislike", "interacting_channel" : self.channel_name}
-                            )
-
-                            await self.dog_check(message)
 
         elif 'message' in text_data_json.keys():
 
@@ -733,6 +762,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  user.display_name, "typing_color" : user.color, "typing_status" : "stopped", "typing_channel" : self.channel_name}
                         )
 
+        elif 'edit' in text_data_json.keys():
+
+            if user.is_authenticated:
+
+                message_id = text_data_json["message_id"]
+                message_code = message_id[4:]
+
+                edited_message = text_data_json["edit"]
+
+                edited_message = await self.edit_message(message_code, edited_message, user)
+
+                # Send message to post group
+                await self.channel_layer.group_send(
+                    self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
+                )
+
     # Receive message from post group
     async def chat_message(self, event):
         message_code = event["message_code"]
@@ -786,3 +831,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "y_votes" : y_votes,
             "n_votes" : n_votes,
         }))
+
+    async def chat_message_edit(self, event):
+        message_code = event["message_code"]
+        edited_content = event["edited_content"]
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            "message_code" : message_code,
+            "edited_content" : edited_content,
+            }))

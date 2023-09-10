@@ -53,7 +53,7 @@ class Post(models.Model):
         return reverse('content', kwargs={'post_code': str(self.post_code), 'post_slug' : str(self.post_slug)})
 
 class Tag(models.Model):
-    tag_text = models.CharField(max_length=50)
+    tag_text = models.CharField(max_length=255)
     tag_post = models.ForeignKey('Post', on_delete=models.CASCADE)
 
 class Vote(models.Model):
