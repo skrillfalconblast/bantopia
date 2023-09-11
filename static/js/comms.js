@@ -7,7 +7,7 @@ navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('menu-collapsed')
 });
 
-// -------------------------- Functions -------------------------- //
+// -------------------------- Functions that don't reference the chatsocket -------------------------- //
 
 function escapeHtml(text) {
     var map = {
@@ -39,9 +39,11 @@ function jumpToBottom() {
     chat.scrollTo(0, chat.scrollHeight);
 };
 
+// -------------------------- Connect Function -------------------------- //
+
 function connect(){
 
-// -------------------------- Voting System -------------------------- //
+    // -------------------------- Voting System -------------------------- //
 
     if (document.querySelector('#Y')) {
         document.querySelector('#Y').onclick = function(e) {
@@ -106,43 +108,7 @@ function connect(){
     }
 
 
-    // Typing function
-
-    function updateTyping() {
-            const typingIndicator = document.getElementById('typing-indicator')
-
-            if (typers.length > 0) {
-
-                indicatorContent = ''
-
-                if (typers.length == 1) {
-                    
-                    indicatorContent = `${typers[0]} is typing...`
-
-                } else {
-
-                    for (let i = 0; i < typers.length; i++) {
-                        if (i == 0) {
-                            indicatorContent = typers[i]
-                        } else if ((i + 1) == typers.length) {
-                            indicatorContent += ` and ${typers[i]} are typing...`
-                        } else {
-                            indicatorContent += `, ${typers[i]}`
-                        }
-                    }
-
-                }
-
-                typingIndicator.innerHTML = indicatorContent
-                typingIndicator.classList.remove('hidden')
-            } else {
-                typingIndicator.innerHTML = ''
-                typingIndicator.classList.add('hidden')
-            }
-    }
-
-
-    // For the chat -----------------------
+    // -------------------------- Chat Startup -------------------------- //
 
     const postCode = JSON.parse(document.getElementById('post-code').textContent);
 
@@ -167,6 +133,8 @@ function connect(){
         }));
     }
 
+    // -------------------------- Pingster Functionality -------------------------- //
+
     var intervalPing = window.setInterval(function(){
         window.start = performance.now();
         chatSocket.send(JSON.stringify({
@@ -175,6 +143,59 @@ function connect(){
       }, 200);
 
     const pingReading = document.getElementById('ping-reading')
+
+    // -------------------------- Functions used in onmessage -------------------------- //
+
+    function updateIsTyping() {
+        const typingIndicator = document.getElementById('typing-indicator')
+    
+        if (typers.length > 0) {
+    
+            indicatorContent = ''
+    
+            if (typers.length == 1) {
+                
+                indicatorContent = `${typers[0]} is typing...`
+    
+            } else {
+    
+                for (let i = 0; i < typers.length; i++) {
+                    if (i == 0) {
+                        indicatorContent = typers[i]
+                    } else if ((i + 1) == typers.length) {
+                        indicatorContent += ` and ${typers[i]} are typing...`
+                    } else {
+                        indicatorContent += `, ${typers[i]}`
+                    }
+                }
+    
+            }
+    
+            typingIndicator.innerHTML = indicatorContent
+            typingIndicator.classList.remove('hidden')
+        } else {
+            typingIndicator.innerHTML = ''
+            typingIndicator.classList.add('hidden')
+        }
+    }
+
+    function doneTyping () {
+        if (document.querySelector('input[name="puppet"]:checked')){
+            const puppet = document.querySelector('input[name="puppet"]:checked').value;
+            chatSocket.send(JSON.stringify({
+                'typing_status' : 'stopped',
+                'puppet' : puppet
+            }))
+           timerIsOn = false
+        } else {
+            chatSocket.send(JSON.stringify({
+                'typing_status' : 'stopped',
+            }))
+           timerIsOn = false
+        }
+    }
+
+    // -------------------------- Chatsocket Methods -------------------------- //
     
     chatSocket.onmessage = function(e) {
 
@@ -186,9 +207,24 @@ function connect(){
 
             message_id = 'msg_' + data.message_code
 
-            message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content neutral" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content editable"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+            if (data.origin == 'native') {
+
+            message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+
+            message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.target.blur()
+                }
+            })
+
+            } else if (data.origin == 'foreign') {
+
+                message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+
+            }
         
-            message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // A long chain leading to the middle span of the message 'content' div
+            message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
             message_container.lastElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.author;
 
             if (chat.scrollTop != 0) {
@@ -200,7 +236,7 @@ function connect(){
             // Clear typing
             userSpan = `<span class="color-${data.author_color}">${data.author}</span>`
             removeAllItems(typers, userSpan);
-            updateTyping(); 
+            updateIsTyping(); 
 
 
         } else if ('message_id' in data && 'state' in data) {
@@ -216,15 +252,14 @@ function connect(){
                 document.getElementById(id).lastElementChild.classList.remove('disliked')
                 document.getElementById(id).lastElementChild.classList.add('liked')
 
-            } else if (data.state === 'editable') {
-                console.log('editable')
             }
+
         } else if ('message_id' in data && 'action' in data) {
             if (data.action === 'like') {
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
-                superScore.innerText = parseInt(superScore.innerText) + 1
+                superScore.innerText = parseInt(superScore.innerText) + parseInt(data.changeBy)
 
                 superScore.classList.remove('disliked')
                 superScore.classList.add('liked')
@@ -233,7 +268,7 @@ function connect(){
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
-                superScore.innerText = parseInt(superScore.innerText) - 1
+                superScore.innerText = parseInt(superScore.innerText) - parseInt(data.changeBy)
 
                 superScore.classList.remove('disliked')
                 superScore.classList.remove('liked')
@@ -242,7 +277,7 @@ function connect(){
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
-                superScore.innerText = parseInt(superScore.innerText) - 1
+                superScore.innerText = parseInt(superScore.innerText) - parseInt(data.changeBy)
 
                 superScore.classList.remove('liked')
                 superScore.classList.add('disliked')
@@ -251,17 +286,10 @@ function connect(){
                 id = data.message_id
 
                 const superScore = document.getElementById(id).lastElementChild // Superscript Score
-                superScore.innerText = parseInt(superScore.innerText) + 1
+                superScore.innerText = parseInt(superScore.innerText) + parseInt(data.changeBy)
 
                 superScore.classList.remove('liked')
                 superScore.classList.remove('disliked')
-            } else if (data.action == 'edit') {
-                id = data.message_id
-
-                const messageActualContent = document.getElementById(id).querySelector('.message-actual-content')
-
-                messageActualContent.contentEditable = 'true';
-                messageActualContent.focus()
             }
 
         } else if ('interaction' in data) { // An interaction here is defined as someone else interacting with a message.
@@ -271,22 +299,25 @@ function connect(){
 
                 const messageDOM = document.getElementById(id)
                 message_scoreDOM = messageDOM.lastElementChild
-                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + 1
+                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + parseInt(data.changeBy)
+
+                console.log(message_scoreDOM.innerText)
+
             } else if (data.interaction === 'unlike') {
 
                 const messageDOM = document.getElementById(id)
                 message_scoreDOM = messageDOM.lastElementChild
-                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) - 1
+                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) - parseInt(data.changeBy)
             } else if (data.interaction == 'dislike') {
                 
                 const messageDOM = document.getElementById(id)
                 message_scoreDOM = messageDOM.lastElementChild
-                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) - 1
+                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) - parseInt(data.changeBy)
             } else if (data.interaction == 'undislike') {
                 
                 const messageDOM = document.getElementById(id)
                 message_scoreDOM = messageDOM.lastElementChild
-                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + 1
+                message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + parseInt(data.changeBy)
             }
         } else if ('edited_content' in data) {
 
@@ -335,7 +366,7 @@ function connect(){
                 clearTimeout(dwellingTimer);
                 dwellingTimer = setTimeout(function() { 
                     removeAllItems(typers, userSpan);
-                    updateTyping(); 
+                    updateIsTyping(); 
                 }, 30000);
 
             } else if (data.typing_status == 'stopped') {
@@ -344,7 +375,7 @@ function connect(){
 
             } 
 
-            updateTyping();
+            updateIsTyping();
 
         } else if ('pong' in data) {
             pingReading.innerText = Math.round(performance.now() - start) + 'ms'
@@ -361,6 +392,8 @@ function connect(){
 
         pingReading.innerText = expressions[Math.floor(Math.random()*expressions.length)];
     };
+
+    // -------------------------- Chat Bar Events -------------------------- //
 
     chatInput.onkeydown = function(e) {
         if (e.key === 'Enter') {
@@ -382,18 +415,22 @@ function connect(){
 
         if (document.querySelector('input[name="puppet"]:checked')){
             if (!timerIsOn) {
-                const puppet = document.querySelector('input[name="puppet"]:checked').value;
 
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+                
                 chatSocket.send(JSON.stringify({
                     'typing_status' : 'started',
                     'puppet' : puppet
                 }))
+
             }
         } else {
             if (!timerIsOn) {
+
                 chatSocket.send(JSON.stringify({
                     'typing_status' : 'started',
                 }))
+
             }
         }
 
@@ -411,31 +448,15 @@ function connect(){
         timerIsOn = true
     }
 
-    function doneTyping () {
-        if (document.querySelector('input[name="puppet"]:checked')){
-            const puppet = document.querySelector('input[name="puppet"]:checked').value;
-            chatSocket.send(JSON.stringify({
-                'typing_status' : 'stopped',
-                'puppet' : puppet
-            }))
-           timerIsOn = false
-        } else {
-            chatSocket.send(JSON.stringify({
-                'typing_status' : 'stopped',
-            }))
-           timerIsOn = false
-        }
-    }
-
     chatInput.addEventListener('paste', function(e) {
-    // cancel paste
-    e.preventDefault();
+        // cancel paste
+        e.preventDefault();
 
-    // get text representation of clipboard
-    var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+        // get text representation of clipboard
+        var text = (e.originalEvent || e).clipboardData.getData('text/plain');
 
-    // insert text manually
-    document.execCommand("insertHTML", false, text);
+        // insert text manually
+        document.execCommand("insertHTML", false, text);
     });
 
     // Sends message and clears chat bar
@@ -465,6 +486,8 @@ function connect(){
         };
     };
 
+    // -------------------------- General Mouseover Events -------------------------- //
+
     document.addEventListener("mouseover", function(e) {
         if (e.target.id.startsWith('msg_')) {
             chatSocket.send(JSON.stringify({
@@ -474,6 +497,8 @@ function connect(){
             }))
         }
     })
+
+    // -------------------------- General Mouseclick Events -------------------------- //
 
     document.addEventListener("click", function(e) {
         classNames = e.target.className.toString().split(' ')
@@ -523,15 +548,16 @@ function connect(){
                 }))
                 
             }
-        } else if (classNames.includes('message-actual-content')) {
-            chatSocket.send(JSON.stringify({
-                'message_id' : e.target.parentElement.id,
-                'target' : 'content',
-                'trigger' : 'click',
-                //'attempt' : 'edit' This is currenty unecessary to send because the target has only one kind of attempt assosiated with it.
-            }))
+        } else if (classNames.includes('editable-content')) {
+
+            const messageActualContent = e.target
+
+            messageActualContent.focus()
+
         }
     })
+
+    // -------------------------- Focusout Events -------------------------- //
 
     document.addEventListener("focusout", function(e) {
         if (e.target.className.toString().split(' ').includes('message-actual-content')) {
@@ -542,6 +568,8 @@ function connect(){
             }))
         }
     });
+
+    // -------------------------- Events for each .message-actual-content -------------------------- //
 
     document.querySelectorAll('.message-actual-content').forEach(content =>
 
@@ -565,6 +593,8 @@ function connect(){
             }
         })
     )
+
+    // -------------------------- Scroll Functionality -------------------------- //
 
     var timer; 
     document.getElementById('chat').addEventListener('scroll', event => {
@@ -590,5 +620,7 @@ function connect(){
     };
 
 };
+
+// -------------------------- Starting the Connection -------------------------- //
 
 connect();

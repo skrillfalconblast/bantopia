@@ -327,11 +327,12 @@ sup {
     word-wrap: break-word;
 }
 
-.editable:hover {
+.editable:hover > .message-actual-content {
     color: #999999;
 }
 
-.editable:focus {
+.message-actual-content:focus {
+    color: #999999;
     outline: 0;
 }
 
@@ -592,7 +593,11 @@ sup {
 }
 
 .chat-bar p:focus {
-    outline-width: 0;
+    outline: 0;
+}
+
+.chat-bar p:read-write:focus {
+    outline: 0;
 }
 
 p[contenteditable="true"]:empty:not(:focus):before { /* This looks like a mess */
@@ -1302,35 +1307,35 @@ input:focus:-ms-input-placeholder {
     }
 
     .author-shadow-OR {
-        box-shadow: inset 0 -1.5vw 0 #F28500;
+        box-shadow: inset 0 -1.7vw 0 #F28500;
     }
     
     .author-shadow-BL {
-        box-shadow: inset 0 -1.5vw 0 #00baf2;
+        box-shadow: inset 0 -1.7vw 0 #00baf2;
     }
     
     .author-shadow-GR {
-        box-shadow: inset 0 -1.5vw 0 #0fb300;
+        box-shadow: inset 0 -1.7vw 0 #0fb300;
     }
     
     .author-shadow-RE {
-        box-shadow: inset 0 -1.5vw 0 #fb3a3a;
+        box-shadow: inset 0 -1.7vw 0 #fb3a3a;
     }
     
     .author-shadow-PU {
-        box-shadow: inset 0 -1.5vw 0 #5934ff;
+        box-shadow: inset 0 -1.7vw 0 #5934ff;
     }
     
     .author-shadow-PI {
-        box-shadow: inset 0 -1.5vw 0 #cb0cd1;
+        box-shadow: inset 0 -1.7vw 0 #cb0cd1;
     }
     
     .author-shadow-MA {
-        box-shadow: inset 0 -1.5vw 0 #ac0000;
+        box-shadow: inset 0 -1.7vw 0 #ac0000;
     }
     
     .author-shadow-AQ {
-        box-shadow: inset 0 -1.5vw 0 #35d6b3;
+        box-shadow: inset 0 -1.7vw 0 #35d6b3;
     }
 
     .message {
@@ -1350,18 +1355,30 @@ input:focus:-ms-input-placeholder {
     }
 
     .chat-bar button {
-        width: 22px;
+        width: 28px;
         margin-bottom: 0px;
+        margin-right: 4.5%;
     }
 
     .chat-bar p {
         border: none;
         padding: 0;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        width: 80%;
-        margin-right: 30px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        width: 100%;
+        padding-right: 30px;
         font-weight: 600;
+        margin: 0;
+        padding-left: 4.5%;
+    }
+
+    .chat-bar p:focus {
+        outline: 0;
+        border-left: 5px solid #f28500;
+    }
+    
+    .chat-bar p:read-write:focus {
+        outline: none;
     }
 
     .typing-indicator {
@@ -1427,12 +1444,8 @@ input:focus:-ms-input-placeholder {
         box-shadow: inset 0 -6px 0 #30f200;
     }
 
-    .author {
-        margin-bottom: 1px;
-    }
-
     .chat-bar p {
-        margin-right: 5.5vw;
+        padding-right: 5.5vw;
     }
 
     #dog-display {
