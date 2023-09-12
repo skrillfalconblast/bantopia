@@ -1344,6 +1344,10 @@ input:focus:-ms-input-placeholder {
         padding: 0;
     }
 
+    .editable:hover > .message-actual-content {
+        color: #000000;
+    }
+    
     .chatbar-container {
         padding: 0 0 27px 0;
         border-top: 5px solid #000;

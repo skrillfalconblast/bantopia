@@ -220,42 +220,45 @@ def write(request):
 
                     post_code = get_random_string(length=8)
 
+                    if not Post.objects.filter(post_title=draft_title, post_desc=draft_desc): # A if previous identical post doesn't exist.
+
+                        if draft_type.strip() != '' and draft_title.strip() != '' and draft_desc.strip() != '':
+                            post = Post(
+                                post_code=post_code, post_type=draft_type,
+                                post_title=draft_title, post_desc=draft_desc,
+                                post_author=user, post_author_name=user.display_name,
+                                post_number_of_messages=0)
+                            post.save()
+
+                            post = Post.objects.get(post_code=post_code)
+
+                            tags = stringToList(draft_tags)
+
+                            for tag in tags:
+                                
+                                tag = Tag(tag_text=tag[:50], tag_post=post)
+                                tag.save()
 
 
-                    if draft_type.strip() != '' and draft_title.strip() != '' and draft_desc.strip() != '':
-                        post = Post(
-                            post_code=post_code, post_type=draft_type,
-                            post_title=draft_title, post_desc=draft_desc,
-                            post_author=user, post_author_name=user.display_name,
-                            post_number_of_messages=0)
-                        post.save()
+                            existing_draft_code = request.GET.get('drafting')
 
-                        post = Post.objects.get(post_code=post_code)
+                            if Draft.objects.filter(draft_code=existing_draft_code, draft_author=user): # If an existing draft is being posted
 
-                        tags = stringToList(draft_tags)
+                                draft = Draft.objects.get(draft_code=existing_draft_code, draft_author=user)
 
-                        for tag in tags:
-                            
-                            tag = Tag(tag_text=tag[:50], tag_post=post)
-                            tag.save()
+                                draft.delete()
 
+                            if draft_type == 'DE':
+                                WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.DECLARE)
+                            elif draft_type == 'TH':
+                                WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.THEORISE)
+                            elif draft_type == 'QU':
+                                WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
 
-                        existing_draft_code = request.GET.get('drafting')
-
-                        if Draft.objects.filter(draft_code=existing_draft_code, draft_author=user): # If an existing draft is being posted
-
-                            draft = Draft.objects.get(draft_code=existing_draft_code, draft_author=user)
-
-                            draft.delete()
-
-                        if draft_type == 'DE':
-                            WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.DECLARE)
-                        elif draft_type == 'TH':
-                            WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.THEORISE)
-                        elif draft_type == 'QU':
-                            WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
-
-                        return redirect('/') # If something is posted, the user will always be redirected to the homepage.
+                            return redirect('/') # If something is posted, the user will always be redirected to the homepage.
+                        else:
+                            return render(request, 'post/write.html', {'tab_text' : tab_text})
+                    
                     else:
                         return render(request, 'post/write.html', {'tab_text' : tab_text})
                 

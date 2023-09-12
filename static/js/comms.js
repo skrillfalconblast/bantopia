@@ -618,6 +618,30 @@ function connect(){
             messageActualContent.focus()
 
         }
+
+        if (classNames.includes('message-actual-content')) {
+
+            if (document.querySelector('input[name="puppet"]:checked')){
+
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+                chatSocket.send(JSON.stringify({
+                    'message_id' : e.target.closest('.content').id,
+                    'target' : 'message',
+                    'trigger' : 'hover',
+                    'puppet' : puppet
+                }))
+                
+            } else {
+
+                chatSocket.send(JSON.stringify({
+                    'message_id' : e.target.closest('.content').id,
+                    'target' : 'message',
+                    'trigger' : 'hover'
+                }))
+
+            }
+        }
     })
 
     // -------------------------- Focusout Events -------------------------- //
