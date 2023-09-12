@@ -331,7 +331,8 @@ sup {
     color: #999999;
 }
 
-.message-actual-content:focus {
+.message-actual-content:focus,
+.message-actual-content:active {
     color: #999999;
     outline: 0;
 }
@@ -1003,6 +1004,12 @@ input:focus:-ms-input-placeholder {
     color: #d60000;
 }
 
+@media (hover: hover) {
+    .editable:hover > .message-actual-content {
+        color: #000000;
+    }
+  }
+
 @media only screen and (max-width: 1260px) {
     .option:nth-child(1) img {
         filter: invert(100%);
@@ -1342,10 +1349,6 @@ input:focus:-ms-input-placeholder {
         font-size: 10vw;
         margin: 5px 0 0px 15px;
         padding: 0;
-    }
-
-    .editable:hover > .message-actual-content {
-        color: #000000;
     }
     
     .chatbar-container {
