@@ -454,6 +454,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                         message = await self.find_message(message_code=message_code)
 
+
                         if await self.find_interaction(message, user):
                             interaction = await self.find_interaction(message, user)
                             if interaction.interaction_type == Interaction.LIKE:
@@ -473,11 +474,41 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                 'state' : 'neutral'
                             }))
 
+                        if 'puppet' in text_data_json.keys() and user.is_superuser:
+
+                            puppet_name = text_data_json["puppet"]
+                            puppet = await self.get_user(puppet_name)
+
+                            if await self.get_author(message) == puppet:
+
+                                await self.send(text_data=json.dumps({
+                                    'message_id' : message_id,
+                                    'switch' : 'native'
+                                }))
+
+                            else:
+                                await self.send(text_data=json.dumps({
+                                    'message_id' : message_id,
+                                    'switch' : 'foreign'
+                                }))
+
+                    if text_data_json["target"] == "content":
+
+                        if user.is_authenticated:
+
+                            message_id = text_data_json['message_id']
+                            message_code = message_id[4:] # Get the message code without the 'msg_' part
+
+                            message = await self.find_message(message_code=message_code)
+
+
+
             elif text_data_json["trigger"] == "click":
-                message_id = text_data_json['message_id']
-                message_code = message_id[4:]
 
                 if user.is_authenticated:
+
+                    message_id = text_data_json['message_id']
+                    message_code = message_id[4:]
 
                     if text_data_json["target"] == 'tag':
 
@@ -880,29 +911,61 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             if user.is_authenticated:
 
-                message_id = text_data_json["message_id"]
-                message_code = message_id[4:]
+                if 'puppet' in text_data_json.keys() and user.is_superuser:
 
-                edited_message = text_data_json["edit"].strip()
+                    puppet_name = text_data_json["puppet"]
 
-                if edited_message:
+                    puppet = await self.get_user(puppet_name)
 
-                    edited_message = await self.edit_message(message_code, edited_message, user) # The function verifies if the message author and the editing author are identical.
+                    message_id = text_data_json["message_id"]
+                    message_code = message_id[4:]
+
+                    edited_message = text_data_json["edit"].strip()
 
                     if edited_message:
 
-                        # Send message to post group
-                        await self.channel_layer.group_send(
-                            self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
-                        )
-                else: # On an empty edit, find the orignal message and simply replace the original data. This is sent only to the editors screen to rectify their failed edit.
-    
-                    original_message = await self.find_message(message_code=message_code)
+                        edited_message = await self.edit_message(message_code, edited_message, puppet) # The function verifies if the message author and the editing author are identical.
 
-                    await self.send(text_data=json.dumps({
-                        "message_code" : message_code,
-                        "edited_content" : original_message.message_content,
-                    }))
+                        if edited_message:
+
+                            # Send message to post group
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
+                            )
+                    else: # On an empty edit, find the orignal message and simply replace the original data. This is sent only to the editors screen to rectify their failed edit.
+        
+                        original_message = await self.find_message(message_code=message_code)
+
+                        await self.send(text_data=json.dumps({
+                            "message_code" : message_code,
+                            "edited_content" : original_message.message_content,
+                        }))
+                else:
+
+                    message_id = text_data_json["message_id"]
+                    message_code = message_id[4:]
+
+                    edited_message = text_data_json["edit"].strip()
+
+                    if edited_message:
+
+                        edited_message = await self.edit_message(message_code, edited_message, user) # The function verifies if the message author and the editing author are identical.
+
+                        if edited_message:
+
+                            # Send message to post group
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
+                            )
+                    else: # On an empty edit, find the orignal message and simply replace the original data. This is sent only to the editors screen to rectify their failed edit.
+        
+                        original_message = await self.find_message(message_code=message_code)
+
+                        await self.send(text_data=json.dumps({
+                            "message_code" : message_code,
+                            "edited_content" : original_message.message_content,
+                        }))
+
 
     # Receive message from post group
     async def chat_message(self, event):

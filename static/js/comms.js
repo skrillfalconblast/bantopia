@@ -124,9 +124,12 @@ function connect(){
     );
 
     chatSocket.onopen = function() {
-        document.getElementById('disconnect-alert').classList.add('hidden');
+        const disconnectAlertDOM = document.getElementById('disconnect-alert');
+        if (disconnectAlertDOM) {
+            disconnectAlertDOM.classList.add('hidden');
 
-        document.getElementById('disconnect-alert-text').innerText = "Oops, you're disconnected from the chat. Click here to reconnect!";
+            document.getElementById('disconnect-alert-text').innerText = "Oops, you're disconnected from the chat. Click here to reconnect!";
+        }
 
         chatSocket.send(JSON.stringify({
             'ping' : 'initial',
@@ -135,15 +138,17 @@ function connect(){
 
     // -------------------------- Pingster Functionality -------------------------- //
 
-    var intervalPing = window.setInterval(function(){
-        window.start = performance.now();
-        chatSocket.send(JSON.stringify({
-            'ping' : 'performance',
-        }));
-      }, 200);
-
     const pingReading = document.getElementById('ping-reading')
 
+    if (pingReading) {
+        var intervalPing = window.setInterval(function(){
+            window.start = performance.now();
+            chatSocket.send(JSON.stringify({
+                'ping' : 'performance',
+            }));
+        }, 200);
+    }
+    
     // -------------------------- Functions used in onmessage -------------------------- //
 
     function updateIsTyping() {
@@ -325,6 +330,47 @@ function connect(){
 
             document.getElementById(message_id).querySelector('.message-actual-content').textContent = data.edited_content
 
+        } else if ('switch' in data) {
+            
+            const messageContent = document.getElementById(data.message_id)
+
+            if (data.switch == 'native') {
+
+                messageContent.classList.remove('neutral')
+                messageContent.classList.add('editable')
+
+                messageContent.firstElementChild.classList.remove('leading-tag')
+                messageContent.firstElementChild.classList.remove('dislikable-excited')
+
+                messageContent.querySelector('.message-actual-content').classList.add('editable-content')
+                messageContent.querySelector('.message-actual-content').contentEditable = "plaintext-only";
+                messageContent.querySelector('.message-actual-content').setAttribute("enterkeyhint", "edit");
+
+                // Can't use the lastElementChild selector because it's not the last element, the super score is.
+                messageContent.children[2].classList.remove('trailing-tag') 
+                messageContent.children[2].classList.remove('likable-excited')
+
+
+
+            } else if (data.switch == 'foreign') {
+
+                messageContent.classList.add('neutral')
+                messageContent.classList.remove('editable')
+
+                messageContent.firstElementChild.classList.add('leading-tag')
+                messageContent.firstElementChild.classList.add('dislikable-excited')
+
+                messageContent.querySelector('.message-actual-content').classList.remove('editable-content')
+                messageContent.querySelector('.message-actual-content').removeAttribute("contenteditable")
+                messageContent.querySelector('.message-actual-content').removeAttribute("enterkeyhint");
+
+                // Can't use the lastElementChild selector because it's not the last element, the super score is.
+                messageContent.children[2].classList.add('trailing-tag') 
+                messageContent.children[2].classList.add('likable-excited')
+
+            }
+            
+
         } else if ('y_votes' in data || 'n_votes' in data) {
 
             document.getElementById('Y').firstElementChild.innerText = 'yes=' + data.y_votes
@@ -395,106 +441,123 @@ function connect(){
 
     // -------------------------- Chat Bar Events -------------------------- //
 
-    chatInput.onkeydown = function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-        }
-    };
-
-    var typers = []
-
-    var typingTimer; //timer identifier
-    var doneTypingInterval = 3000; //time in ms
-    var timerIsOn
-
-    chatInput.onkeyup = function(e) {
-        if (e.key === 'Enter') {
-            document.querySelector('#chat-submit').click();
-        }
-
-
-        if (document.querySelector('input[name="puppet"]:checked')){
-            if (!timerIsOn) {
-
-                const puppet = document.querySelector('input[name="puppet"]:checked').value;
-                
-                chatSocket.send(JSON.stringify({
-                    'typing_status' : 'started',
-                    'puppet' : puppet
-                }))
-
+    if (chatInput) {
+        chatInput.onkeydown = function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
             }
-        } else {
-            if (!timerIsOn) {
+        };
 
-                chatSocket.send(JSON.stringify({
-                    'typing_status' : 'started',
-                }))
+        var typers = []
 
+        var typingTimer; //timer identifier
+        var doneTypingInterval = 3000; //time in ms
+        var timerIsOn
+
+        chatInput.onkeyup = function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('#chat-submit').click();
             }
-        }
 
-        clearTimeout(typingTimer);
-        if (document.querySelector('input[name="puppet"]:checked')){
-
-            doneTypingInterval = 1000
-            typingTimer = setTimeout(doneTyping, doneTypingInterval);
-
-        } else {
-
-            typingTimer = setTimeout(doneTyping, doneTypingInterval);
-
-        }
-        timerIsOn = true
-    }
-
-    chatInput.addEventListener('paste', function(e) {
-        // cancel paste
-        e.preventDefault();
-
-        // get text representation of clipboard
-        var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-
-        // insert text manually
-        document.execCommand("insertHTML", false, text);
-    });
-
-    // Sends message and clears chat bar
-    document.querySelector('#chat-submit').onclick = function(e) {
-        const messageInputDom = chatInput;
-        const message = messageInputDom.textContent;
-
-        if (message != '') {
 
             if (document.querySelector('input[name="puppet"]:checked')){
+                if (!timerIsOn) {
 
-                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+                    const puppet = document.querySelector('input[name="puppet"]:checked').value;
+                    
+                    chatSocket.send(JSON.stringify({
+                        'typing_status' : 'started',
+                        'puppet' : puppet
+                    }))
 
-                chatSocket.send(JSON.stringify({
-                    'message' : message,
-                    'puppet' : puppet
-                }));
-                messageInputDom.textContent = '';
+                }
+            } else {
+                if (!timerIsOn) {
+
+                    chatSocket.send(JSON.stringify({
+                        'typing_status' : 'started',
+                    }))
+
+                }
+            }
+
+            clearTimeout(typingTimer);
+            if (document.querySelector('input[name="puppet"]:checked')){
+
+                doneTypingInterval = 1000
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
 
             } else {
 
-                chatSocket.send(JSON.stringify({
-                    'message' : message,
-                }));
-                messageInputDom.textContent = '';
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+
             }
+            timerIsOn = true
+        }
+
+        chatInput.addEventListener('paste', function(e) {
+            // cancel paste
+            e.preventDefault();
+
+            // get text representation of clipboard
+            var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+            // insert text manually
+            document.execCommand("insertHTML", false, text);
+        });
+
+        // Sends message and clears chat bar
+        document.querySelector('#chat-submit').onclick = function(e) {
+            const messageInputDom = chatInput;
+            const message = messageInputDom.textContent;
+
+            if (message != '') {
+
+                if (document.querySelector('input[name="puppet"]:checked')){
+
+                    const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+                    chatSocket.send(JSON.stringify({
+                        'message' : message,
+                        'puppet' : puppet
+                    }));
+                    messageInputDom.textContent = '';
+
+                } else {
+
+                    chatSocket.send(JSON.stringify({
+                        'message' : message,
+                    }));
+                    messageInputDom.textContent = '';
+                }
+            };
         };
-    };
+    }
 
     // -------------------------- General Mouseover Events -------------------------- //
 
     document.addEventListener("mouseover", function(e) {
         if (e.target.id.startsWith('msg_')) {
-            chatSocket.send(JSON.stringify({
-                'message_id' : e.target.id,
-                'target' : 'message',
-                'trigger' : 'hover'
-            }))
+            if (document.querySelector('input[name="puppet"]:checked')){
+
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+                chatSocket.send(JSON.stringify({
+                    'message_id' : e.target.id,
+                    'target' : 'message',
+                    'trigger' : 'hover',
+                    'puppet' : puppet
+                }))
+                
+            } else {
+
+                chatSocket.send(JSON.stringify({
+                    'message_id' : e.target.id,
+                    'target' : 'message',
+                    'trigger' : 'hover'
+                }))
+
+            }
         }
     })
 
@@ -561,11 +624,23 @@ function connect(){
 
     document.addEventListener("focusout", function(e) {
         if (e.target.className.toString().split(' ').includes('message-actual-content')) {
-            messageId = e.target.parentElement.id
-            chatSocket.send(JSON.stringify({
-                'message_id' : e.target.parentElement.id,
-                'edit' : e.target.textContent,
-            }))
+            if (document.querySelector('input[name="puppet"]:checked')){
+
+                const puppet = document.querySelector('input[name="puppet"]:checked').value;
+
+                messageId = e.target.parentElement.id
+                chatSocket.send(JSON.stringify({
+                    'message_id' : e.target.parentElement.id,
+                    'edit' : e.target.textContent,
+                    'puppet' : puppet
+                }))
+            } else {
+                messageId = e.target.parentElement.id
+                chatSocket.send(JSON.stringify({
+                    'message_id' : e.target.parentElement.id,
+                    'edit' : e.target.textContent,
+                }))
+            }
         }
     });
 
@@ -597,26 +672,35 @@ function connect(){
     // -------------------------- Scroll Functionality -------------------------- //
 
     var timer; 
-    document.getElementById('chat').addEventListener('scroll', event => {
+    const chatDOM = document.getElementById('chat')
+    if (chatDOM) {
+        chatDOM.addEventListener('scroll', event => {
 
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            const {scrollTop} = event.target;
-            if (Math.abs(scrollTop) < 10) {
-                document.getElementById('new-messages-alert').classList.add('hidden');
-            };
-        }, 250)
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                const {scrollTop} = event.target;
+                if (Math.abs(scrollTop) < 10) {
+                    document.getElementById('new-messages-alert').classList.add('hidden');
+                };
+            }, 250)
 
-    });
+        });
+    }
 
-    document.getElementById('new-messages-alert').onclick = function(){
-        jumpToBottom()
+    const newMessagesAlertDOM = document.getElementById('new-messages-alert');
+    if (newMessagesAlertDOM) {
+        newMessagesAlertDOM.onclick = function(){
+            jumpToBottom()
+        };
     };
 
-    document.getElementById('disconnect-alert').onclick = function(){
-        document.getElementById('disconnect-alert-text').innerText = "Connecting...";
+    const disconnectAlertDOM = document.getElementById('disconnect-alert');
+    if (disconnectAlertDOM) {
+        disconnectAlertDOM.onclick = function(){
+            document.getElementById('disconnect-alert-text').innerText = "Connecting...";
 
-        connect();
+            connect();
+        };
     };
 
 };
