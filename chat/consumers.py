@@ -11,7 +11,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from .models import Message, Interaction
 from posts.models import Post, Vote
-from users.models import WatchlistActivity, Report
+from users.models import WatchlistActivity, Report, Ban
 
 from django.utils import timezone
 from django.db.models import Sum
@@ -414,6 +414,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }
 
         return tally
+    
+    @database_sync_to_async
+    def ban_check(self, user):
+        if Ban.objects.filter(banned_user=user):
+            return True
+        else:
+            return False
 
     async def redirectTo(self, url):
         return redirect(url)
@@ -764,17 +771,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                             if len(message) <= 1000:
 
-                                await self.handle_engage(user)
-                                await self.handle_active(user)
+                                if not await self.ban_check(user):
+                                
+                                    await self.handle_engage(user)
+                                    await self.handle_active(user)
 
-                                new_message = await self.log_message(message, user)
+                                    new_message = await self.log_message(message, user)
 
-                                # Send message to post group
-                                await self.channel_layer.group_send(
-                                    self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
-                                )
+                                    # Send message to post group
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
+                                    )
 
-                                await self.notify() # Notify the users of a new message
+                                    await self.notify() # Notify the users of a new message
+                                    
+                                else:
+
+                                    await self.send(text_data=json.dumps({
+                                        "message_code" : get_random_string(length=12),
+                                        "message" : message,
+                                        "author" : user.display_name,
+                                        "author_color" : user.color,
+                                        "origin" : "native",
+                                    }))
+
                             else:
                                 await self.send(text_data=json.dumps({
                                     "alert" : "message_failure",

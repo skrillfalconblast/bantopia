@@ -114,8 +114,14 @@ function connect(){
 
     const chatInput = document.getElementById('chat-input')
 
+    var loc = window.location
+    var wsProtocol = 'ws://'
+    if (loc.protocol == "https:"){
+        wsProtocol = 'wss://'
+    }
+
     const chatSocket = new WebSocket (
-        'wss://'
+        wsProtocol
         + window.location.host
         + '/ws/'
         + postCode

@@ -178,3 +178,6 @@ class Report(models.Model):
     report_reason = models.TextField()
 
     report_datetime = models.DateTimeField(auto_now_add=True)
+
+class Ban(models.Model):
+    banned_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
