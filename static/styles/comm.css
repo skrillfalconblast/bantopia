@@ -331,8 +331,7 @@ sup {
     color: #999999;
 }
 
-.message-actual-content:focus,
-.message-actual-content:active {
+.message-actual-content:focus {
     color: #999999;
     outline: 0;
 }
