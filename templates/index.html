@@ -85,7 +85,7 @@
                     <hr class="post-div">
                     <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
                     {% if post.last_message %}
-                        {% if post.pk in user_notified_set %}
+                        {% if post.pk in user_notified_set or not user.is_authenticated %}
                         <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message">New Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
                         {% else %}
                         <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message">Last Message<span class="recent-message-content">:  <span class="recent-message-bracket">{</span>{{ post.last_message|truncatesmart:35 }}<span class="recent-message-bracket">}</span></span></h1></div>
