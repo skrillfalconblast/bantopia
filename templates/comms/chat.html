@@ -178,6 +178,7 @@
     -->
     </div>
     {{ post.post_code|json_script:"post-code" }}
+    <audio id="notif-audio" src='{% static "audio/notif.mp3" %}'></audio>
 </body>
 <script src="{% static 'js/comms.js' %}"></script>
 </html>

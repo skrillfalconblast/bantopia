@@ -7,6 +7,10 @@ navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('menu-collapsed')
 });
 
+// -------------------------- Notification Sound -------------------------- //
+
+const notifAudio = document.getElementById('notif-audio')
+
 // -------------------------- Functions that don't reference the chatsocket -------------------------- //
 
 function escapeHtml(text) {
@@ -220,18 +224,25 @@ function connect(){
 
             if (data.origin == 'native') {
 
-            message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
-
-            message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.target.blur()
-                }
-            })
+                message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+                
+                message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        e.target.blur()
+                    }
+                })
 
             } else if (data.origin == 'foreign') {
 
                 message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+                
+                message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        e.target.blur()
+                    }
+                })
 
             }
         
@@ -248,6 +259,8 @@ function connect(){
             userSpan = `<span class="color-${data.author_color}">${data.author}</span>`
             removeAllItems(typers, userSpan);
             updateIsTyping(); 
+            
+            notifAudio.play();
 
 
         } else if ('message_id' in data && 'state' in data) {

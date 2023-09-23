@@ -4,6 +4,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchRank, SearchQuery, SearchVector
 from django.views.decorators.csrf import csrf_exempt
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When, IntegerField, Max, Subquery, OuterRef, Prefetch, Q
 from django.db.models.functions import Round, Log, Greatest, Abs
 
@@ -52,7 +55,7 @@ def counterHack(posts):
                             "<span>In the beginning</span>, God created the <span>heavens</span> and the earth. The earth was <span>without form and void</span>, and <span>darkness</span> was over the face of the <span>deep</span>. And the <span>Spirit of God</span> was hovering over the face of <span>the waters.</span> And God said, “Let there be <span>light</span>,” and there was <span>light</span>. And God saw that the <span>light was good.</span> And God separated the <span>light</span> from the <span>darkness</span>. God called the <span>light Day,</span> and the <span>darkness</span> he called <span>Night</span>. And there was <span>evening</span> and there was <span>morning</span>, the first <span>day.</span>",
                             "The <span>cat</span> (Felis catus) is a <span>domestic species</span> of small <span>carnivorous</span> mammal. It is the <span>only</span> domesticated species in the family <span> Felidae</span> and is commonly referred to as the <span>kitty cat</span> or <span>the pussy cat</span> to distinguish it from the <span>wild members</span> of the family. Cats are <span>commonly</span> kept as <span>house pets</span> but can also be farm cats or <span>feral cats</span>; the feral cat ranges freely and <span>adores human contact</span>. Domestic cats are <span>valued</span> by humans for <span>comdedic value</span> and their ability to <span>eradicate</span> vermin. About 60 cat breeds are <span>recognized</span> by various cat <span>tamers</span>, such as the <span>fluffy</span> cat, the <span>short-hair</span> cat and the <span>no</span> hair cat."
                             "Guess the <span>tune</span>: Da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da da <span>daaaaa</span> da da da <span>da-da</span> da da da <span>da-da</span> da da <span>daaaaaaaaaa</span> da da da <span>da-da</span> daaa daaa daaaa, daaa daaaa daaaa <span>da-da</span> da daaa daaaa. <span>One more time!</span>  Da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da <span>da-da</span>, da da da <span>da-da</span> da da da da <span>daaaaa</span> da da da <span>da-da</span> da da da <span>da-da</span> da da <span>daaaaaaaaaa</span> da da da <span>da-da</span> daaa daaa daaaa, daaa daaaa daaaa <span>da-da</span> da daaa daaaa. Answer: <span>Super Smash Bros. Ultimate Main Theme</span>",
-                            "<span>Water</span>. Earth. <span>Fire</span>. Air. Long ago, <span>the four nations</span> lived together in <span>harmon</span>. Then, everything changed when <span>the Fire Nation attacked</span>. Only the <span>Avatar</span>, master of all <span>four elements</span>, could stop them, but when the <span>world</span> needed him most, <span>he vanished</span>. A hundred years passed and <span>my brother</span> and I discovered the new Avatar, an <span>airbender</span> named Aang. And although his <span>airbending skills are great</span>, he has <span>a lot to learn</span> before he's ready to save anyone. But I believe <span>Aang</span> can <span>save the world</span>."]
+                            "<span>Water</span>. Earth. <span>Fire</span>. Air. Long ago, <span>the four nations</span> lived together in <span>harmony</span>. Then, everything changed when <span>the Fire Nation attacked</span>. Only the <span>Avatar</span>, master of all <span>four elements</span>, could stop them, but when the <span>world</span> needed him most, <span>he vanished</span>. A hundred years passed and <span>my brother</span> and I discovered the new Avatar, an <span>airbender</span> named Aang. And although his <span>airbending skills are great</span>, he has <span>a lot to learn</span> before he's ready to save anyone. But I believe <span>Aang</span> can <span>save the world</span>."]
             
             post.ticker_text = random.choice(ticker_texts)
 
@@ -210,10 +213,12 @@ def write(request):
             draftPressed = request.POST.get('draft-btn')
             deletePressed = request.POST.get('delete-btn')
 
-            draft_type = request.POST.get('type')
-            draft_title = request.POST.get('title')
-            draft_desc = request.POST.get('text')
-            draft_tags = request.POST.get('tags') # They are simply stored in a string for ease of storage.
+            draft_type = request.POST.get('type').strip()
+            draft_title = request.POST.get('title').strip()
+            draft_desc = request.POST.get('text').strip()
+            draft_tags = request.POST.get('tags').strip() # They are simply stored in a string for ease of storage.
+
+            post_user = request.POST.get('user').strip()
 
             try:
                 if postPressed: # If the post button was pressed.
@@ -222,41 +227,97 @@ def write(request):
 
                         if not Ban.objects.filter(banned_user=user):
 
-                            if draft_type.strip() != '' and draft_title.strip() != '' and draft_desc.strip() != '':
+                            if draft_type != '' and draft_title != '' and draft_desc != '':
 
-                                post_code = get_random_string(length=8)
-                                
-                                post = Post(
-                                    post_code=post_code, post_type=draft_type,
-                                    post_title=draft_title, post_desc=draft_desc,
-                                    post_author=user, post_author_name=user.display_name,
-                                    post_number_of_messages=0)
-                                post.save()
+                                if user.is_superuser and post_user:
 
-                                post = Post.objects.get(post_code=post_code)
+                                    try:
+                                        post_user_obj = User.objects.get(display_name=post_user)
+                                    except User.DoesNotExist:
+                                        post_user_obj = None
 
-                                tags = stringToList(draft_tags)
+                                    if post_user_obj:
+                                        
+                                        post_code = get_random_string(length=8)
 
-                                for tag in tags:
+                                        post = Post(
+                                            post_code=post_code, post_type=draft_type,
+                                            post_title=draft_title, post_desc=draft_desc,
+                                            post_author=post_user_obj, post_author_name=post_user_obj.display_name,
+                                            post_number_of_messages=0)
+                                        
+                                        post.save()
+
+                                        post = Post.objects.get(post_code=post_code)
+
+                                        tags = stringToList(draft_tags)
+
+                                        for tag in tags:
+                                            
+                                            tag = Tag(tag_text=tag[:50], tag_post=post)
+                                            tag.save()
+
+
+                                        existing_draft_code = request.GET.get('drafting')
+
+                                        if Draft.objects.filter(draft_code=existing_draft_code, draft_author=post_user_obj): # If an existing draft is being posted
+
+                                            draft = Draft.objects.get(draft_code=existing_draft_code, draft_author=post_user_obj)
+
+                                            draft.delete()
+
+                                        if draft_type == 'DE':
+                                            WatchlistActivity.objects.create(watchlist_activity_user=post_user_obj, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.DECLARE)
+                                        elif draft_type == 'TH':
+                                            WatchlistActivity.objects.create(watchlist_activity_user=post_user_obj, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.THEORISE)
+                                        elif draft_type == 'QU':
+                                            WatchlistActivity.objects.create(watchlist_activity_user=post_user_obj, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
+                                        
+                                    else:    
+                                        return render(request, 'post/write.html', {'tab_text' : tab_text})
                                     
-                                    tag = Tag(tag_text=tag[:50], tag_post=post)
-                                    tag.save()
+                                else:
+
+                                    post_code = get_random_string(length=8)
+
+                                    post = Post(
+                                        post_code=post_code, post_type=draft_type,
+                                        post_title=draft_title, post_desc=draft_desc,
+                                        post_author=user, post_author_name=user.display_name,
+                                        post_number_of_messages=0)
+                                
+                                    post.save()
+
+                                    post = Post.objects.get(post_code=post_code)
+
+                                    tags = stringToList(draft_tags)
+
+                                    for tag in tags:
+                                        
+                                        tag = Tag(tag_text=tag[:50], tag_post=post)
+                                        tag.save()
 
 
-                                existing_draft_code = request.GET.get('drafting')
+                                    existing_draft_code = request.GET.get('drafting')
 
-                                if Draft.objects.filter(draft_code=existing_draft_code, draft_author=user): # If an existing draft is being posted
+                                    if Draft.objects.filter(draft_code=existing_draft_code, draft_author=user): # If an existing draft is being posted
 
-                                    draft = Draft.objects.get(draft_code=existing_draft_code, draft_author=user)
+                                        draft = Draft.objects.get(draft_code=existing_draft_code, draft_author=user)
 
-                                    draft.delete()
+                                        draft.delete()
 
-                                if draft_type == 'DE':
-                                    WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.DECLARE)
-                                elif draft_type == 'TH':
-                                    WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.THEORISE)
-                                elif draft_type == 'QU':
-                                    WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
+                                    if draft_type == 'DE':
+                                        WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.DECLARE)
+                                    elif draft_type == 'TH':
+                                        WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.THEORISE)
+                                    elif draft_type == 'QU':
+                                        WatchlistActivity.objects.create(watchlist_activity_user=user, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
+
+                                    subject = 'New Post!'
+                                    message = f"Hey Aiden! Someone just posted something on bantopia!"
+                                    email_from = settings.EMAIL_HOST_USER
+                                    recipient_list = ['skrillfalconblast@icloud.com']
+                                    send_mail(subject, message, email_from, recipient_list)
 
                                 return redirect('/') # If something is posted, the user will always be redirected to the homepage.
                             else:

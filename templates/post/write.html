@@ -115,6 +115,13 @@
                             <label for="tags" class="char-mobile-label">Tags</label>
                             <input type="text" name="tags" id="tags" autocomplete="off" placeholder="e.g. #cats, #dogs, #debate" value="{{ draft.draft_tags }}">
                         </div>
+                        {% if user.is_superuser %}
+                        <div class="post-input">
+                            <label for="tags" class="char-label">User: </label>
+                            <label for="tags" class="char-mobile-label">User</label>
+                            <input type="text" name="user" id="user" autocomplete="off">
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="mobile-bottom">
                         <div class="mobile-bottom-layer-1">

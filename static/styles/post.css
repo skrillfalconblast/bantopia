@@ -326,6 +326,19 @@ input:focus:-ms-input-placeholder {
     border-bottom: 5px solid black;
 }
 
+#user {
+    margin-left: 1vw;
+    width: 27vw;
+}
+
+#user {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.2vw;
+    font-weight: 700;
+    border: 5px solid black;
+    padding-left: 5px;
+}
+
 #post-input-text {
     align-items: baseline;
 }
