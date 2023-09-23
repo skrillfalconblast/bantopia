@@ -7,10 +7,6 @@ navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('menu-collapsed')
 });
 
-// -------------------------- Notification Sound -------------------------- //
-
-const notifAudio = document.getElementById('notif-audio')
-
 // -------------------------- Functions that don't reference the chatsocket -------------------------- //
 
 function escapeHtml(text) {
@@ -260,7 +256,7 @@ function connect(){
             removeAllItems(typers, userSpan);
             updateIsTyping(); 
             
-            notifAudio.play();
+            notifSound.play();
 
 
         } else if ('message_id' in data && 'state' in data) {
