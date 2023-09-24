@@ -218,7 +218,10 @@ def write(request):
             draft_desc = request.POST.get('text').strip()
             draft_tags = request.POST.get('tags').strip() # They are simply stored in a string for ease of storage.
 
-            post_user = request.POST.get('user').strip()
+            post_user = request.POST.get('user')
+            if post_user:
+                post_user = post_user.strip()
+
 
             try:
                 if postPressed: # If the post button was pressed.
