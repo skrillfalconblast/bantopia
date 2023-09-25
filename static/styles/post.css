@@ -728,6 +728,8 @@ input:focus:-ms-input-placeholder {
         flex-direction: column;
         height: 100%;
         width: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
         align-items: center;
         justify-content: space-between;
         padding-bottom: 40px;
