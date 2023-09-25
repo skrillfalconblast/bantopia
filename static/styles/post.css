@@ -769,6 +769,15 @@ input:focus:-ms-input-placeholder {
 
     }
 
+    #user {
+        font-size: 6vw;
+        width: 95vw;
+        margin: 0;
+        border: 1vw solid #000;
+        padding-left: 5px;
+
+    }
+
     .post-input {
         width: 100%;
         font-size: 6vw;
