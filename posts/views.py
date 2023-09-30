@@ -101,6 +101,15 @@ def search(search_term):
 
     return posts
 
+def tag_search(search_term):
+    posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(rank=SearchRank(SearchVector('tag__tag_text'), SearchQuery(search_term)), 
+                                  last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1])
+                                  , counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-rank')[:100]
+
+    counterHack(posts)
+
+    return posts
+
 @csrf_exempt
 def index(request):
 
@@ -129,7 +138,10 @@ def index(request):
         if request.method == 'GET':
             if search_term:
                 if search_term != '':
-                    posts = search(search_term)
+                    if search_term[0] == '#':
+                        posts = tag_search(search_term)
+                    else:
+                        posts = search(search_term)
 
             elif sort == 'trending':
 

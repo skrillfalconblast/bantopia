@@ -22,7 +22,9 @@ def chat(request, post_code, post_slug):
 
         messages = Message.objects.filter(message_post=post).select_related('message_author').order_by('-message_datetime_sent')[:300:-1]
 
-        context = {'post' : post, 'messages' : messages, 'y' : votes["y"], 'n' : votes["n"]}
+        contributers = Message.objects.filter(message_post=post).select_related('message_author').distinct('message_author')
+
+        context = {'post' : post, 'messages' : messages, 'contributers' : contributers, 'y' : votes["y"], 'n' : votes["n"]}
 
         if user.is_superuser:
             puppets = user.puppets.all()

@@ -77,7 +77,7 @@ sup {
 }
 
 .option:nth-child(1) {
-    background-color: #F28500;
+    background-color: #f28500;
     color: white;
 }
 
@@ -239,7 +239,7 @@ sup {
 
 .pingster {
     display: flex;
-    width: 200px;
+    width: 225px;
     justify-self: flex-end;
     align-items: center;
     border-left: 5px solid #000;
@@ -254,8 +254,184 @@ sup {
     padding-left: 15px;
 }
 
+.onlinester {
+    display: flex;
+    flex-direction: row;
+    width: 225px;
+    justify-self: flex-end;
+    align-items: center;
+    border-right: 5px solid #000;
+    justify-content: center;
+    gap: 5px;
+}
+
+.onlinester h1 {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    white-space: nowrap;
+    color: #000;
+    font-weight: 700;
+}
+
 #ping-reading {
     color: #f28500;
+}
+
+.onlinester-beacon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    background-color: #000;
+}
+
+#online-reading {
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.contrib-users {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    border-bottom: 5px solid #000;
+    gap: 10px;
+    padding: 0 15px;
+}
+
+.contrib-users {
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.contrib-label {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#contrib-users-list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.contrib-user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contrib-user {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #f28500;
+}
+
+.online-beacon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    border-radius: 5px;
+    background-color: #f28500;
+}
+
+/* width */
+.contrib-users::-webkit-scrollbar {
+    display: none;
+}
+  
+  /* Track */
+.contrib-users::-webkit-scrollbar-track {
+    background: none;
+}
+  
+  /* Handle */
+  .contrib-users::-webkit-scrollbar-thumb {
+    display: none;
+}
+
+.contrib-user-color-OR {
+    color: #F28500;
+}
+
+.contrib-user-color-OR div {
+    background-color: #F28500;
+}
+
+.contrib-user-color-BL {
+    color: #00baf2;
+}
+
+.contrib-user-color-BL div {
+    background-color: #00baf2;
+}
+
+.contrib-user-color-GR {
+    color: #0fb300;
+}
+
+.contrib-user-color-GR div {
+    background-color: #0fb300;
+}
+
+.contrib-user-color-RE {
+    color: #5934ff;
+}
+
+.contrib-user-color-RE div {
+    background-color: #5934ff;
+}
+
+.contrib-user-color-PU {
+    color: #5934ff;
+}
+
+.contrib-user-color-PU div {
+    background-color: #5934ff;
+}
+
+.contrib-user-color-PI {
+    color: #cb0cd1;
+}
+
+.contrib-user-color-PI div {
+    background-color: #cb0cd1;
+}
+
+.contrib-user-color-MA {
+    color: #ac0000;
+}
+
+.contrib-user-color-MA div {
+    background-color: #ac0000;
+}
+
+.contrib-user-color-AQ {
+    color: #35d6b3;
+}
+
+.contrib-user-color-AQ div {
+    background-color: #35d6b3;
+}
+
+.mobilesters {
+    display: none;
 }
 
 .mobile-header h2 {
@@ -1141,6 +1317,72 @@ input:focus:-ms-input-placeholder {
     #mobile-balance-option-N {
         background-color: #000;
         color: white;
+    }
+
+    .contrib-label {
+        display: none;
+    }
+
+    .mobilesters {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        background-color: #000;
+        gap: 5px;
+        border-bottom: 5px solid #000;
+    }
+
+    .mobile-pingster {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        width: 225px;
+        justify-self: flex-end;
+        align-items: center;
+        background-color: white;
+    }
+    
+    .mobile-pingster h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+        white-space: nowrap;
+        color: #000;
+        font-weight: 700;
+    }
+    
+    .mobile-onlinester {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        width: 225px;
+        justify-self: flex-end;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        background-color: white;
+    }
+    
+    .mobile-onlinester h1 {
+        display: flex;
+        flex-direction: row;
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+        white-space: nowrap;
+        color: #000;
+        font-weight: 700;
+    }
+
+    #ping-reading-mobile {
+        color: #f28500;
+    }
+
+    #online-reading-mobile {
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+        white-space: nowrap;
+        font-weight: 700;
     }
 
     .text {

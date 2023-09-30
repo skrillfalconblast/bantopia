@@ -38,7 +38,7 @@
         <a href="/{{post.post_code}}/{{post.post_slug}}" class="option"> 
             <h1>Content</h1>
         </a>
-        <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option"> 
+        <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="option" id="chat-option"> 
             <h1>Chat</h1>
         </a>
         <a href="/{{post.post_code}}/{{post.post_slug}}/counters" class="option">
@@ -104,6 +104,7 @@
     </div> 
     <div class="display">
         <div class="header">
+            <div class="onlinester"><div class="onlinester-beacon"><span id="online-reading">?</span></div><h1>Online</h1></div>
             <a href="/{{post.post_code}}/{{post.post_slug}}">
                 {% if post.post_type == 'DE' %}
                 <h2><span class="header-shadow-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
@@ -114,6 +115,18 @@
                 {% endif %}
             </a>
             <div class="pingster"><h1>Ping: <span id="ping-reading">???</span></h1></div>
+        </div>
+        <div class="contrib-users">
+            <span class="contrib-label"><h1>Chat contributers:</h1></span>
+            <span id="contrib-users-list">
+                {% for contributer in contributers %}
+                <span class="contrib-user contrib-user-color-{{contributer.message_author.color}}"><div class="online-beacon"></div><h1>{{contributer.message_author.display_name}}</h1></span>
+                {% endfor %}
+            </span>
+        </div>
+        <div class="mobilesters">
+            <div class="mobile-pingster"><h1>Ping: <span id="ping-reading-mobile">???</span></h1></div>
+            <div class="mobile-onlinester"><div class="onlinester-beacon"><span id="online-reading-mobile">?</span></div><h1>Online</h1></div>
         </div>
         {% if request.user.is_superuser %}
         <div class="chatbar-puppets">

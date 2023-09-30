@@ -33,6 +33,18 @@ function removeAllItems(arr, value) {
     return arr
 }
 
+function removeAllItems2D(arr, value) {
+    var i = 0;
+    while (i < arr.length) {
+      if (arr[i][0] === value) {
+        arr.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+    return arr
+}
+
 function jumpToBottom() {
     const chat = document.getElementById('chat')
 
@@ -144,15 +156,34 @@ function connect(){
 
     // -------------------------- Pingster Functionality -------------------------- //
 
-    const pingReading = document.getElementById('ping-reading')
+    const pingReading = document.getElementById('ping-reading');
+
+    const pingReadingMobile = document.getElementById('ping-reading-mobile')
 
     if (pingReading) {
-        var intervalPing = window.setInterval(function(){
+        var performanceIntervalPing = window.setInterval(function(){
             window.start = performance.now();
             chatSocket.send(JSON.stringify({
                 'ping' : 'performance',
             }));
         }, 200);
+    }
+
+
+
+    // -------------------------- Online List Functionality -------------------------- //
+
+    const onlineReading = document.getElementById('online-reading')
+    const onlineReadingMobile = document.getElementById('online-reading-mobile')
+
+
+    if (onlineReading) {
+        var onlineIntervalPing = window.setInterval(function(){
+            chatSocket.send(JSON.stringify({
+                'online_status' : 'online',
+                'online_timestamp' : Date.now(),
+            }));
+        }, 1000);
     }
     
     // -------------------------- Functions used in onmessage -------------------------- //
@@ -206,6 +237,13 @@ function connect(){
         }
     }
 
+    function updateOnlineReading() {
+    
+        if (onlineUsers) {
+            onlineReading.innerText = onlineUsers.length
+            onlineReadingMobile.innerText = onlineUsers.length
+        }
+    }
     // -------------------------- Chatsocket Methods -------------------------- //
     
     chatSocket.onmessage = function(e) {
@@ -321,8 +359,6 @@ function connect(){
                 message_scoreDOM = messageDOM.lastElementChild
                 message_scoreDOM.innerText = parseInt(message_scoreDOM.innerText) + parseInt(data.changeBy)
 
-                console.log(message_scoreDOM.innerText)
-
             } else if (data.interaction === 'unlike') {
 
                 const messageDOM = document.getElementById(id)
@@ -414,32 +450,59 @@ function connect(){
 
         } else if ('typing_user' in data && 'typing_status' in data) {
 
-            const userSpan = `<span class="color-${data.typing_color}">${data.typing_user}</span>`
+            const typingUserSpan = `<span class="color-${data.typing_color}">${data.typing_user}</span>`
 
-            var dwellingTimer;
+            var typingDwellingTimer;
 
             if (data.typing_status == 'started') {
 
-                removeAllItems(typers, userSpan);
+                removeAllItems(typers, typingUserSpan);
 
-                typers.push(userSpan)
+                typers.push(typingUserSpan)
 
-                clearTimeout(dwellingTimer);
-                dwellingTimer = setTimeout(function() { 
-                    removeAllItems(typers, userSpan);
+                clearTimeout(typingDwellingTimer);
+                typingDwellingTimer = setTimeout(function() { 
+                    removeAllItems(typers, typingUserSpan);
                     updateIsTyping(); 
                 }, 30000);
 
             } else if (data.typing_status == 'stopped') {
 
-                removeAllItems(typers, userSpan);
+                removeAllItems(typers, typingUserSpan);
 
             } 
 
             updateIsTyping();
 
         } else if ('pong' in data) {
+
             pingReading.innerText = Math.round(performance.now() - start) + 'ms'
+            pingReadingMobile.innerText = Math.round(performance.now() - start) + 'ms'
+
+        } else if ('online_status' in data) {
+
+            const onlineUserSpan = [`<span class="online-user online-user-color-{{${data.online_color}}}}"><div class="online-beacon"></div><h1>{{${data.online_user}}}</h1></span>`, data.online_timestamp]
+
+            if (data.online_status == 'online') {
+
+                removeAllItems2D(onlineUsers, onlineUserSpan[0]);
+
+                onlineUsers.push(onlineUserSpan);
+
+                for (let i = 0; i < onlineUsers.length; i++) {
+                    if ((Date.now() - onlineUsers[i][1]) >= 10000) {
+                        removeAllItems2D(onlineUsers, onlineUsers[i][0]);
+                    }
+                }
+
+            }
+
+            updateOnlineReading();
+
+        } else if ('contrib_user' in data) {
+            contrib_users = document.getElementById('contrib-users-list')
+
+            contrib_users.innerHTML += `<span class="contrib-user contrib-user-color-${data.contrib_color}"><div class="online-beacon"></div><h1>${data.contrib_user}</h1></span>`
         }
     };
 
@@ -447,11 +510,12 @@ function connect(){
         document.getElementById('disconnect-alert').classList.remove('hidden');
         doneTyping()
 
-        clearInterval(intervalPing)
+        clearInterval(performanceIntervalPing)
 
         const expressions = ['(o_O) ?', '(((; ఠ ਉ ఠ))', '( Ŏ艸Ŏ)', '(｢ ⊙Д⊙)｢', '(☉_ ☉)', '( •́ ⍨ •̀)', '(ↁ_ↁ)']
 
         pingReading.innerText = expressions[Math.floor(Math.random()*expressions.length)];
+        pingReadingMobile.innerText = expressions[Math.floor(Math.random()*expressions.length)];
     };
 
     // -------------------------- Chat Bar Events -------------------------- //
@@ -462,6 +526,8 @@ function connect(){
                 e.preventDefault();
             }
         };
+
+        var onlineUsers = []
 
         var typers = []
 

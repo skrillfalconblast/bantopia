@@ -1,11 +1,12 @@
 import json
 import datetime
+import random
 
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 
 from channels.db import database_sync_to_async
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
@@ -414,6 +415,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }
 
         return tally
+
+    @database_sync_to_async
+    def contrib_check(self, user):
+        post = Post.objects.get(post_code=self.post_code)
+
+        if user.pk in Message.objects.filter(message_post=post).select_related('message_author').distinct('message_author').values_list('message_author', flat='true'):
+            return True
+        else:
+            return False
     
     @database_sync_to_async
     def ban_check(self, user):
@@ -776,6 +786,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                     await self.handle_engage(user)
                                     await self.handle_active(user)
 
+                                    if not await self.contrib_check(user):
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "add_contrib", "contrib_user" :  user.display_name, 'contrib_color' : user.color}
+                                        )
+
                                     new_message = await self.log_message(message, user)
 
                                     # Send message to post group
@@ -889,6 +904,48 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 if user.is_authenticated:
 
                     await self.denotify(user)
+
+        elif 'online_status' in text_data_json.keys():
+
+            if text_data_json["online_status"] == "online":
+
+                if user.is_superuser:
+                        
+                    try:
+                        
+                        puppets = ['Turnabout', 'Twizzerty', 'tom', 'Cruz', 'Fishnivore', 'MUSCLEman', 'aidenm', 'Too2Turbo', 'SkrillFalcon', 'cupcake_sparkles34', 'bobgoodman', 'TobiasW', 'arealchimpanzee', 'spike', 'righthook23', 'Dragonstrix', '_andwhitecat', 'Hazad456', 'TorScore', 'jamie', 'chimpster', 'ChrissyTubs', 'narayan IISC', 'Naramora']
+
+                        for puppet_name in puppets:
+
+                            puppet_model = await self.get_user(puppet_name)
+
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "online_alert", "online_user" :  puppet_model.display_name, "online_color" : puppet_model.color, "online_status" : "online", "online_timestamp" : text_data_json["online_timestamp"]}
+                            )
+
+                    except:
+
+                        puppets = ['aidenm', 'billybob', 'skrill_falcon', 'GameTheory']
+
+                        for puppet_name in puppets:
+
+                            puppet_model = await self.get_user(puppet_name)
+
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "online_alert", "online_user" :  puppet_model.display_name, "online_color" : puppet_model.color, "online_status" : "online", "online_timestamp" : text_data_json["online_timestamp"]}
+                            )
+                
+
+                elif user.is_authenticated:
+
+                    await self.channel_layer.group_send(
+                        self.post_group_name, {"type" : "online_alert", "online_user" :  user.display_name, "online_color" : user.color, "online_status" : "online", "online_timestamp" : text_data_json["online_timestamp"]}
+                    )
+
+                else:
+                    await self.channel_layer.group_send(
+                        self.post_group_name, {"type" : "online_alert", "online_user" :  f'Anon{self.channel_name}', "online_color" : 'OR', "online_status" : "online", "online_timestamp" : text_data_json["online_timestamp"]}
+                    )
 
         elif 'typing_status' in text_data_json.keys():
             
@@ -1045,6 +1102,28 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "typing_color" : typing_color,
                 "typing_status" : typing_status
             }))
+    
+    async def online_alert(self, event):
+        online_user = event["online_user"]
+        online_color = event["online_color"]
+        online_status = event["online_status"]
+        online_timestamp = event["online_timestamp"]
+
+        await self.send(text_data=json.dumps({
+            "online_user" : online_user,
+            "online_color" : online_color,
+            "online_status" : online_status,
+            "online_timestamp" : online_timestamp
+        }))
+
+    async def add_contrib(self, event):
+        contrib_user = event["contrib_user"]
+        contrib_color = event["contrib_color"]
+
+        await self.send(text_data=json.dumps({
+            "contrib_user" : contrib_user,
+            "contrib_color" : contrib_color,
+        }))
 
     async def update_vote(self, event):
         y_votes= event["y_votes"]
