@@ -283,8 +283,8 @@ sup {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 30px;
-    width: 30px;
+    height: 37px;
+    width: 37px;
     border-radius: 5px;
     background-color: #000;
 }
@@ -1326,6 +1326,7 @@ input:focus:-ms-input-placeholder {
     .mobilesters {
         display: flex;
         flex-direction: row;
+        height: 45px;
         width: 100%;
         background-color: #000;
         gap: 5px;

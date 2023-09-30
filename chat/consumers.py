@@ -913,7 +913,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         
                     try:
                         
-                        puppets = ['Turnabout', 'Twizzerty', 'tom', 'Cruz', 'Fishnivore', 'MUSCLEman', 'aidenm', 'Too2Turbo', 'SkrillFalcon', 'cupcake_sparkles34', 'bobgoodman', 'TobiasW', 'arealchimpanzee', 'spike', 'righthook23', 'Dragonstrix', '_andwhitecat', 'Hazad456', 'TorScore', 'jamie', 'chimpster', 'ChrissyTubs', 'narayan IISC', 'Naramora']
+                        #puppets = ['Turnabout', 'Twizzerty', 'tom', 'Cruz', 'Fishnivore', 'MUSCLEman', 'aidenm', 'Too2Turbo', 'SkrillFalcon', 'cupcake_sparkles34', 'bobgoodman', 'TobiasW', 'arealchimpanzee', 'spike', 'righthook23', 'Dragonstrix', '_andwhitecat', 'Hazad456', 'TorScore', 'jamie', 'chimpster', 'ChrissyTubs', 'narayan IISC', 'Naramora']
+
+                        puppets = ['Turnabout', 'Twizzerty', 'tom']
 
                         for puppet_name in puppets:
 
