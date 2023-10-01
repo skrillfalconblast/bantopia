@@ -527,7 +527,7 @@ function connect(){
             }
         };
 
-        var onlineUsers = []
+        var onlineUsers = ['john doe', 'jane doe']
 
         var typers = []
 
