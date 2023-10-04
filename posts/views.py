@@ -464,6 +464,9 @@ def commContent(request, post_code, post_slug):
 
         tags = Tag.objects.filter(tag_post=post)
 
+        votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
+                 'n' : Vote.objects.filter(vote_post=post, vote_type=False).count()}
+
         user = request.user
 
         if user.is_authenticated:
@@ -474,10 +477,6 @@ def commContent(request, post_code, post_slug):
     
             except Visit.DoesNotExist:
                 Visit.objects.create(visit_post=post, visit_user=user)
-
-       
-        votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
-                 'n' : Vote.objects.filter(vote_post=post, vote_type=False).count()}
         
         context = {'post' : post, 'tags' : tags, 'y' : votes["y"], 'n' : votes["n"]}
         return render(request, 'comms/content.html', context)
@@ -489,9 +488,20 @@ def commMastercases(request, post_code, post_slug):
     if Post.objects.filter(post_code=post_code):
 
         post = Post.objects.get(post_code=post_code)
-       
+
         votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
                  'n' : Vote.objects.filter(vote_post=post, vote_type=False).count()}
+
+        user = request.user
+
+        if user.is_authenticated:
+            try:
+                if post != Visit.objects.latest('visit_datetime').visit_post:
+
+                    Visit.objects.create(visit_post=post, visit_user=user)
+    
+            except Visit.DoesNotExist:
+                Visit.objects.create(visit_post=post, visit_user=user)
 
         context = {'post' : post, 'y' : votes["y"], 'n' : votes["n"]}
         return render(request, 'comms/cases.html', context)
@@ -500,10 +510,22 @@ def commMastercases(request, post_code, post_slug):
 
 def commCounters(request, post_code, post_slug):
     if Post.objects.filter(post_code=post_code):
+        
         post = Post.objects.get(post_code=post_code)
-       
+
         votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
                  'n' : Vote.objects.filter(vote_post=post, vote_type=False).count()}
+        
+        user = request.user
+
+        if user.is_authenticated:
+            try:
+                if post != Visit.objects.latest('visit_datetime').visit_post:
+
+                    Visit.objects.create(visit_post=post, visit_user=user)
+    
+            except Visit.DoesNotExist:
+                Visit.objects.create(visit_post=post, visit_user=user)
 
         counters = list(Message.objects.filter(message_post=post, message_score__gt=1).order_by('-message_score')[:5])
 
@@ -534,6 +556,17 @@ def commDogs(request, post_code, post_slug):
        
         votes = {'y' : Vote.objects.filter(vote_post=post, vote_type=True).count(),
                  'n' : Vote.objects.filter(vote_post=post, vote_type=False).count()}
+        
+        user = request.user
+
+        if user.is_authenticated:
+            try:
+                if post != Visit.objects.latest('visit_datetime').visit_post:
+
+                    Visit.objects.create(visit_post=post, visit_user=user)
+    
+            except Visit.DoesNotExist:
+                Visit.objects.create(visit_post=post, visit_user=user)
                                 
         if post.post_TPP:
             TPP = post.post_TPP.display_name

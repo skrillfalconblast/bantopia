@@ -322,7 +322,6 @@ sup {
 #contrib-users-list {
     display: flex;
     flex-direction: row;
-    gap: 10px;
 }
 
 .contrib-user {
@@ -331,6 +330,11 @@ sup {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    padding-right: 10px;
+}
+
+.contrib-user h1 {
+    white-space: nowrap;
 }
 
 .contrib-user {

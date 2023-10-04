@@ -532,9 +532,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         message = await self.find_message(message_code=message_code)
                         message_author = await self.get_author(message=message)
 
-                        if message_author != user:
+                        if 'puppet' in text_data_json.keys() and user.is_superuser:
 
-                            if 'puppet' in text_data_json.keys() and user.is_superuser:
+                            puppet_name = text_data_json['puppet']
+
+                            puppet = await self.get_user(puppet_name)
+
+                            if message_author != puppet:
 
                                 puppet_name = text_data_json['puppet']
 
@@ -633,8 +637,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                         )
 
                                         await self.dog_check(message)
+                        else:
 
-                            else:
+                            if message_author != user:
 
                                 if text_data_json['attempt'] == 'like':
 
@@ -753,6 +758,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                 await self.handle_engage(puppet)
                                 await self.handle_active(puppet)
 
+                                if not await self.contrib_check(puppet):
+
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "add_contrib", "contrib_user" :  puppet.display_name, 'contrib_color' : puppet.color}
+                                    )
+
                                 new_message = await self.log_message(message, puppet)
 
                                 # Send message to post group
@@ -787,6 +798,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                     await self.handle_active(user)
 
                                     if not await self.contrib_check(user):
+
                                         await self.channel_layer.group_send(
                                             self.post_group_name, {"type" : "add_contrib", "contrib_user" :  user.display_name, 'contrib_color' : user.color}
                                         )
