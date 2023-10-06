@@ -395,11 +395,11 @@ sup {
 }
 
 .contrib-user-color-RE {
-    color: #5934ff;
+    color: #fb3a3a;
 }
 
 .contrib-user-color-RE div {
-    background-color: #5934ff;
+    background-color: #fb3a3a;
 }
 
 .contrib-user-color-PU {
@@ -1431,10 +1431,10 @@ input:focus:-ms-input-placeholder {
 
     .rank {
         margin-right: 5px;
-        font-size: 8vw;
-        border-top: 1vw solid #F28500;
-        border-right: 1vw solid #F28500;
-        border-bottom: 1vw solid #F28500;
+        font-size: 9vw;
+        border-top: 1.5vw solid #F28500;
+        border-right: 1.5vw solid #F28500;
+        border-bottom: 1.5vw solid #F28500;
     }
 
     .rank-message {
@@ -1458,26 +1458,26 @@ input:focus:-ms-input-placeholder {
     }
 
     .rank-author {
-        font-size: 6vw;
+        font-size: 7.5vw;
     }
 
     .rank-author span {
-        box-shadow: inset 0 -3vw 0 #F28500;
+        box-shadow: inset 0 -3.8vw 0 #F28500;
     }
 
     .rank-score {
         display: flex;
         height: 100%;
-        font-size: 5vw;
+        font-size: 6vw;
         align-items: center;
-        margin-left: auto;
-        margin-right: 10px;
+        text-align: left;
+        padding-left: 10px;
     }
 
     .rank-score {
-        border-top: 1vw solid #F28500;
-        border-right: 1vw solid #F28500;
-        border-bottom: 1vw solid #F28500;
+        border-top: 1.5vw solid #F28500;
+        border-right: 1.5vw solid #F28500;
+        border-bottom: 1.5vw solid #F28500;
     }
 
     .rank-score span {
@@ -1720,11 +1720,11 @@ input:focus:-ms-input-placeholder {
     }
 
     #dog-influential .dog-title {
-        border-top: 2vh solid #00baf2;
+        border-top: 2vw solid #00baf2;
     }
 
     #dog-enemy .dog-title {
-        border-top: 2vh solid #d60000;
+        border-top: 2vw solid #d60000;
     }
 
     .dog-user {

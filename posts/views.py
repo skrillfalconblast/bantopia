@@ -530,14 +530,15 @@ def commCounters(request, post_code, post_slug):
         counters = list(Message.objects.filter(message_post=post, message_score__gt=1).order_by('-message_score')[:5])
 
         quip_list = ['souls, apparently, liked this.', 'gentlemen found this appealing.', 
-                 'losers felt positively stimulated.', 'people were pleased.', 'old boys were chuffed.',
+                 'losers felt good.', 'people were pleased.', 'old boys were chuffed.',
                  'gangstas approved.', 'cowboys were wrangled.', 'masters nodded their heads.',
-                 'zombies were saaaatisfiiiiied!', 'ancients sent you a poke.', 'youngsters double tapped.',
-                 'creeps shot a wink.', 'brothers agreed.', 'maidens were charmed.',
                  'fathers weren\'t disappointed!', 'astronauts went over the moon.', 'dudez were pumped.',
                  'kids were hyped.', 'goblins were smitten.', 'sa faagaeetia alii.', 
-                 'girls fancied this.', 'buisnessmen profited.', 'dragons were fired up!',
-                 'birds were eggcited!', 'cars went vroom vroom!', 'links were forged!', 'meows were meowed.']
+                 'minds were stimulated.', 'buisnessmen profited.', 'dragons were fired up!',
+                 'birds were eggcited!', 'cars went vroom vroom!', 'links were forged!', 'meows were meowed.',
+                 'dogs barked!', 'sirens when whoop whoop!', 'dorks thought this was big brain', 'chimpanzees were fascinated.',
+                 'dragons roared!!!', 'minorities felt empowered.', 'cheifs said how?', 'tiktok users doubletapped',
+                 'frogs felt froggy.']
         
         quips = random.sample(quip_list, len(counters))
 

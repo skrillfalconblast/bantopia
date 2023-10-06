@@ -464,7 +464,7 @@ function connect(){
                 typingDwellingTimer = setTimeout(function() { 
                     removeAllItems(typers, typingUserSpan);
                     updateIsTyping(); 
-                }, 30000);
+                }, 60000);
 
             } else if (data.typing_status == 'stopped') {
 
