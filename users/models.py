@@ -20,9 +20,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     GREEN = "GR"
     RED = "RE"
     PURPLE = "PU"
-    PINK = "PI"
+    BROWN = "BR"
     MAROON = "MA"
-    AQUA = "AQ"
+    DREADNOUGHT = "DR"
     
     COLOR_CHOICES = [
         (ORANGE, "Orange"),
@@ -30,9 +30,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         (GREEN, "Green"),
         (RED, "Red"),
         (PURPLE, "Purple"),
-        (PINK, "Pink"),
+        (BROWN, "Brown"),
         (MAROON, "Maroon"),
-        (AQUA, "Aqua")
+        (DREADNOUGHT, "Dreadnought")
     ]
 
     display_name = models.CharField(max_length=20, unique=True) 

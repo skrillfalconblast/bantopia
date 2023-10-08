@@ -104,16 +104,16 @@ body {
     box-shadow: inset 0 -10px 0 #5934ff;
 }
 
-.author-shadow-PI {
-    box-shadow: inset 0 -10px 0 #cb0cd1;
+.author-shadow-BR {
+    box-shadow: inset 0 -10px 0 #884A39;
 }
 
 .author-shadow-MA {
     box-shadow: inset 0 -10px 0 #ac0000;
 }
 
-.author-shadow-AQ {
-    box-shadow: inset 0 -10px 0 #35d6b3;
+.author-shadow-DR {
+    box-shadow: inset 0 -10px 0 #025464;
 }
 
 .message-content {
@@ -157,16 +157,16 @@ body {
     color: #5934ff;
 }
 
-.color-PI {
-    color: #cb0cd1;
+.color-BR {
+    color: #884A39;
 }
 
 .color-MA {
     color: #ac0000;
 }
 
-.color-AQ {
-    color: #35d6b3;
+.color-DR {
+    color: #025464;
 }
 
 /* ------------------ Message States ------------------ */
@@ -1038,8 +1038,8 @@ button[type="submit"]:hover > span {
     color: #000;
 }
 
-.dashboard-pink {
-    color: #cb0cd1;
+.dashboard-brown {
+    color: #884A39;
 }
 
 .dashboard-purple {
@@ -1086,16 +1086,16 @@ button[type="submit"]:hover > span {
     background-color: #5934ff;
 }
 
-.pink-color {
-    background-color: #cb0cd1;
+.brown-color {
+    background-color: #884A39;
 }
 
 .maroon-color {
     background-color: #ac0000;
 }
 
-.aqua-color {
-    background-color: #0adfb1;
+.dreadnought-color {
+    background-color: #025464;
 }
 
 .edit-container {

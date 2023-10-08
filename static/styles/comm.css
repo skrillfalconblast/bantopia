@@ -410,12 +410,12 @@ sup {
     background-color: #5934ff;
 }
 
-.contrib-user-color-PI {
-    color: #cb0cd1;
+.contrib-user-color-BR {
+    color: #884A39;
 }
 
-.contrib-user-color-PI div {
-    background-color: #cb0cd1;
+.contrib-user-color-BR div {
+    background-color: #884A39;
 }
 
 .contrib-user-color-MA {
@@ -426,12 +426,12 @@ sup {
     background-color: #ac0000;
 }
 
-.contrib-user-color-AQ {
-    color: #35d6b3;
+.contrib-user-color-DR {
+    color: #025464;
 }
 
-.contrib-user-color-AQ div {
-    background-color: #35d6b3;
+.contrib-user-color-DR div {
+    background-color: #025464;
 }
 
 .mobilesters {
@@ -498,7 +498,7 @@ sup {
 }
 
 .message:last-child {
-    margin-bottom: 30px;
+    margin-bottom: 18px;
 }
 
 .message {
@@ -553,9 +553,9 @@ sup {
     box-shadow: inset 0 -0.8vw 0 #5934ff;
 }
 
-.author-shadow-PI {
-    color: #cb0cd1;
-    box-shadow: inset 0 -0.8vw 0 #cb0cd1;
+.author-shadow-BR {
+    color: #884A39;
+    box-shadow: inset 0 -0.8vw 0 #884A39;
 }
 
 .author-shadow-MA {
@@ -563,9 +563,9 @@ sup {
     box-shadow: inset 0 -0.8vw 0 #ac0000;
 }
 
-.author-shadow-AQ {
-    color: #35d6b3;
-    box-shadow: inset 0 -0.8vw 0 #35d6b3;
+.author-shadow-DR {
+    color: #025464;
+    box-shadow: inset 0 -0.8vw 0 #025464;
 }
 
 .content {
@@ -609,16 +609,16 @@ sup {
     color: #5934ff;
 }
 
-.color-PI {
-    color: #cb0cd1;
+.color-BR {
+    color: #884A39;
 }
 
 .color-MA {
     color: #ac0000;
 }
 
-.color-AQ {
-    color: #35d6b3;
+.color-DR {
+    color: #025464;
 }
 
 /* ------------------ Message States ------------------ */
@@ -907,16 +907,16 @@ input:focus:-ms-input-placeholder {
     box-shadow: inset 0 -8px 0 #5934ff;
 }
 
-.puppet-shadow-PI {
-    box-shadow: inset 0 -8px 0 #cb0cd1;
+.puppet-shadow-BR {
+    box-shadow: inset 0 -8px 0 #884A39;
 }
 
 .puppet-shadow-MA {
     box-shadow: inset 0 -8px 0 #ac0000;
 }
 
-.puppet-shadow-AQ {
-    box-shadow: inset 0 -8px 0 #35d6b3;
+.puppet-shadow-DR {
+    box-shadow: inset 0 -8px 0 #025464;
 }
 
 /* width */
@@ -1579,16 +1579,16 @@ input:focus:-ms-input-placeholder {
         box-shadow: inset 0 -1.7vw 0 #5934ff;
     }
     
-    .author-shadow-PI {
-        box-shadow: inset 0 -1.7vw 0 #cb0cd1;
+    .author-shadow-BR {
+        box-shadow: inset 0 -1.7vw 0 #884A39;
     }
     
     .author-shadow-MA {
         box-shadow: inset 0 -1.7vw 0 #ac0000;
     }
     
-    .author-shadow-AQ {
-        box-shadow: inset 0 -1.7vw 0 #35d6b3;
+    .author-shadow-DR {
+        box-shadow: inset 0 -1.7vw 0 #025464;
     }
 
     .message {
@@ -1685,7 +1685,7 @@ input:focus:-ms-input-placeholder {
 
     .message {
         font-size: 10vw;
-        margin: 10px 0 0 5px;
+        margin: 0px 0 0 5px;
     }
 
     .reply {

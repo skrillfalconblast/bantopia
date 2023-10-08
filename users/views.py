@@ -125,9 +125,9 @@ def dashboard(request, display_name):
             green_choice = request.POST.get('green-choice')
             red_choice = request.POST.get('red-choice')
             purple_choice = request.POST.get('purple-choice')
-            pink_choice = request.POST.get('pink-choice')
+            brown_choice = request.POST.get('brown-choice')
             maroon_choice = request.POST.get('maroon-choice')
-            aqua_choice = request.POST.get('aqua-choice')
+            dreadnought_choice = request.POST.get('dreadnought-choice')
 
             if orange_choice:
                 user.color = User.ORANGE
@@ -144,14 +144,14 @@ def dashboard(request, display_name):
             elif purple_choice:
                 user.color = User.PURPLE
                 user.save()
-            elif pink_choice:
-                user.color = User.PINK
+            elif brown_choice:
+                user.color = User.BROWN
                 user.save()
             elif maroon_choice:
                 user.color = User.MAROON
                 user.save()
-            elif aqua_choice:
-                user.color = User.AQUA
+            elif dreadnought_choice:
+                user.color = User.DREADNOUGHT
                 user.save()
             
         watching = user.watching.all()
