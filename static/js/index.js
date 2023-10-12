@@ -9,61 +9,59 @@ const new_link = document.getElementById('new')
 const trending_link = document.getElementById('trending')
 const controversial_link = document.getElementById('controversial')
 
+const navline = document.getElementById('navline')
+const rail = document.getElementById('rail')
+const posts = document.getElementsByClassName('post')
+
+const sortContainer = document.getElementById('sort')
+
 if (sort == 'new') {
 
-  const navline = document.getElementById('navline')
-  const post_scroll = document.getElementById('post-scroll')
-  const posts = document.getElementsByClassName('post')
-
-  new_link.firstElementChild.className = 'color-OR'
+  new_link.firstElementChild.className = 'active-new-link'
   trending_link.firstElementChild.className = ''
   controversial_link.firstElementChild.className = ''
 
-  navline.className = 'navline'
-  post_scroll.className = "post-scroll new-rail";
+  //navline.className = 'navline'
+  rail.className = "new-rail";
   posts.classNamea = 'post'
+
+  sortContainer.className = 'sort new-mobile-border'
 
 } else if (sort == 'trending') { 
 
-  const navline = document.getElementById('navline')
-  const post_scroll = document.getElementById('post-scroll')
-  const posts = document.getElementsByClassName('post')
-
   new_link.firstElementChild.className = ''
-  trending_link.firstElementChild.className = 'color-BL'
+  trending_link.firstElementChild.className = 'active-trending-link'
   controversial_link.firstElementChild.className = ''
 
-  navline.className = 'navline trending-border'
-  post_scroll.className = "post-scroll trending-rail";
+  //navline.className = 'navline trending-border'
+  rail.className = "trending-rail";
   posts.classNamea = 'post trending-post-border'
+
+  sortContainer.className = 'sort trending-mobile-border'
 
 } else if (sort == 'controversial') {
 
-  const navline = document.getElementById('navline')
-  const post_scroll = document.getElementById('post-scroll')
-  const posts = document.getElementsByClassName('post')
-
   new_link.firstElementChild.className = ''
   trending_link.firstElementChild.className = ''
-  controversial_link.firstElementChild.className = 'color-PU'
+  controversial_link.firstElementChild.className = 'active-controversial-link'
 
-  navline.className = 'navline controversial-border'
-  post_scroll.className = "post-scroll controversial-rail";
+  //navline.className = 'navline controversial-border'
+  rail.className = "controversial-rail";
   posts.className = 'post controversial-post-border'
+
+  sortContainer.className = 'sort controversial-mobile-border'
 
 } else {
 
-  const navline = document.getElementById('navline')
-  const post_scroll = document.getElementById('post-scroll')
-  const posts = document.getElementsByClassName('post')
-
-  new_link.firstElementChild.className = 'color-OR'
+  new_link.firstElementChild.className = 'active-new-link'
   trending_link.firstElementChild.className = ''
   controversial_link.firstElementChild.className = ''
 
-  navline.className = 'navline'
-  post_scroll.className = "post-scroll new-rail";
+  // navline.className = 'navline'
+  rail.className = "new-rail";
   posts.classNamea = 'post'
+
+  sortContainer.className = 'sort new-border'
 
 }
 
