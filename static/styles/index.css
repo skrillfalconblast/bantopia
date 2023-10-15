@@ -1139,6 +1139,10 @@ input:focus:-ms-input-placeholder {
         display: none;
     }
 
+    .post-box {
+        width: 100%;
+    }
+
     .post {
         margin: 0px 20px 0 5px;
     }
