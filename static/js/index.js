@@ -22,7 +22,8 @@ if (sort == 'new') {
   controversial_link.firstElementChild.className = ''
 
   //navline.className = 'navline'
-  rail.className = "new-rail";
+  document.querySelectorAll('.right-label-face').forEach(e => e.classList = 'right-label-face new-face')
+  document.querySelectorAll('.post-label-box').forEach(e => e.classList = 'post-label-box new-face')
   posts.classNamea = 'post'
 
   sortContainer.className = 'sort new-mobile-border'
@@ -34,7 +35,8 @@ if (sort == 'new') {
   controversial_link.firstElementChild.className = ''
 
   //navline.className = 'navline trending-border'
-  rail.className = "trending-rail";
+  document.querySelectorAll('.right-label-face').forEach(e => e.classList = 'right-label-face trending-face')
+  document.querySelectorAll('.post-label-box').forEach(e => e.classList = 'post-label-box trending-face')
   posts.classNamea = 'post trending-post-border'
 
   sortContainer.className = 'sort trending-mobile-border'
@@ -46,7 +48,8 @@ if (sort == 'new') {
   controversial_link.firstElementChild.className = 'active-controversial-link'
 
   //navline.className = 'navline controversial-border'
-  rail.className = "controversial-rail";
+  document.querySelectorAll('.right-label-face').forEach(e => e.classList = 'right-label-face controversial-face')
+  document.querySelectorAll('.post-label-box').forEach(e => e.classList = 'post-label-box controversial-face')
   posts.className = 'post controversial-post-border'
 
   sortContainer.className = 'sort controversial-mobile-border'

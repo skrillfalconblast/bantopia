@@ -63,18 +63,15 @@
                 <h1>Search Word: <span class="search-quote">"</span><span id="search-term"></span><span class="search-quote">"</span></h1>
             </div>
             <div class="post-scroll">
-                <div id="rail"></div>
                 {% for post in posts %}
                 <div class="post-label-box">
                     <h1 class="post-label"><i>#{{ forloop.counter }}</i></h1>
-                    <!--
                     <div class="right-label-side">
                         <div class="right-label-face"></div>
                     </div>
                     <div class="bottom-label-side">
                         <div class="bottom-label-face"></div>
                     </div>
-                    --->
                 </div>
                 <div href="" class="post-box">
                     <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="post nick-left-in nick-right-in border">
