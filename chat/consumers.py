@@ -45,7 +45,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return message_author
         except:
             return None
+        
+    @database_sync_to_async 
+    def get_unloaded_messages(self, message_code): 
+        post = Post.objects.get(post_code=self.post_code)
+        
+        last_message_datetime_sent = Message.objects.get(message_code=message_code, message_post=post).message_datetime_sent
 
+        if last_message_datetime_sent:
+            unloaded_messages = Message.objects.filter(message_post=post, message_datetime_sent__gt=last_message_datetime_sent)
+            return unloaded_messages
+        
 # --------------------------- Watchlist Activity Handlers --------------------------------
 
 
@@ -1056,6 +1066,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             "message_code" : message_code,
                             "edited_content" : original_message.message_content,
                         }))
+
+        elif 'reconnecting' in text_data_json.keys():
+            
+            message_id = text_data_json['last_message_id']
+            message_code = message_id[4:] # Get the message code without the 'msg_' part
+
+            unloaded_messages = await self.get_unloaded_messages(message_code=message_code)
+
+            async for message in unloaded_messages:
+                message_author = await self.get_author(message)
+
+                if message_author == user:
+                    await self.send(text_data=json.dumps({
+                        "message_code" : message_code,
+                        "message" : message.message_content,
+                        "author" : message.message_author.display_name,
+                        "author_color" : message.message_author.color,
+                        "origin" : "native",
+                    }))
+                else:
+                    await self.send(text_data=json.dumps({
+                        "message_code" : message_code,
+                        "message" : message.message_content,
+                        "author" : message.message_author.display_name,
+                        "author_color" : message.message_author.color,
+                        "origin" : "foreign",
+                    }))
 
 
     # Receive message from post group

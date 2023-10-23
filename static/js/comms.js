@@ -51,6 +51,10 @@ function jumpToBottom() {
     chat.scrollTo(0, chat.scrollHeight);
 };
 
+// -------------------------- Connect Function Globals -------------------------- //
+
+let reconnecting = false
+
 // -------------------------- Connect Function -------------------------- //
 
 function connect(){
@@ -142,6 +146,7 @@ function connect(){
     );
 
     chatSocket.onopen = function() {
+        
         const disconnectAlertDOM = document.getElementById('disconnect-alert');
         if (disconnectAlertDOM) {
             disconnectAlertDOM.classList.add('hidden');
@@ -152,6 +157,18 @@ function connect(){
         chatSocket.send(JSON.stringify({
             'ping' : 'initial',
         }));
+
+        if (reconnecting) {
+
+            reconnecting = false
+
+            let lastMessageId = document.getElementById('messages-container').lastElementChild.firstElementChild.firstElementChild.lastElementChild.id
+
+            chatSocket.send(JSON.stringify({
+                'reconnecting' : 'true',
+                'last_message_id' : lastMessageId,
+            }));
+        }
     }
 
     // -------------------------- Pingster Functionality -------------------------- //
@@ -803,6 +820,8 @@ function connect(){
     if (disconnectAlertDOM) {
         disconnectAlertDOM.onclick = function(){
             document.getElementById('disconnect-alert-text').innerText = "Connecting...";
+
+            reconnecting = true;
 
             connect();
         };
