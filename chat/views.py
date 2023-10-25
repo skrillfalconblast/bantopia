@@ -4,6 +4,8 @@ from .models import Message, Interaction
 
 from django.contrib.auth import get_user_model
 
+import re
+
 # Create your views here.
 
 User = get_user_model()

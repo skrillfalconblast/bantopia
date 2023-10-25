@@ -1,5 +1,11 @@
 from django import template
-from re import sub
+from django.contrib.auth import get_user_model
+
+from django.utils.html import escape, escapejs
+
+import re
+
+User = get_user_model()
 
 register = template.Library()
 
@@ -51,8 +57,37 @@ def truncatesmart(value, limit=80):
 
 @register.filter
 def stripcommas(value):
-    return sub(',', '', value)
+    return re.sub(',', '', value)
 
 @register.filter(name='times') 
 def times(number):
     return range(number)
+
+@register.filter
+def replace_mentions(value):
+    text = escape(value)
+
+    if '@' in text:
+
+        users = User.objects.all()
+
+        mentionArray = []
+
+        mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", text)
+
+        for mentionTuple in mentionTuples:
+            mentionArray.append(mentionTuple[1])
+
+        for mention in set(mentionArray):
+
+            try:
+                user = users.get(display_name=mention)
+            except:
+                user = None
+
+            if user:
+                text = text.replace(f"@{mention}", f'<span class="color-{user.color}">@{mention}</span>')
+            else:
+                text = text.replace(f"@{mention}", f'<span class="color-OR">@{mention}</span>')
+
+    return text

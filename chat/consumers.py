@@ -1,6 +1,6 @@
 import json
 import datetime
-import random
+import re
 
 from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
@@ -776,17 +776,41 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                 new_message = await self.log_message(message, puppet)
 
-                                # Send message to post group
-                                await self.channel_layer.group_send(
-                                    self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
-                                )
+                                if '@' in message:
+
+                                    mention_data_string = ""
+                                    
+                                    mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", message)
+
+                                    for mentionTuple in mentionTuples:
+                                        mentioned_user = await self.get_user(mentionTuple[1])
+
+                                        if mentioned_user:
+                                            mention_data_string += f"{mentioned_user.display_name},{mentioned_user.color},"
+                                        else:
+                                            mention_data_string += f"{mentionTuple[1]},OR,"
+
+                                    # Send message to post group
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string}
+                                    )
+
+                                else:
+
+                                    # Send message to post group
+                                    await self.channel_layer.group_send(
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
+                                    )
 
                                 await self.notify() # Notify the users of a new message
+
                             else:
+
                                 await self.send(text_data=json.dumps({
                                     "alert" : "message_error",
                                     "message" : result,
                                 }))
+
                         else:
 
                             result = await self.handle_command(message, puppet)
@@ -815,10 +839,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                     new_message = await self.log_message(message, user)
 
-                                    # Send message to post group
-                                    await self.channel_layer.group_send(
-                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
-                                    )
+                                    if '@' in message:
+
+                                        mention_data_string = ""
+                                        
+                                        mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", message)
+
+                                        for mentionTuple in mentionTuples:
+                                            mentioned_user = await self.get_user(mentionTuple[1])
+
+                                            if mentioned_user:
+                                                mention_data_string += f"{mentioned_user.display_name},{mentioned_user.color},"
+                                            else:
+                                                mention_data_string += f"{mentionTuple[1]},OR,"
+
+                                        # Send message to post group
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string}
+                                        )
+
+                                    else:
+                                        
+                                        # Send message to post group
+                                        await self.channel_layer.group_send(
+                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
+                                        )
 
                                     await self.notify() # Notify the users of a new message
                                     
@@ -833,10 +878,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                     }))
 
                             else:
+
                                 await self.send(text_data=json.dumps({
                                     "alert" : "message_failure",
                                     "message" : "That message goes over 1000 characters. Just shorten it down or split it up to send it properly.",
                                 }))
+
                         else:
 
                             result = await self.handle_command(message, user)
@@ -1106,6 +1153,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         user = self.scope["user"]
 
+        try:
+            mention_data_string = event["mention_data_string"]
+        except:
+            mention_data_string = ''
+
+
         if user.is_authenticated:
             await self.denotify(user)
 
@@ -1117,6 +1170,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "author" : author_name,
                 "author_color" : color,
                 "origin" : "native",
+                "mention_data_string" : mention_data_string,
                 }))
         else:
             await self.send(text_data=json.dumps({
@@ -1125,6 +1179,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "author" : author_name,
                 "author_color" : color,
                 "origin" : "foreign",
+                "mention_data_string" : mention_data_string,
                 }))
         
     async def message_interaction(self, event):

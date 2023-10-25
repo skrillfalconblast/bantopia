@@ -51,6 +51,24 @@ function jumpToBottom() {
     chat.scrollTo(0, chat.scrollHeight);
 };
 
+function replaceMentions(messageContentRaw, mentionDataString) {
+
+    let messageContent = messageContentRaw
+
+    const mentionArray = mentionDataString.split(',')
+
+    for (let i = 0; i < (mentionArray.length)/2; i++) {
+        const displayName = mentionArray[i]
+        const color = mentionArray[i + 1]
+
+        const mentionHTMl = `<span class="color-${color}">@${displayName}</span>`
+
+        messageContent = messageContent.replace(`@${displayName}`, mentionHTMl)
+    }
+
+    return messageContent
+}
+
 // -------------------------- Connect Function Globals -------------------------- //
 
 let reconnecting = false
@@ -296,8 +314,19 @@ function connect(){
                 })
 
             }
+
+            if ('mention_data_string' in data && data.mention_data_string) {
+
+                console.log(replaceMentions(data.message, data.mention_data_string))
+
+                message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = replaceMentions(escapeHtml(data.message), data.mention_data_string); // The message content
+
+            } else {
+
+                message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
+
+            }
         
-            message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
             message_container.lastElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.author;
 
             if (chat.scrollTop != 0) {
