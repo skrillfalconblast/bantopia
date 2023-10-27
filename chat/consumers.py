@@ -1076,10 +1076,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                         if edited_message:
 
-                            # Send message to post group
-                            await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
-                            )
+                            if '@' in edited_message.message_content:
+
+                                mention_data_string = ""
+                                
+                                mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", edited_message.message_content)
+
+                                for mentionTuple in mentionTuples:
+                                    mentioned_user = await self.get_user(mentionTuple[1])
+
+                                    if mentioned_user:
+                                        mention_data_string += f"{mentioned_user.display_name},{mentioned_user.color},"
+                                    else:
+                                        mention_data_string += f"{mentionTuple[1]},OR,"
+
+                                # Send message to post group
+
+                                await self.channel_layer.group_send(
+                                    self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content, "mention_data_string" : mention_data_string}
+                                )
+
+                            else:
+
+                                # Send message to post group
+                                await self.channel_layer.group_send(
+                                    self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
+                                )
+
                     else: # On an empty edit, find the orignal message and simply replace the original data. This is sent only to the editors screen to rectify their failed edit.
         
                         original_message = await self.find_message(message_code=message_code)
@@ -1101,10 +1124,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                         if edited_message:
 
-                            # Send message to post group
-                            await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
-                            )
+                            if '@' in edited_message.message_content:
+
+                                mention_data_string = ""
+                                
+                                mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", edited_message.message_content)
+
+                                for mentionTuple in mentionTuples:
+                                    mentioned_user = await self.get_user(mentionTuple[1])
+
+                                    if mentioned_user:
+                                        mention_data_string += f"{mentioned_user.display_name},{mentioned_user.color},"
+                                    else:
+                                        mention_data_string += f"{mentionTuple[1]},OR,"
+
+                                # Send message to post group
+
+                                await self.channel_layer.group_send(
+                                    self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content, "mention_data_string" : mention_data_string}
+                                )
+
+                            else:
+
+                                # Send message to post group
+                                await self.channel_layer.group_send(
+                                    self.post_group_name, {"type" : "chat_message_edit", "message_code" :  edited_message.message_code, "edited_content" : edited_message.message_content}
+                                )
+
                     else: # On an empty edit, find the orignal message and simply replace the original data. This is sent only to the editors screen to rectify their failed edit.
         
                         original_message = await self.find_message(message_code=message_code)
@@ -1244,8 +1290,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message_code = event["message_code"]
         edited_content = event["edited_content"]
 
+        try:
+            mention_data_string = event["mention_data_string"]
+        except:
+            mention_data_string = ''
+
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
                 "message_code" : message_code,
                 "edited_content" : edited_content,
+                "mention_data_string" : mention_data_string,
             }))

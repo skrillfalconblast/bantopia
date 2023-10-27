@@ -457,7 +457,7 @@ def posts(request):
     
 # ------------------------------------------------
 
-def commContent(request, post_code, post_slug):
+def commContext(request, post_code, post_slug):
     
     if Post.objects.filter(post_code=post_code):
 

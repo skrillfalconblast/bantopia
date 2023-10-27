@@ -705,6 +705,7 @@ input:focus:-ms-input-placeholder {
     display: flex;
     flex-direction: column;
     text-align: center;
+    margin-left: 15px;
 }
 
 .sort a {
@@ -1058,6 +1059,7 @@ input:focus:-ms-input-placeholder {
     .sort {
         flex: 1;
         margin-bottom: 0;
+        margin-left: 0;
     }
 
     .sort {

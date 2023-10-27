@@ -67,7 +67,7 @@ def createProfile(request):
 
                                     user = authenticate(request, display_name=display_name, password=password)
                                     auth_login(request, user) # Log them in
-                                    return redirect('/')
+                                    return redirect(f"/{display_name}/dashboard/")
                                 else:
                                     message = 'display-name-taken'
                             

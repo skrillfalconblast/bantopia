@@ -525,6 +525,7 @@ sup {
 }
 
 .author {
+    cursor: pointer;
     font-weight: 700;
 }
 

@@ -57,13 +57,35 @@ function replaceMentions(messageContentRaw, mentionDataString) {
 
     const mentionArray = mentionDataString.split(',')
 
-    for (let i = 0; i < (mentionArray.length)/2; i++) {
-        const displayName = mentionArray[i]
-        const color = mentionArray[i + 1]
+    console.log(mentionArray)
+
+    mentionArray.pop()
+
+    console.log(mentionArray)
+
+    mentionDict = {}
+
+    mentionArray.forEach(function(item, index) {
+        if(index % 2 === 0) {
+            console.log(index)
+            console.log(item)
+            console.log(mentionDict)
+           mentionDict[item] = mentionArray[index + 1];
+        }
+    });
+
+   console.log(mentionDict)
+
+    for (const [key, value] of Object.entries(mentionDict)) {
+        const displayName = key
+        const color = value
+
+        console.log(displayName)
+        console.log(color)
 
         const mentionHTMl = `<span class="color-${color}">@${displayName}</span>`
 
-        messageContent = messageContent.replace(`@${displayName}`, mentionHTMl)
+        messageContent = messageContent.replaceAll(`@${displayName}`, mentionHTMl)
     }
 
     return messageContent
@@ -289,11 +311,11 @@ function connect(){
             const chat = document.getElementById('chat')
             const message_container = document.getElementById('messages-container')
 
-            message_id = 'msg_' + data.message_code
+            const message_id = 'msg_' + data.message_code
 
             if (data.origin == 'native') {
 
-                message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
                     if (e.key === 'Enter') {
@@ -304,7 +326,7 @@ function connect(){
 
             } else if (data.origin == 'foreign') {
 
-                message_container.innerHTML += `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`;
+                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
                     if (e.key === 'Enter') {
@@ -315,13 +337,24 @@ function connect(){
 
             }
 
+            const authorDiv = document.getElementById(message_id).parentNode.firstElementChild
+
+            authorDiv.firstElementChild.addEventListener("click", function(e) {
+
+                const chatInput = document.getElementById('chat-input')
+    
+                chatInput.innerText += `@${authorDiv.firstElementChild.innerText}`
+            })
+
             if ('mention_data_string' in data && data.mention_data_string) {
 
-                console.log(replaceMentions(data.message, data.mention_data_string))
+                console.log(data.mention_data_string)
 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = replaceMentions(escapeHtml(data.message), data.mention_data_string); // The message content
 
             } else {
+
+                console.log('what?')
 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
 
@@ -425,7 +458,17 @@ function connect(){
 
             message_id = 'msg_' + data.message_code
 
-            document.getElementById(message_id).querySelector('.message-actual-content').textContent = data.edited_content
+            if ('mention_data_string' in data && data.mention_data_string) {
+
+                console.log(replaceMentions(escapeHtml(data.edited_content), data.mention_data_string))
+
+                document.getElementById(message_id).querySelector('.message-actual-content').innerHTML = replaceMentions(escapeHtml(data.edited_content), data.mention_data_string);
+
+            } else {
+
+                document.getElementById(message_id).querySelector('.message-actual-content').textContent = data.edited_content
+
+            }
 
         } else if ('switch' in data) {
             
@@ -817,6 +860,22 @@ function connect(){
                 e.preventDefault();
                 e.target.blur()
             }
+        })
+    )
+
+    // -------------------------- Events for each .author -------------------------- //
+
+    document.querySelectorAll('.author').forEach(content =>
+
+        content.firstElementChild.addEventListener("click", function(e) {
+
+            console.log(content)
+
+            console.log('here')
+
+            const chatInput = document.getElementById('chat-input')
+
+            chatInput.innerText += `@${content.firstElementChild.innerText}`
         })
     )
 
