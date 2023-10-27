@@ -780,7 +780,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                     mention_data_string = ""
                                     
-                                    mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", message)
+                                    mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", message)
 
                                     for mentionTuple in mentionTuples:
                                         mentioned_user = await self.get_user(mentionTuple[1])
@@ -843,7 +843,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                         mention_data_string = ""
                                         
-                                        mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", message)
+                                        mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", message)
 
                                         for mentionTuple in mentionTuples:
                                             mentioned_user = await self.get_user(mentionTuple[1])
@@ -1080,7 +1080,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                 mention_data_string = ""
                                 
-                                mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", edited_message.message_content)
+                                mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", edited_message.message_content)
 
                                 for mentionTuple in mentionTuples:
                                     mentioned_user = await self.get_user(mentionTuple[1])
@@ -1128,7 +1128,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                 mention_data_string = ""
                                 
-                                mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", edited_message.message_content)
+                                mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", edited_message.message_content)
 
                                 for mentionTuple in mentionTuples:
                                     mentioned_user = await self.get_user(mentionTuple[1])

@@ -73,7 +73,7 @@ def replace_mentions(value):
 
         mentionArray = []
 
-        mentionTuples = re.findall("(^|[^@\w])@(\w{1,15})", text)
+        mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", text)
 
         for mentionTuple in mentionTuples:
             mentionArray.append(mentionTuple[1])

@@ -57,31 +57,19 @@ function replaceMentions(messageContentRaw, mentionDataString) {
 
     const mentionArray = mentionDataString.split(',')
 
-    console.log(mentionArray)
-
     mentionArray.pop()
-
-    console.log(mentionArray)
 
     mentionDict = {}
 
     mentionArray.forEach(function(item, index) {
         if(index % 2 === 0) {
-            console.log(index)
-            console.log(item)
-            console.log(mentionDict)
            mentionDict[item] = mentionArray[index + 1];
         }
     });
 
-   console.log(mentionDict)
-
     for (const [key, value] of Object.entries(mentionDict)) {
         const displayName = key
         const color = value
-
-        console.log(displayName)
-        console.log(color)
 
         const mentionHTMl = `<span class="color-${color}">@${displayName}</span>`
 
@@ -348,13 +336,9 @@ function connect(){
 
             if ('mention_data_string' in data && data.mention_data_string) {
 
-                console.log(data.mention_data_string)
-
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = replaceMentions(escapeHtml(data.message), data.mention_data_string); // The message content
 
             } else {
-
-                console.log('what?')
 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
 
@@ -459,8 +443,6 @@ function connect(){
             message_id = 'msg_' + data.message_code
 
             if ('mention_data_string' in data && data.mention_data_string) {
-
-                console.log(replaceMentions(escapeHtml(data.edited_content), data.mention_data_string))
 
                 document.getElementById(message_id).querySelector('.message-actual-content').innerHTML = replaceMentions(escapeHtml(data.edited_content), data.mention_data_string);
 
@@ -868,10 +850,6 @@ function connect(){
     document.querySelectorAll('.author').forEach(content =>
 
         content.firstElementChild.addEventListener("click", function(e) {
-
-            console.log(content)
-
-            console.log('here')
 
             const chatInput = document.getElementById('chat-input')
 
