@@ -50,7 +50,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('content', kwargs={'post_code': str(self.post_code), 'post_slug' : str(self.post_slug)})
+        return reverse('context', kwargs={'post_code': str(self.post_code), 'post_slug' : str(self.post_slug)})
 
 class Tag(models.Model):
     tag_text = models.CharField(max_length=255)

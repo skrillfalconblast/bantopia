@@ -787,80 +787,86 @@ button[type="submit"]:hover > span {
     CURRENTLY IRRELEVANT, IF WE DON'T USE THIS CLASS, SIMPLY DELETE ITS HTML, THEN THIS CSS TAG.
 }*/
 
-#dashboard-rules {
+#dashboard-patch-notes{
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 10px;
+    flex: 1;
 }
 
-.dashboard-rules-description {
-    font-size: 1.3vw;
+.dashboard-patch-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.8vw;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: rgb(108, 108, 112);
+}
+
+.dashboard-patch-title span {
+    color: #f28500;
+}
+
+.dashboard-notes {
+    font-size: 1.4vw;
+    font-weight: 600;
     font-family: 'Poppins', sans-serif;
-    margin: 1.1vw;
+    margin-left: 25px;
+    color: rgb(145, 145, 149);
 }
 
-.dashboard-rule {
+.dashboard-notes li {
+    list-style-type: '+ ';
+}
+
+.dashboard-patch {
     margin-bottom: 15px;
 }
 
-.dashboard-rule-group h2 {
-    font-size: 1.3vw;
-    font-family: 'Poppins', sans-serif;
-}
-
-.dashboard-rule-title {
-    font-weight: 700;
-    margin-left: 15px;
-}
-
-.dashboard-rule-title span {
-    box-shadow: inset 0 -0.6vw 0 #f28500;
-}
-
-.dashboard-rule {
+.dashboard-patch {
     display: flex;
     flex-direction: column;
-    margin-left: 30px;
-    margin-right: 2.4vw;
 }
 
-.dashboard-rule p {
+.dashboard-patch p {
     font-size: 1.3vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
 
-.dashboard-rules-report-title {
+.dashboard-patch-report-title {
     padding: 15px;
     background-color: black;
     color: white;
 }
 
-.dashboard-rules-report-title h2 {
+.dashboard-patch-report-title h2 {
     font-size: 1.3vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
 }
 
-.dashboard-rules-report-body {
+.dashboard-patch-report-body {
     padding-left: 30px;
     padding-right: 30px;
     background-color: black;
     color: white;
 }
 
-.dashboard-rules-report-paragraph {
+.dashboard-patch-report-paragraph {
     margin-bottom: 15px;
 }
 
-.dashboard-rules-report-paragraph p,
-.dashboard-rules-report-paragraph li {
+.dashboard-patch-report-paragraph p,
+.dashboard-patch-report-paragraph li {
     font-size: 1.3vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
 
-.dashboard-rules-report-paragraph li {
+.dashboard-patch-report-paragraph li {
     margin-left: 15px;
 }
 
@@ -1050,7 +1056,7 @@ button[type="submit"]:hover > span {
     color: #00baf2;
 }
 
-.dashboard-rules-li-pink {
+.dashboard-patch-li-pink {
     color: #cb0cd1;
 }
 
@@ -1701,43 +1707,46 @@ button[type="submit"]:hover > span {
     }
 
     .dashboard-info-menu li {
+        font-size: 4.75vw;
+    }
+
+    #dashboard-patch-notes {
+        padding: 5px 5px 0 5px;
+    }
+
+    .dashboard-patch-title {
+        margin-left: 1vw;
         font-size: 5vw;
+        margin-bottom: 0;
     }
 
-    .dashboard-rules-description {
-        font-size: 3.9vw;
-        padding: 2vw 2vw;
+    .dashboard-notes {
+        font-size: 4vw;
+        padding: 0;
+        margin-left: 5vw;
     }
 
-    .dashboard-rule-group h2 {
-        font-size: 3.9vw;
-    }
-
-    .dashboard-rule-title span {
-        box-shadow: inset 0 -1.8vw 0 #f28500;
-    }
-
-    .dashboard-rule p {
+    .dashboard-patch p {
         font-size: 3.9vw;
     }
 
-    .dashboard-rules-report-title {
+    .dashboard-patch-report-title {
         padding: 5vw;
     }
 
-    .dashboard-rules-report-title h2 {
+    .dashboard-patch-report-title h2 {
         font-size: 3.9vw;
     }
 
-    .dashboard-rules-report-body {
+    .dashboard-patch-report-body {
         padding-left: 7vw;
         padding-right: 7vw;
         background-color: black;
         color: white;
     }
 
-    .dashboard-rules-report-paragraph p,
-    .dashboard-rules-report-paragraph li {
+    .dashboard-patch-report-paragraph p,
+    .dashboard-patch-report-paragraph li {
         font-size: 3.9vw;
     }
 

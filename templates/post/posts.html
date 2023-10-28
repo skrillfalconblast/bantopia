@@ -55,7 +55,7 @@
                     <div class="posts">
                         {% for post in posts %}
                         <div class="post">
-                            <a href="../html/comms/content.html" class="post-body">
+                            <a href="/{{post.post_code}}/{{post.post_slug}}" class="post-body">
                                 {% if post.post_type == 'DE' %}
                                 <h1 class="post-title"><span class="post-DE">Declaration:</span> {{ post.post_title }}</h1>
                                 {% elif post.post_type == 'TH' %}

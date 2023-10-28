@@ -2,11 +2,11 @@
 // ------------------- Tabs ------------------------
 
 const command_pane = document.getElementById("dashboard-commands")
-const rules_pane = document.getElementById("dashboard-rules")
+const patch_notes_pane = document.getElementById("dashboard-patch-notes")
 const partners_pane = document.getElementById("dashboard-partners")
 
 const command_tab = document.getElementById("dashboard-commands-tab")
-const rules_tab = document.getElementById("dashboard-rules-tab")
+const patch_notes_tab = document.getElementById("dashboard-patch-notes-tab")
 const partners_tab = document.getElementById("dashboard-partners-tab")
 
 
@@ -14,12 +14,12 @@ const partners_tab = document.getElementById("dashboard-partners-tab")
 command_tab.onclick = function(e){
     command_pane.classList.remove('hidden')
 
-    rules_pane.classList.add('hidden')
+    patch_notes_pane.classList.add('hidden')
     partners_pane.classList.add('hidden')
 }
 
-rules_tab.onclick = function(e){
-    rules_pane.classList.remove('hidden')
+patch_notes_tab.onclick = function(e){
+    patch_notes_pane.classList.remove('hidden')
 
     command_pane.classList.add('hidden')
     partners_pane.classList.add('hidden')
@@ -28,7 +28,7 @@ rules_tab.onclick = function(e){
 partners_tab.onclick = function(e){
     partners_pane.classList.remove('hidden')
 
-    rules_pane.classList.add('hidden')
+    patch_notes_pane.classList.add('hidden')
     command_pane.classList.add('hidden')
 }
 
