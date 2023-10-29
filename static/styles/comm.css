@@ -497,6 +497,10 @@ sup {
     border-right: 10px solid #F28500;
 }
 
+.message-body {
+    width: 100%;
+}
+
 .message:last-child {
     margin-bottom: 18px;
 }
@@ -525,8 +529,12 @@ sup {
 }
 
 .author {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     cursor: pointer;
     font-weight: 700;
+    width: 100%;
 }
 
 .author-shadow-OR {
@@ -567,6 +575,45 @@ sup {
 .author-shadow-DR {
     color: #025464;
     box-shadow: inset 0 -0.8vw 0 #025464;
+}
+
+.divider-line {
+    width: 100%;
+    flex-grow: 1;
+    height: 1vw;
+    margin-left: 20px;
+}
+
+.author-line-OR {
+    background-color: #f28500;
+}
+
+.author-line-BL {
+    background-color: #00baf2;
+}
+
+.author-line-GR {
+    background-color: #0fb300;
+}
+
+.author-line-RE {
+    background-color: #fb3a3a;
+}
+
+.author-line-PU {
+    background-color: #5934ff;
+}
+
+.author-line-BR {
+    background-color: #884A39;
+}
+
+.author-line-MA {
+    background-color: #ac0000;
+}
+
+.author-line-DR {
+    background-color: #025464;
 }
 
 .content {

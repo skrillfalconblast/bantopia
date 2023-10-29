@@ -66,6 +66,10 @@
                                     <input type="radio" name="type" value="TH" id="theory" autocomplete="off">
                                     <label for="theory">Theory</label><br>     
                                 </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="type" value="QU" id="question" autocomplete="off">
+                                    <label for="question">Question</label><br>     
+                                </div>
                             </div>
                         </div>
                         {% elif draft.draft_type == 'TH' %}
@@ -79,6 +83,28 @@
                                 <div class="radio-option">
                                     <input type="radio" name="type" value="TH" id="theory" autocomplete="off" checked>
                                     <label for="theory">Theory</label><br>     
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="type" value="QU" id="question" autocomplete="off">
+                                    <label for="question">Question</label><br>     
+                                </div>
+                            </div>
+                        </div>
+                        {% elif draft.draft_type == 'QU' %}
+                        <div class="post-input">
+                            <label for="radio" id="radio-label">Type: </label>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" name="type" value="DE" id="decleration" autocomplete="off">
+                                    <label for="decleration">Decleration</label><br>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="type" value="TH" id="theory" autocomplete="off">
+                                    <label for="theory">Theory</label><br>     
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="type" value="QU" id="question" autocomplete="off" checked>
+                                    <label for="question">Question</label><br>     
                                 </div>
                             </div>
                         </div>

@@ -64,30 +64,31 @@ def times(number):
     return range(number)
 
 @register.filter
-def replace_mentions(value):
-    text = escape(value)
+def replace_mentions(message):
 
-    if '@' in text:
+    message_text = escape(message.message_content)
 
-        users = User.objects.all()
+    if '@' in message_text:
+
+        mentions = message.message_mentions.all()
 
         mentionArray = []
 
-        mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", text)
+        mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", message_text)
 
         for mentionTuple in mentionTuples:
             mentionArray.append(mentionTuple[1])
 
-        for mention in set(mentionArray):
+        for mentioned_name in set(mentionArray):
 
             try:
-                user = users.get(display_name=mention)
+                user = [mention for mention in list(mentions) if mention.display_name == mentioned_name]
             except:
                 user = None
 
             if user:
-                text = text.replace(f"@{mention}", f'<span class="color-{user.color}">@{mention}</span>')
+                message_text = message_text.replace(f"@{mentioned_name}", f'<span class="color-{user[0].color}">@{mentioned_name}</span>')
             else:
-                text = text.replace(f"@{mention}", f'<span class="color-OR">@{mention}</span>')
+                message_text = message_text.replace(f"@{mentioned_name}", f'<span class="color-OR">@{mentioned_name}</span>')
 
-    return text
+    return message_text

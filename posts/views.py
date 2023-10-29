@@ -126,6 +126,23 @@ def index(request):
                 "Looking for trouble?",
                 "On the hunt?",
                 ]
+
+    splash_texts = [
+        "Check out the Patch Notes!",
+        "There are Patch Notes!",
+        "I update randomly!",
+        "Posting is really fun!",
+        "Better than Reddit?",
+        "Change your color!",
+        "You're on a watchlist!",
+        "It's nothing personal.",
+        "support@bantopia.com",
+        "Find the Easter eggs!",
+        "Use /commands!",
+        "Ephesians 4:32",
+        "Request splash texts!",
+        "Old internet + New Web."
+    ]
     
     tab_text = random.choice(tab_texts)
 

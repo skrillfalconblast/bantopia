@@ -31,7 +31,7 @@ def chat(request, post_code, post_slug):
             except Visit.DoesNotExist:
                 Visit.objects.create(visit_post=post, visit_user=user)
                 
-        messages = Message.objects.filter(message_post=post).select_related('message_author').order_by('-message_datetime_sent')[:300:-1]
+        messages = Message.objects.filter(message_post=post).select_related('message_author').prefetch_related('message_mentions').order_by('-message_datetime_sent')[:300:-1]
 
         contributers = Message.objects.filter(message_post=post).select_related('message_author').distinct('message_author')
 

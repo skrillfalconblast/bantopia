@@ -149,6 +149,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = Message.objects.create(message_code=message_code, message_post=post, message_content=message_content, 
                                message_author=user, message_author_name=user.display_name)
         
+        if '@' in message_content:
+        
+            mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", message_content)
+
+            mentionArray = []
+
+            for mentionTuple in mentionTuples:
+
+                mentioned_user_display_name = mentionTuple[1]
+
+                mentionArray.append(mentioned_user_display_name)
+            
+            mentioned_users = User.objects.filter(display_name__in=mentionArray)
+
+            if mentioned_users:
+                message.message_mentions.add(*mentioned_users)
+
         post.post_number_of_messages += 1
         post.save()
 
