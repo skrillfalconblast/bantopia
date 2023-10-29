@@ -50,13 +50,13 @@
                 <a href="/post/write" class="post-link"><span>#Post</span></a>
                 {% if user.is_authenticated %}
                 <a href="/{{ user.display_name }}/dashboard" class="dashboard-link"><span><span class="dashboard-your">Your<br></span>Dashboard</span></a>
-                <a href="/{{ user.display_name }}/dashboard" id="splash-text">Check out the Patch Notes!</a>
+                <a href="/{{ user.display_name }}/dashboard" id="splash-text">{{ splash_text }}</a>
                 {% else %}
                 <div class="account-links">
                     <a href="login/"><span>Log in</span></a>
                     <a href="create-profile/"><span>Create Profile</span></a>
                 </div>
-                <a href="create-profile/" id="splash-text">Check out the Patch Notes!</a>
+                <a href="create-profile/" id="splash-text">{{ splash_text }}</a>
                 {% endif %}
             </div>
         </div>

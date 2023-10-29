@@ -130,21 +130,24 @@ def index(request):
     splash_texts = [
         "Check out the Patch Notes!",
         "There are Patch Notes!",
-        "I update randomly!",
-        "Posting is really fun!",
+        "This updates randomly!",
+        "Arguing is really fun!",
         "Better than Reddit?",
         "Change your color!",
         "You're on a watchlist!",
         "It's nothing personal.",
-        "support@bantopia.com",
+        "support@ bantopia.com",
         "Find the Easter eggs!",
         "Use /commands!",
-        "Ephesians 4:32",
-        "Request splash texts!",
-        "Old internet + New Web."
+        "(Ephesians 4:32)",
+        "Request more splash texts!",
+        "Old internet + New Web",
+        "Facepalm 1.0.2 (－‸ლ)"
     ]
     
     tab_text = random.choice(tab_texts)
+
+    splash_text = random.choice(splash_texts)
 
     user = request.user # Pulls user from request for authentication checks within the template.   
 
@@ -189,7 +192,7 @@ def index(request):
 
         user_notified_set = set(user.post_set.values_list('pk',flat=True))
 
-        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'tab_text' : tab_text, 'user_notified_set' : user_notified_set}
+        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'tab_text' : tab_text, 'splash_text' : splash_text, 'user_notified_set' : user_notified_set}
 
         return render(request, 'index.html', context)
     else:
