@@ -1310,7 +1310,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .option h1 {
-        font-size: 5vw;
+        font-size: 6vw;
     }
 
     #bottom-option {
@@ -1328,7 +1328,7 @@ input:focus:-ms-input-placeholder {
 
     .content-toggle {
         display: flex;
-        width: 10vw;
+        width: 8vw;
     }
 
     .toggle {
@@ -1351,7 +1351,6 @@ input:focus:-ms-input-placeholder {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 50px;
     }
 
     .toggle img {
@@ -1582,7 +1581,7 @@ input:focus:-ms-input-placeholder {
 
     .post-title-span {
         display: block;
-        padding: 1.5vw 4.5vw 1.5vw 4.5vw;
+        padding: 2vw 3.5vw 2vw 3.5vw;
         border-left: 1.4vw solid #f28500;
     }
 
@@ -1614,7 +1613,7 @@ input:focus:-ms-input-placeholder {
         border-top: 1.4vw solid #000;
         margin: 0;
         padding-left: 2vw;
-        border-left: 4vw solid #000;
+        border-left: 3vw solid #000;
     }
 
     .content-author h2 {
@@ -1624,9 +1623,12 @@ input:focus:-ms-input-placeholder {
     .content-paragraph {
         margin: 0;
         padding-top: 3vw;
-        padding-left: 5vw;
-        padding-right: 5vw;
+        padding-left: 3.5vw;
+        padding-right: 3.5vw;
         font-size: 4.4vw;
+        padding-bottom: 35px;
+        height: 100%;
+        border-left: 1.5vw solid #f28500;
     }
 
     .header-line {
@@ -1653,15 +1655,15 @@ input:focus:-ms-input-placeholder {
     }
 
     .mobile-header-shadow-DE {
-        box-shadow: inset 0 -2vw 0 #F28500;
+        box-shadow: inset 0 -2.1vw 0 #F28500;
     }
 
     .mobile-header-shadow-TH {
-        box-shadow: inset 0 -2vw 0 #30f200;
+        box-shadow: inset 0 -2.1vw 0 #30f200;
     }
 
     .mobile-header-shadow-QU {
-        box-shadow: inset 0 -2vw 0 #7f24ff;
+        box-shadow: inset 0 -2.1vw 0 #7f24ff;
     }
 
     .contrib-user {
@@ -1704,6 +1706,10 @@ input:focus:-ms-input-placeholder {
 
     .mobile-pingster h1 {
         font-size: 6.4vw;
+    }
+
+    .author {
+        font-size: 7.8vw;
     }
 
     .author-shadow-OR {
@@ -1761,7 +1767,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .chat-bar p {
-        font-size: 5vw;
+        font-size: 6vw;
         border: none;
         padding: 0;
         padding-top: 1.4vw;
