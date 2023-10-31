@@ -1013,7 +1013,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                     except:
 
-                        puppets = ['aidenm', 'billybob', 'skrill_falcon', 'GameTheory']
+                        puppets = ['aidenm', 'billybob', 'skrill_falcon_blast', 'GameTheory']
 
                         for puppet_name in puppets:
 

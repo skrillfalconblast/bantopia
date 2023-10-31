@@ -96,15 +96,15 @@
     <div class="content-display">
         <div class="content-title">
             {% if post.post_type == 'DE' %}
-            <h1><span class="post-title-DE">Declaration:</span> {{post.post_title}}</h1>
+            <h1><span class="post-title-DE post-type-span">Declaration<span class="post-title-colon">:</span></span> <span class="post-title-span declaration-title">{{post.post_title}}</span></h1>
             {% elif post.post_type == 'TH' %}
-            <h1><span class="post-title-TH">Theory:</span> {{post.post_title}}</h1>
+            <h1><span class="post-title-TH post-type-span post-type-span-theory">Theory<span class="post-title-colon">:</span></span> <span class="post-title-span theory-title">{{post.post_title}}</span></h1>
             {% elif post.post_type == 'QU' %}
-            <h1><span class="post-title-QU">Question:</span> {{post.post_title}}</h1>
+            <h1><span class="post-title-QU post-type-span">Question<span class="post-title-colon"></span>:</span></span> <span class="post-title-span question-title">{{post.post_title}}</span></h1>
             {% endif %}
         </div>
         <div class="content-author">
-            <h2>By <span class="post-author-name">{{post.post_author_name}}</span></h2>
+            <h2>By <span class="post-author-name color-{{ post.post_author.color }}">{{post.post_author_name}}</span></h2>
         </div>
         <hr class="header-line">
         <div class="content-paragraph">
