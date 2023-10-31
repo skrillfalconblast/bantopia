@@ -1310,6 +1310,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .option h1 {
+        padding: 1.4vw;
         font-size: 6vw;
     }
 
@@ -1328,13 +1329,13 @@ input:focus:-ms-input-placeholder {
 
     .content-toggle {
         display: flex;
-        width: 8vw;
+        width: 10vw;
     }
 
     .toggle {
         display: flex;
-        margin-left: 3.5vw;
-        margin-right: 3.5vw;
+        margin-left: 3vw;
+        margin-right: 3vw;
         width: 10vw;
         align-items: center;
         justify-content: center;
@@ -1354,7 +1355,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .toggle img {
-        width: 7vw;
+        width: 8vw;
         rotate: 180deg;
     }
 
@@ -1533,11 +1534,6 @@ input:focus:-ms-input-placeholder {
 }
 
 @media only screen and (max-width: 960px) {
-    .option h1 {
-        padding: 1.4vw;
-        font-size: 5vw;
-    }
-
     /* width */
     .content-display::-webkit-scrollbar {
         width: 0;
