@@ -61,7 +61,8 @@ if (sort == 'new') {
   controversial_link.firstElementChild.className = ''
 
   // navline.className = 'navline'
-  rail.className = "new-rail";
+  document.querySelectorAll('.right-label-face').forEach(e => e.classList = 'right-label-face new-face')
+  document.querySelectorAll('.post-label-box').forEach(e => e.classList = 'post-label-box new-face')
   posts.classNamea = 'post'
 
   sortContainer.className = 'sort new-border'
@@ -105,3 +106,57 @@ document.querySelectorAll('.post').forEach((i) => {
       observer.observe(i);
   }
 })
+
+function truncate(str, n) {
+  if (str.length <= n) { return str; }
+  var subString = str.slice(0, n-1); // the original check
+  var index = subString.lastIndexOf(" ");
+  subString = subString.substring(0, index) + "..." 
+  return subString
+};
+
+function connect(){
+
+    var loc = window.location
+    var wsProtocol = 'ws://'
+    if (loc.protocol == "https:"){
+        wsProtocol = 'wss://'
+    }
+
+    const homeSocket = new WebSocket(
+        wsProtocol
+        + window.location.host
+    );
+
+    /*
+    homeSocket.onopen = function() {
+    }
+    */
+
+    homeSocket.onmessage = function(e) {
+      const data = JSON.parse(e.data);
+        
+      if ('last_message_content' in data){
+
+        id = 'pst_' + data.post_code
+
+        const postDom = document.getElementById(id)
+        const lastMessageBarDom = postDom.querySelector('.message-bar')
+        const beacon = lastMessageBarDom.firstElementChild
+        const recentMessageCrier = lastMessageBarDom.lastElementChild.querySelector('.recent-message-crier')
+        const lastMessageContent = lastMessageBarDom.lastElementChild.querySelector('.recent-message-content')
+
+        beacon.classList.add('post-icon-active')
+        recentMessageCrier.innerText = 'New Message'
+        lastMessageContent.innerText = truncate(data.last_message_content, 35)
+      }
+    
+    };
+
+    homeSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+}
+
+connect()

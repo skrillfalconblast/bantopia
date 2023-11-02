@@ -9,6 +9,8 @@ from channels.db import database_sync_to_async
 from django.shortcuts import redirect
 
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from .models import Message, Interaction
 from posts.models import Post, Vote
@@ -818,6 +820,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                     await self.channel_layer.group_send(
                                         self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
                                     )
+                                
+                                    channel_layer = get_channel_layer()
+                                    await self.channel_layer.group_send(
+                                        'main',
+                                        {
+                                            'type': 'update_post',
+                                            "post_code" : self.post_code,
+                                            "last_message_content" : message,
+                                        }
+                                    ) 
 
                                 await self.notify() # Notify the users of a new message
 
@@ -881,6 +893,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                         await self.channel_layer.group_send(
                                             self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
                                         )
+
+                                    channel_layer = get_channel_layer()
+                                    await self.channel_layer.group_send(
+                                        'main',
+                                        {
+                                            'type': 'update_post',
+                                            "post_code" : self.post_code,
+                                            "last_message_content" : message,
+                                        }
+                                    ) 
 
                                     await self.notify() # Notify the users of a new message
                                     
