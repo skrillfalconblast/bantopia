@@ -1283,7 +1283,7 @@ input:focus:-ms-input-placeholder {
         white-space: nowrap;
     }
 
-    .recent-message-content {
+    .recent-message-body {
         display: none;
     }
 

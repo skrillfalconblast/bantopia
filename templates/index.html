@@ -97,9 +97,9 @@
                         <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
                         {% if post.last_message %}
                             {% if post.pk in user_notified_set or not user.is_authenticated %}
-                            <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message"><span class="recent-message-crier">New Message</span>:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span></h1></div>
+                            <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message"><span class="recent-message-crier">New Message</span><span class="recent-message-body">:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span><span></span></h1></div>
                             {% else %}
-                            <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message"><span class="recent-message-crier">Last Message</span>:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span></h1></div>
+                            <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message"><span class="recent-message-crier">Last Message</span><span class="recent-message-body">:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span></span></h1></div>
                             {% endif %}
                         {% else %}
                         <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
