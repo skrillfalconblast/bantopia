@@ -115,29 +115,6 @@ function truncate(str, n) {
   return subString
 };
 
-function setTime(display) {
-  totalSeconds = 0
-
-  var interval = setInterval(function() { 
-    
-    totalSeconds++;
-
-    if (totalSeconds == 1) {
-      display.innerText = totalSeconds + ' sec ago'
-    } else if (totalSeconds < 60) {
-      display.innerText = totalSeconds + ' sec ago'
-    } else if ((Math.floor(totalSeconds / 60)) == 1) {
-      display.innerText = (Math.floor(totalSeconds / 60)) + ' min ago'
-    } else if ((totalSeconds >= 60) && (totalSeconds <= 3600)) {
-      display.innerText = (Math.floor(totalSeconds / 60)) + ' mins ago'
-    } else if (((Math.floor(totalSeconds / 3600)) == 1)) {
-      display.innerText = (Math.floor(totalSeconds / 3600)) + 'hour ago'
-    } else if ((totalSeconds >= 3600)) {
-      display.innerText = (Math.floor(totalSeconds / 3600)) + 'hours ago'
-    } 
-  }, 1000);
-}
-
 var activatedLastActivesDict = {}; 
 
 function getCounter(display, post_id) {
@@ -205,19 +182,14 @@ function getCounter(display, post_id) {
   }
 
   if (!isActive) {
-    
-    console.log(activatedLastActivesDict)
 
     if (!(post_id in activatedLastActivesDict)) {
 
-      console.log('its not in')
       interval = setInterval(updateCounter, 1000);
       activatedLastActivesDict[post_id] = interval
 
     } else {
 
-      console.log('its in')
-      console.log(JSON.parse(activatedLastActivesDict[post_id]))
       clearInterval(JSON.parse(activatedLastActivesDict[post_id]))
       interval = setInterval(updateCounter, 1000);
       activatedLastActivesDict[post_id] = interval
@@ -315,6 +287,7 @@ function connect(){
     }
 
     homeSocket.onclose = function(e) {
+        clearInterval(performanceIntervalPing)
         console.error('Chat socket closed unexpectedly');
     };
 

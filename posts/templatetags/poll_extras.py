@@ -112,7 +112,7 @@ def briefLongAgo(value):
         seconds = diff.seconds
         
         if seconds == 1:
-            return str(seconds) +  " secs ago"
+            return str(seconds) +  " sec ago"
         
         else:
             return str(seconds) + " secs ago"
@@ -134,7 +134,7 @@ def briefLongAgo(value):
         hours= math.floor(diff.seconds/3600)
 
         if hours == 1:
-            return str(hours) + " r ago"
+            return str(hours) + " hr ago"
 
         else:
             return str(hours) + " hrs ago"
