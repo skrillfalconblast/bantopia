@@ -29,7 +29,7 @@
     <meta property="twitter:title" content="Bantopia: The Social Forum" />
     <meta property="twitter:description" content="Chat and argue with people across the globe regarding any topic you choose, from video-games to bio-medical science, enjoying the Internet in its purest form. It’s completely anonymous, so create a quick profile and experience it all!" />
     <meta property="twitter:image" content="{% static 'images/Poster.png' %}" />
-    <title>{{ tab_text }} | Bantopia</title>
+    <title>{{user.display_name}}'s Den | Bantopia</title>
 </head>
 <body>
     <div class="dashboard-container">
@@ -132,6 +132,16 @@
                         </div>
                     </div>
                     <div id="dashboard-patch-notes" class="hidden">
+                        <div class="dashboard-patch">
+                            <div class="dashboard-patch-title">3.0.0 Patch Notes [The Confirmation Update]</div>
+                            <ul class="dashboard-notes">
+                                <li>Top Statistics have been added to every post! The Last Activity Stat, the typing indicator stat and the message recoil bar.</li>
+                                <li>The Splash Text is no longer totally random and will now be consistently updated every day!</li>
+                                <li>There is now a notification sound for messages when in the home page.</li>
+                                <li>Tab Texts throughout the site have been de-randomized and re-awesomeized.</li>
+                                <li>Bug fixed: Slipping and sliding on the sponsors page.</li>
+                            </ul>
+                        </div>
                         <div class="dashboard-patch">
                             <div class="dashboard-patch-title">2.0.0 Patch Notes [The Frankenstein Update]</div>
                             <ul class="dashboard-notes">

@@ -821,7 +821,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                         self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
                                     )
                                 
-                                    channel_layer = get_channel_layer()
                                     await self.channel_layer.group_send(
                                         'main',
                                         {
@@ -894,7 +893,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                             self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
                                         )
 
-                                    channel_layer = get_channel_layer()
                                     await self.channel_layer.group_send(
                                         'main',
                                         {
@@ -1072,11 +1070,28 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         await self.channel_layer.group_send(
                             self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  puppet.display_name, "typing_color" : puppet.color, "typing_status" : "started", "typing_channel" : self.channel_name}
                         )
+                        
+                        await self.channel_layer.group_send(
+                            'main',
+                            {
+                                'type': 'someone_typing',
+                                "post_code" : self.post_code,
+                            }
+                        ) 
+
                     else:
 
                         await self.channel_layer.group_send(
                             self.post_group_name, {"type" : "typing_alert", "typing_display_name" :  user.display_name, "typing_color" : user.color, "typing_status" : "started", "typing_channel" : self.channel_name}
                         )
+
+                        await self.channel_layer.group_send(
+                            'main',
+                            {
+                                'type': 'someone_typing',
+                                "post_code" : self.post_code,
+                            }
+                        ) 
                 
                 if text_data_json["typing_status"] == 'stopped':
 

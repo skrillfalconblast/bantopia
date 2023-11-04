@@ -11,6 +11,7 @@ from django.db.models import F, ExpressionWrapper, Value, FloatField, Case, When
 from django.db.models.functions import Round, Log, Greatest, Abs
 
 from django.contrib.postgres.aggregates.general import ArrayAgg
+from django.db.models.functions import JSONObject
 
 from django.utils.html import escape
 
@@ -64,7 +65,9 @@ def counterHack(posts):
 
 def sort_new():
 
-    posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-post_datetime_created')
+    posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values(data=JSONObject(
+            content="message_content", datetime_sent="message_datetime_sent"
+        ))[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-post_datetime_created')
 
     posts = counterHack(posts)
 
@@ -77,7 +80,9 @@ def sort_trending():
     
     posts = Post.objects.prefetch_related(Prefetch('message_set')).alias(
         latest_message=Max('message__message_datetime_sent'), 
-    ).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-latest_message')
+    ).annotate(last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values(data=JSONObject(
+            content="message_content", datetime_sent="message_datetime_sent"
+        ))[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-latest_message')
 
     posts = counterHack(posts)
 
@@ -87,7 +92,9 @@ def sort_controversial():
     posts = Post.objects.prefetch_related(Prefetch('message_set')).annotate(total=ExpressionWrapper(Abs(F('post_number_of_yes_votes') + F('post_number_of_no_votes')), IntegerField()), score=Case(When(total=0, then=Value(0, output_field=FloatField())), default=ExpressionWrapper(
         (F('post_timestamp_created') / 45000) + Log(10, (F('total')) / Greatest(Abs(F('post_number_of_yes_votes') - F('post_number_of_no_votes')), 1)), output_field=FloatField()
     )), sort=Value("controversial"), 
-    last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values('message_content')[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-score')[:100] 
+    last_message=Subquery(Message.objects.filter(message_post=OuterRef('pk')).order_by("-message_datetime_sent").values(data=JSONObject(
+            content="message_content", datetime_sent="message_datetime_sent"
+        ))[:1]), counters=ArrayAgg('message__message_content', filter=Q(message__message_score__gt=1), ordering='-message__message_score')).order_by('-score')[:100] 
 
     posts = counterHack(posts)
     
@@ -113,42 +120,6 @@ def tag_search(search_term):
 
 @csrf_exempt
 def index(request):
-
-    tab_texts = ["There's no place...",
-                "HomePage",
-                "Scrolling?",
-                "HomeBase",
-                "Welcome to",
-                "HomePage",
-                "Central Nexus",
-                "Scrolling?",
-                "How are you?", 
-                "Looking for trouble?",
-                "On the hunt?",
-                ]
-
-    splash_texts = [
-        "Check out the Patch Notes!",
-        "There are Patch Notes!",
-        "This updates randomly!",
-        "Arguing is really fun!",
-        "Better than Reddit?",
-        "Change your color!",
-        "You're on a watchlist!",
-        "It's nothing personal.",
-        "support@ bantopia.com",
-        "Find the Easter eggs!",
-        "Use /commands!",
-        "(Ephesians 4:32)",
-        "Request more splash texts!",
-        "Old internet + New Web",
-        "Facepalm 1.0.2 (－‸ლ)"
-    ]
-    
-    tab_text = random.choice(tab_texts)
-
-    splash_text = random.choice(splash_texts)
-
     user = request.user # Pulls user from request for authentication checks within the template.   
 
     if user.is_authenticated:
@@ -192,7 +163,7 @@ def index(request):
 
         user_notified_set = set(user.post_set.values_list('pk',flat=True))
 
-        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'tab_text' : tab_text, 'splash_text' : splash_text, 'user_notified_set' : user_notified_set}
+        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'user_notified_set' : user_notified_set}
 
         return render(request, 'index.html', context)
     else:
@@ -215,24 +186,12 @@ def index(request):
         else:
             posts = sort_new()
 
-        context = {'posts' : posts, 'tab_text' : tab_text, 'user_notified_set' : None}
+        context = {'posts' : posts, 'user_notified_set' : None}
 
         return render(request, 'index.html', context)
 
 
 def write(request):
-
-    tab_texts = ["Feeling Dangerous?",
-            "Post Something",
-            "Masterpiece Maker",
-            "Feeling Opinionated?",
-            "Start trouble?",
-            "What's on your mind?",
-            "Post something?",
-            "Post something?",
-            ]
-    
-    tab_text = random.choice(tab_texts)
 
     user = request.user
 
@@ -310,7 +269,7 @@ def write(request):
                                             WatchlistActivity.objects.create(watchlist_activity_user=post_user_obj, watchlist_activity_post=post, watchlist_activity_type=WatchlistActivity.ASK)
                                         
                                     else:    
-                                        return render(request, 'post/write.html', {'tab_text' : tab_text})
+                                        return render(request, 'post/write.html')
                                     
                                 else:
 
@@ -357,11 +316,11 @@ def write(request):
 
                                 return redirect('/') # If something is posted, the user will always be redirected to the homepage.
                             else:
-                                return render(request, 'post/write.html', {'tab_text' : tab_text})
+                                return render(request, 'post/write.html')
                         else:
                             return redirect('/')
                     else:
-                        return render(request, 'post/write.html', {'tab_text' : tab_text})
+                        return render(request, 'post/write.html')
                 
                 elif draftPressed: # If draft button was pressed
 
@@ -403,10 +362,10 @@ def write(request):
                     
                     else: # The queried draft doesn't exist or nothing is quereid
 
-                        return render(request, 'post/write.html', {'tab_text' : tab_text})
+                        return render(request, 'post/write.html')
 
             except:
-                return render(request, 'post/write.html', {'tab_text' : tab_text})
+                return render(request, 'post/write.html')
 
         else: # If the page is simply loading, without a POST request
 
@@ -418,14 +377,14 @@ def write(request):
 
                     draft = Draft.objects.get(draft_code=draft_code, draft_author=request.user)
 
-                    context = {'draft' : draft, 'tab_text' : tab_text}
+                    context = {'draft' : draft}
                     
                     return render(request, 'post/write.html', context)
                 else: # If the method is recognised as GET but the queried draft doesn't exist
-                    return render(request, 'post/write.html', {'tab_text' : tab_text})
+                    return render(request, 'post/write.html')
             
             else: # If the page is simply loading without any query
-                return render(request, 'post/write.html', {'tab_text' : tab_text})
+                return render(request, 'post/write.html')
     return redirect('/create-profile/')
              
 
@@ -433,19 +392,10 @@ def drafts(request):
     user = request.user
 
     if user.is_authenticated:
-        tab_texts = [
-            "Your Drafts",
-            "Draftin'",
-            "DraftCraft",
-            "Just Drafts",
-            "Looking for Drafts?",
-        ]
-    
-        tab_text = random.choice(tab_texts)
 
         drafts = Draft.objects.filter(draft_author=user)
 
-        context = {'drafts' : drafts, 'tab_text' : tab_text}
+        context = {'drafts' : drafts}
 
         return render(request, 'post/drafts.html', context)
     else:
@@ -453,26 +403,19 @@ def drafts(request):
 
 def posts(request):
     if request.user.is_authenticated:
-        tab_texts = [
-            "Your Posts",
-            "Beautiful, huh?",
-            "All yours...",
-            "Your Posts",
-            "Previous Posts",
-            "Previous Posts?",
-            "Sheeeeeesh",
-            "0_0"
-        ]
-    
-        tab_text = random.choice(tab_texts)
 
         if Post.objects.filter(post_author=request.user):
-            context = {'posts' : Post.objects.filter(post_author=request.user), 'tab_text' : tab_text}
-            return render(request, 'post/posts.html', context)
+
+            context = {'posts' : Post.objects.filter(post_author=request.user)}
+            return render(request, 'post/posts.html')
+        
         else:
-            context = {'posts' : None, 'tab_text' : tab_text}
+
+            context = {'posts' : None}
             return render(request, 'post/posts.html', context)
+        
     else:
+
         return redirect('/create-profile/')
     
 # ------------------------------------------------

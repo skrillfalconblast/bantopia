@@ -98,24 +98,6 @@ def dashboard(request, display_name):
 
     if request.user.is_authenticated and request.user.display_name == display_name:
 
-        tab_texts = [
-            "Your Dashboard",
-            "Your Dashboard",
-            "Your Dashboard",
-            "Your Dashboard",
-            "Central Headquarters",
-            "HQ",
-            "The ManCave",
-            f"{request.user.display_name}'s Den",
-            "The Chrome Dome",
-            "Base Control",
-            "Customisation Habitation",
-            "Command Land",
-            "Rule School"
-        ]
-
-        tab_text = random.choice(tab_texts)
-
         user = request.user
 
 
@@ -174,7 +156,7 @@ def dashboard(request, display_name):
         else:
             timeframed_watchlist_activity = []
 
-        context = {'watchlist_activity' : timeframed_watchlist_activity, 'tab_text' : tab_text}
+        context = {'watchlist_activity' : timeframed_watchlist_activity}
 
         return render(request, 'profile/dashboard.html', context)
     
@@ -184,19 +166,6 @@ def dashboard(request, display_name):
 def edit_profile(request, display_name):
 
     if request.user.is_authenticated and request.user.display_name == display_name:
-
-        tab_texts = [
-            "The Ol' Switch-a-roo",
-            "Edit Profile",
-            "Edit Profile",
-            "Edit Profile",
-            "Metamorphosis",
-            "Changing something?",
-            "No peeping!",
-            "Shhhh! It's a secret.",
-        ]
-
-        tab_text = random.choice(tab_texts)
 
         message = ''
 
@@ -271,7 +240,7 @@ def edit_profile(request, display_name):
             else:
                 message = 'empty-fields'
 
-        context = {'tab_text' : tab_text, 'message' : message}
+        context = {'message' : message}
 
         return render(request, 'profile/edit-profile.html', context)
     

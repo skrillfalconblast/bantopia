@@ -1757,7 +1757,9 @@ button[type="submit"]:hover > span {
     #dashboard-partners {
         flex: 1;
         margin-top: 0;
+        word-break: break-word;
         margin-bottom: 0;
+        overflow-x: hidden;
         padding-top: 10px;
     }
 

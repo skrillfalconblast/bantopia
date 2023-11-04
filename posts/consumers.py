@@ -36,6 +36,13 @@ class HomeConsumer(AsyncWebsocketConsumer):
 
         text_data_json = json.loads(text_data)
 
+        if 'ping' in text_data_json.keys():
+
+            if text_data_json['ping'] == 'performance':
+                await self.send(text_data=json.dumps({
+                    'pong' : 'performance',
+                }))
+
     async def update_post(self, event):
         post_code = event["post_code"]
         last_message_content = event["last_message_content"]
@@ -44,3 +51,12 @@ class HomeConsumer(AsyncWebsocketConsumer):
             "post_code" : post_code,
             "last_message_content" : last_message_content,
         }))
+
+    async def someone_typing(self, event):
+        post_code = event["post_code"]
+
+        await self.send(text_data=json.dumps({
+            "data_point" : "someone_typing",
+            "post_code" : post_code,
+        }))
+
