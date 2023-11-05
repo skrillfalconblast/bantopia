@@ -78,7 +78,11 @@
                 <div href="" class="post-box">
                     <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="post nick-left-in nick-right-in border" id="pst_{{post.post_code}}">
                         <div class="top-stats">
+                            {% if post.last_message.datetime_sent %}
                             <div class="last-active-stat"><span class="last-active-crier">Last Active: </span><span class="last-active-time">{{ post.last_message.datetime_sent|convert_to_datetime|briefLongAgo }}</span></div>
+                            {% else %}
+                            <div class="last-active-stat"><span class="last-active-crier">Last Active: </span><span class="last-active-time">{{ post.post_datetime_created|briefLongAgo }}</span></div>
+                            {% endif %}
                             <div class="typing-stat"><span></span></div>
                             <div class="message-recoil-stat"><div class="recoil-bar"></div></div>
                         </div>
