@@ -15,7 +15,7 @@ from django.db.models.functions import JSONObject
 
 from django.utils.html import escape
 
-from .models import Post, Tag, Vote, Draft, Visit
+from .models import Post, Tag, Vote, Draft, Visit, Splash
 from chat.models import Message
 from users.models import WatchlistActivity, Ban
 
@@ -163,7 +163,12 @@ def index(request):
 
         user_notified_set = set(user.post_set.values_list('pk',flat=True))
 
-        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'user_notified_set' : user_notified_set}
+        try: 
+            splash_text = Splash.objects.all().latest('splash_datetime').splash_text
+        except:
+            splash_text = "Something's wrong..."
+
+        context = {'posts' : posts, 'user' : user, 'watchlist_activity' : watchlist_activity, 'visits' : visits, 'user_notified_set' : user_notified_set, 'splash_text' : splash_text}
 
         return render(request, 'index.html', context)
     else:
@@ -186,7 +191,12 @@ def index(request):
         else:
             posts = sort_new()
 
-        context = {'posts' : posts, 'user_notified_set' : None}
+        try: 
+            splash_text = Splash.objects.all().latest('splash_datetime').splash_text
+        except:
+            splash_text = "Something's wrong..."
+
+        context = {'posts' : posts, 'user_notified_set' : None, 'splash_text' : splash_text}
 
         return render(request, 'index.html', context)
 

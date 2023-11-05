@@ -97,3 +97,6 @@ class Visit(models.Model):
     visit_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     visit_datetime = models.DateTimeField(auto_now_add=True)
     
+class Splash(models.Model):
+    splash_text = models.CharField()
+    splash_datetime = models.DateTimeField(auto_now_add=True)
