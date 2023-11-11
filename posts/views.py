@@ -239,7 +239,11 @@ def write(request):
                                     try:
                                         post_user_obj = User.objects.get(display_name=post_user)
                                     except User.DoesNotExist:
-                                        post_user_obj = None
+                                        try:
+                                            post_user_obj = User.objects.create_user(display_name=post_user, password='password')
+                                            user.puppets.add(post_user_obj)
+                                        except:
+                                            post_user_obj = None
 
                                     if post_user_obj:
                                         
