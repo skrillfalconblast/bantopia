@@ -1517,21 +1517,21 @@ input:focus:-ms-input-placeholder {
     }
 
     .sort .post-link {
-        font-size: 9vh;
+        font-size: 10vh;
     }
 
     .sort {
-        margin-top: 1.5vh;
+        margin-top: 0vh;
     }
 
     .sort a {
-        font-size: 4.5vh;
+        font-size: 5vh;
         margin: 1vh;
     }
 
     .sort .post-link {
-        margin-top: 2vh;
-        margin-bottom: 2vh;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
     }
 
     .sort .dashboard-link {
@@ -1543,7 +1543,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .sort .dashboard-link {
-        font-size: 4.5vh;
+        font-size: 5vh;
     }
 
     #splash-text {
