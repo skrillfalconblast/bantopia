@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Minecraft";
+    src: url("../fonts/minecraft.ttf") format("truetype");
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -518,6 +523,10 @@ sup {
     /*border-right: 10px solid #F28500;*/
     background-color: #090809;
     color: white;
+}
+
+.VIPmessage {
+    font-family: 'Minecraft', 'Poppins', sans-serif !important;
 }
 
 .message-body {
