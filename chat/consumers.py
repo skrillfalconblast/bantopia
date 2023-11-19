@@ -780,6 +780,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                         puppet = await self.get_user(puppet_name)
 
+                        if puppet.color == 'DR':
+                            is_walker = True
+                        else:
+                            is_walker = False
+
                         if not message.startswith('/'):
 
                             if len(message) <= 1000:
@@ -811,14 +816,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                     # Send message to post group
                                     await self.channel_layer.group_send(
-                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string}
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker}
                                     )
 
                                 else:
 
                                     # Send message to post group
                                     await self.channel_layer.group_send(
-                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "is_walker" : is_walker}
                                     )
                                 
                                     await self.channel_layer.group_send(
@@ -859,6 +864,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                     await self.handle_engage(user)
                                     await self.handle_active(user)
 
+                                    if user.color == 'DR':
+                                        is_walker = True
+                                    else:
+                                        is_walker = False
+
                                     if not await self.contrib_check(user):
 
                                         await self.channel_layer.group_send(
@@ -883,14 +893,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                         # Send message to post group
                                         await self.channel_layer.group_send(
-                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string}
+                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker}
                                         )
 
                                     else:
                                         
                                         # Send message to post group
                                         await self.channel_layer.group_send(
-                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name}
+                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "is_walker" : is_walker}
                                         )
 
                                     await self.channel_layer.group_send(
@@ -1248,6 +1258,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
         author_name = event["author_name"]
         color = event["author_color"]
+        is_walker = event["is_walker"]
 
         sending_channel = event["sending_channel"]
 
@@ -1271,6 +1282,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "author_color" : color,
                 "origin" : "native",
                 "mention_data_string" : mention_data_string,
+                "is_walker" : str(is_walker)
                 }))
         else:
             await self.send(text_data=json.dumps({
@@ -1280,6 +1292,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "author_color" : color,
                 "origin" : "foreign",
                 "mention_data_string" : mention_data_string,
+                "is_walker" : str(is_walker)
                 }))
         
     async def message_interaction(self, event):

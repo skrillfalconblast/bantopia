@@ -303,7 +303,15 @@ function connect(){
 
             if (data.origin == 'native') {
 
-                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span></div><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+                if (data.is_walker == "True") {
+
+                    message_container.insertAdjacentHTML("beforeend", `<div class="message VIPmessage"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span></div><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+                
+                } else {
+
+                    message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span></div><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+
+                }
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
                     if (e.key === 'Enter') {
@@ -314,7 +322,15 @@ function connect(){
 
             } else if (data.origin == 'foreign') {
 
-                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content"></span></div><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+                if (data.is_walker == "True") {
+
+                    message_container.insertAdjacentHTML("beforeend", `<div class="message VIPmessage"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content"></span></div><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+
+                } else {
+
+                    message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content"></span></div><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+
+                }
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
                     if (e.key === 'Enter') {
