@@ -179,7 +179,7 @@ function connect(){
         if (disconnectAlertDOM) {
             disconnectAlertDOM.classList.add('hidden');
 
-            document.getElementById('disconnect-alert-text').innerText = "Oops, you're disconnected from the chat. Click here to reconnect!";
+            document.getElementById('disconnect-alert-text').innerText = "Reconnect";
         }
 
         chatSocket.send(JSON.stringify({
@@ -303,7 +303,7 @@ function connect(){
 
             if (data.origin == 'native') {
 
-                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content editable" id="${message_id}"><span class="message-tag color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send"></span></div><span class="message-tag color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
                     if (e.key === 'Enter') {
@@ -314,7 +314,7 @@ function connect(){
 
             } else if (data.origin == 'foreign') {
 
-                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><span class="message-actual-content"></span><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
+                message_container.insertAdjacentHTML("beforeend", `<div class="message"><div class="message-body"><div class="text"><div class="author"><span class="author-shadow-${data.author_color}"></span></div><div class="content" id="${message_id}"><span class="message-tag leading-tag dislikable-excited color-${data.author_color}">{</span><div class="actual-content-wrapper"><span class="message-actual-content"></span></div><span class="message-tag trailing-tag likable-excited color-${data.author_color}">}</span><sup>0</sup></div></div></div></div>`);
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
                     if (e.key === 'Enter') {
@@ -353,7 +353,8 @@ function connect(){
             }
 
             // Clear typing
-            userSpan = `<span class="color-${data.author_color}">${data.author}</span>`
+            userSpan = `<span>${data.author}</span>`
+            // userSpan = `<span  class="color-${data.author_color}">${data.author}</span>`
             removeAllItems(typers, userSpan);
             updateIsTyping(); 
             
@@ -521,7 +522,9 @@ function connect(){
 
         } else if ('typing_user' in data && 'typing_status' in data) {
 
-            const typingUserSpan = `<span class="color-${data.typing_color}">${data.typing_user}</span>`
+            // Before: const typingUserSpan = `<span class="color-${data.typing_color}">${data.typing_user}</span>`
+
+            const typingUserSpan = `<span>${data.typing_user}</span>`
 
             var typingDwellingTimer;
 
@@ -767,7 +770,7 @@ function connect(){
 
             const messageActualContent = e.target
 
-            messageActualContent.focus()
+            //messageActualContent.focus()
 
         }
 
@@ -811,9 +814,12 @@ function connect(){
                     'puppet' : puppet
                 }))
             } else {
+                
+                console.log(e.target.textContent)
+
                 messageId = e.target.parentElement.id
                 chatSocket.send(JSON.stringify({
-                    'message_id' : e.target.parentElement.id,
+                    'message_id' : e.target.parentElement.parentElement.id,
                     'edit' : e.target.textContent,
                 }))
             }

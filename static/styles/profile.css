@@ -39,9 +39,10 @@ body {
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    border: 8px solid #f28500;
+    border: 8px solid #ff4556;
     box-sizing: border-box;
     overflow: hidden;
+    background-color: black;
 }
 
 .messages {
@@ -248,48 +249,48 @@ body {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    border-right: 100px solid #f28500;
+    border-right: 100px solid #ff4556;
     box-sizing: border-box;
 }
 
 .create-title h1 {
     font-family: 'Poppins', sans-serif;
     font-size: 4vw;
-    color: #f2850077;
+    color: #ff4556;
     margin-right: 30px;
 }
 
 .create-title h1 a {
-    color: #f2850077;
+    color: #ff4556;
 }
 
 .create-title h1 a:hover {
-    color: #000;
-    text-decoration-color: #f2850077;
+    color: #fff;
+    text-decoration-color: #ff4556;
 }
 
 .login-title {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    border-right: 100px solid #00baf2;
+    border-right: 100px solid #fff;
     box-sizing: border-box;
 }
 
 .login-title h1 {
     font-family: 'Poppins', sans-serif;
     font-size: 4vw;
-    color: #00baf277;
+    color: #fff;
     margin-right: 30px;
 }
 
 .login-title h1 a {
-    color: #00baf277;
+    color: #fff;
 }
 
 .login-title h1 a:hover {
-    color: #000;
-    text-decoration-color: #00baf277;
+    color: #fff;
+    text-decoration-color: #000;
 }
 
 .form-area {
@@ -309,8 +310,9 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    border: 8px solid #00baf2;
+    border: 8px solid #fff;
     box-sizing: border-box;
+    background-color: #ff4556;
 }
 
 .login-container form {
@@ -345,7 +347,7 @@ body {
     border: none;
     width: 100%;
     background-color: #fff;
-    border: 0.7vw solid #f2850077;
+    border: 0.7vw solid #ff4556;
     padding: 2px;
     box-sizing: border-box;
 }
@@ -356,7 +358,7 @@ body {
 }
 
 .create-field-area .input-field input:hover ~ label span {
-    color: #F28500;
+    color: #000;
 }
 /*
 .create-field-area .input-field input:focus {
@@ -365,15 +367,16 @@ body {
 */
 
 .create-field-area .input-field input:focus ~ label span {
-    color: #F28500;
+    color: #ff4556;
 }
 
 .create-field-area .input-field input {
     font-size: 5vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    color: #f2850077;
+    color: #ff4556;
     text-align: center;
+    background-color: #000;
 }
 
 .create-field-area .input-field label span {
@@ -385,11 +388,11 @@ body {
 }
 
 .create-field-area .input-field input::placeholder {
-    color: #f2850077;
+    color: #ff4556;
 }
 
 .erroneous-input::placeholder {
-    color: #ff000077 !important;
+    color: #fff !important;
 }
 
 .create-button-container {
@@ -421,10 +424,10 @@ body {
     border-radius: 0;
     border: none;
     width: 100%;
-    background-color: #fff;
+    background-color: #ff4556;
     padding: 2px;
     box-sizing: border-box;
-    border: 0.7vw solid #00baf277;
+    border: 0.7vw solid #fff;
 }
 
 .login-field-area .input-field input::-webkit-credentials-auto-fill-button {
@@ -437,7 +440,7 @@ body {
     font-size: 5vw;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    color: #00baf277;
+    color: #fff;
     text-align: center;
 }
 
@@ -453,7 +456,7 @@ body {
 }
 
 .login-field-area .input-field input::placeholder {
-    color: #00baf277;
+    color: #fff;
 }
 
 .create-support-message {
@@ -466,7 +469,7 @@ body {
     font-weight: 600;
     font-size: 2vw;
     text-align: center;
-    color: #f2850077;
+    color: #ff4556;
 }
 
 .login-support-message {
@@ -479,7 +482,7 @@ body {
     font-weight: 600;
     font-size: 2vw;
     text-align: center;
-    color: #00baf277;
+    color: #fff;
 }
 
 .login-button-container {
@@ -505,19 +508,22 @@ body {
 
 .login-button {
     border: none;
-    color: #00baf277;
-    border-left: 100px solid #00baf2;
+    color: #fff;
+    border-left: 100px solid #fff;
 }
 
 .create-button {
     border: none;
-    color: #f2850077;
-    border-left: 100px solid #f28500;
+    color: #ff4556;
+    border-left: 100px solid #ff4556;
 }
 
-.login-button,
+.login-button {
+    background-color: #ff4556;
+}
+
 .create-button {
-    background-color: white;
+    background-color: #000;
 }
 
 .login-button span,
@@ -528,12 +534,12 @@ body {
 
 .login-button span:hover,
 .create-button span:hover {
-    color: #F28500;
+    color: #fff;
 }
 
 .login-button span:hover,
 .create-button span:hover {
-    color: #f28500;
+    color: #fff;
     opacity: 100%;
 }
 
@@ -1261,6 +1267,58 @@ button[type="submit"]:hover > span {
     color: #f28500;
 }
 
+.logo {
+    position: absolute;
+    top: 2vw;
+    left: 2vw;
+    border-radius: 25%;
+    height: 40px;
+    width: 40px;
+    background-color: #fd4556;
+    cursor: pointer;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+        to left,
+        #ff4556 0%,
+        #ff4556 50%,
+        #090809 50%,
+        #090809 100%
+      );
+}
+
+.logout-question a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10vw;
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(
+        to left,
+        #090909 0%,
+        #090909 50%,
+        #ff4556 50%,
+        #ff4556 100%
+      );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logout-question a:hover {
+    color: #fff;
+    background: transparent;
+    background-clip: unset;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: #fff;
+}
+
 @media only screen and (max-width: 1380px) {
     #login-submit {
         font-size: 3.2vw;
@@ -1272,6 +1330,13 @@ button[type="submit"]:hover > span {
 }
 
 @media only screen and (max-width: 960px) {
+    .logo {
+        top: 7.5vw;
+        left: 7.5vw;
+        height: 7.5vw;
+        width: 7.5vw;
+    }
+
     body {
         overflow-y: hidden;
         height: 100vh;
@@ -1312,6 +1377,11 @@ button[type="submit"]:hover > span {
         margin: 0;
         white-space: normal;
     }
+
+    .login-title h1 a:hover {
+        color: #000;
+        text-decoration-color: #fff;
+    }
     
     form {
         display: flex;
@@ -1337,7 +1407,7 @@ button[type="submit"]:hover > span {
         width: 100%;
         font-size: 9vw;
         color: #fff;
-        background-color: #00baf277;
+        background-color: #ffffff77;
     }
 
     .login-field-area .input-field input::placeholder {
@@ -1426,9 +1496,9 @@ button[type="submit"]:hover > span {
 
     .create-field-area .input-field input {
         border: none;
-        font-size: 10vw;
+        font-size: 9vw;
         color: white;
-        background-color: #f2850077;
+        background-color: #fd455677;
     }
 
     .create-field-area .input-field input::placeholder {

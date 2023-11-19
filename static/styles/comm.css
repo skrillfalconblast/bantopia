@@ -49,10 +49,11 @@ sup {
 .sidebar {
     display: flex;
     flex-direction: column;
-    background-color: #000;
+    background-color: #090809;
 }
 
 .sidebar {
+    display: none;
     width: 20vw;
     height: 100vh;
     gap: 10px;
@@ -67,8 +68,8 @@ sup {
 
 .option {
     background-color: #fff;
-    border-right: 10px solid black;
-    color: #000;
+    border-right: 10px solid #090809;
+    color: #090809;
     cursor: pointer;
 }
 
@@ -92,7 +93,7 @@ sup {
 }
 
 .option:nth-child(1):hover {
-    color: black;
+    color: #090809;
 }
 
 #balance-option {
@@ -109,7 +110,7 @@ sup {
 }
 
 #Y {
-    color: black;
+    color: #090809;
     background-color: rgb(255, 255, 255);
 }
 
@@ -138,8 +139,9 @@ sup {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
     height: 100vh;
+    background-color: #090809;
 }
 
 .content-display {
@@ -182,7 +184,7 @@ sup {
 
 .header-line {
     margin-top: 25px;
-    border: 5px solid black;
+    border: 5px solid #090809;
 }
 
 .content-paragraph {
@@ -206,7 +208,7 @@ sup {
     justify-content: flex-end;
     width: 100%;
     text-align: center;
-    border-bottom: 5px solid black;
+    border-bottom: 5px solid #090809;
     margin: 0;
 }
 
@@ -216,6 +218,7 @@ sup {
 
 .header a {
     display: flex;
+    display: none;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -229,35 +232,51 @@ sup {
 .header h2 {
     font-family: 'Poppins', sans-serif;
     font-size: 19px;
-    color: #000;
+    color: #090809;
     padding: 10px;
     word-wrap: break-word;
 }
 
+.logo {
+    position: absolute;
+    top: 2vw;
+    left: 2vw;
+    border-radius: 25%;
+    height: 40px;
+    width: 40px;
+    background-color: #fd4556;
+    mix-blend-mode: difference;
+    cursor: pointer;
+}
+
 .pingster {
+    position: absolute;
+    top: 1.5vw;
+    right: 2vw;
     display: flex;
-    width: 225px;
     justify-self: flex-end;
     align-items: center;
-    border-left: 5px solid #000;
+    text-align: center;
+    mix-blend-mode: difference;
 }
 
 .pingster h1 {
     font-family: 'Poppins', sans-serif;
-    font-size: 24px;
+    font-size: 2vw;
     white-space: nowrap;
-    color: #000;
+    color: #fd4556;
     font-weight: 700;
     padding-left: 15px;
 }
 
 .onlinester {
+    display: none;
     display: flex;
     flex-direction: row;
     width: 225px;
     justify-self: flex-end;
     align-items: center;
-    border-right: 5px solid #000;
+    border-right: 5px solid #090809;
     justify-content: center;
     gap: 5px;
 }
@@ -268,12 +287,12 @@ sup {
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     white-space: nowrap;
-    color: #000;
+    color: #090809;
     font-weight: 700;
 }
 
 #ping-reading {
-    color: #f28500;
+    color: #fd4556;
 }
 
 .onlinester-beacon {
@@ -283,7 +302,7 @@ sup {
     height: 37px;
     width: 37px;
     border-radius: 5px;
-    background-color: #000;
+    background-color: #090809;
 }
 
 #online-reading {
@@ -296,9 +315,10 @@ sup {
 
 .contrib-users {
     display: flex;
+    display: none;
     flex-direction: row;
     height: fit-content;
-    border-bottom: 5px solid #000;
+    border-bottom: 5px solid #090809;
     gap: 10px;
     padding: 0 15px;
 }
@@ -438,7 +458,7 @@ sup {
 .mobile-header h2 {
     font-family: 'Poppins', sans-serif;
     font-size: 22px;
-    color: #000;
+    color: #090809;
     padding: 15px;
     word-wrap: break-word;
 }
@@ -472,15 +492,17 @@ sup {
     flex-direction: column-reverse;
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.chatbar-container {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    border-top: 5px solid black;
-    padding: 25px 0 40px 0;
+/* width */
+.chat::-webkit-scrollbar {
+    width: 0px;
+}
+  
+/* Track */
+.chat::-webkit-scrollbar-track {
+    background: none;
 }
 
 .messages {
@@ -491,16 +513,30 @@ sup {
 .message {
     display: flex;
     align-items: center;
-    padding: 0 0 0 1.8vw;
-    border-right: 10px solid #F28500;
+    padding: 0 15px;
+    /*padding: 0 0 0 1.8vw;*/
+    /*border-right: 10px solid #F28500;*/
+    background-color: #090809;
+    color: white;
 }
 
 .message-body {
     width: 100%;
 }
 
+.message:nth-child(2n+1) {
+    background-color: #fd4556;
+    color: #090809 !important;
+}
+
+.message:nth-child(2n+2) {
+    background-color: #090809;
+    color: #fd4556 !important;
+}
+
 .message:last-child {
-    margin-bottom: 18px;
+    min-height: 100vh;
+    text-align: center;
 }
 
 .message {
@@ -509,17 +545,21 @@ sup {
     word-wrap: break-word;
 }
 
+.actual-content-wrapper {
+    display: inline-block;
+}
+
 .editable:hover > .message-actual-content {
-    color: #999999;
+    color: #fff;
 }
 
 .message-actual-content:focus {
-    color: #999999;
+    color: #fff;
     outline: 0;
 }
 
 .command-border {
-    border-color: #000 !important;
+    border-color: #090809 !important;
 }
 
 .message-body {
@@ -527,6 +567,8 @@ sup {
 }
 
 .author {
+    display: none;
+    font-size: 2vw;
     cursor: pointer;
     font-weight: 700;
     width: 100%;
@@ -542,9 +584,14 @@ sup {
     box-shadow: inset 0 -0.8vw 0 #00baf2;
 }
 
-.author-shadow-GR {
-    color: #0fb300;
-    box-shadow: inset 0 -0.8vw 0 #0fb300;
+.message:nth-child(2n+1) .author-shadow-GR {
+    color: #fd4556;
+    box-shadow: inset 0 -10vw 0 #090809;
+}
+
+.message:nth-child(2n+2) .author-shadow-GR {
+    color: #090809;
+    box-shadow: inset 0 -10vw 0 #fd4556;
 }
 
 .author-shadow-RE {
@@ -611,9 +658,13 @@ sup {
     background-color: #025464;
 }
 
+
 .content {
+    font-weight: 700;
+    /*
     text-indent: -0.1em;
     line-height: 1.6em;
+    */
 }
 
 .content:hover {
@@ -625,6 +676,7 @@ sup {
 }
 
 .message-tag {  
+    display: none;
     color: #F28500;
 
     -webkit-user-select: none; /* Safari */
@@ -633,15 +685,15 @@ sup {
 }
 
 .color-OR {
-    color: #F28500;
+    color: #F0E7D8;
 }
 
 .color-BL {
-    color: #00baf2;
+    color: #9197AE;
 }
 
 .color-GR {
-    color: #0fb300;
+    color: #702632;
 }
 
 .color-RE {
@@ -649,7 +701,7 @@ sup {
 }
 
 .color-PU {
-    color: #5934ff;
+    color: #2D2E2E;
 }
 
 .color-BR {
@@ -695,6 +747,7 @@ sup {
 /* ----------------------------------------------------- */
 
 .message sup {
+    display: none;
     margin: 0 5px;
     align-self: flex-start;
     pointer-events: none;
@@ -711,68 +764,74 @@ sup {
 .text {
     display: flex;
     flex-direction: column;
-    max-width: 73vw;
+    width: 100%;
 }
 
 .new-messages-alert {
     position: absolute;
+    bottom: 2.5vw;
+    right: 7.5vw;
     display: flex;
     align-items: center;
-    width: 100%;
-    padding-left: 15px;
     box-sizing: border-box;
+    padding: 15px;
+    border-radius: 15%;
+    z-index: 1;
+    cursor: pointer;
 }
 
 .new-messages-alert {
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: 600;
+    mix-blend-mode: difference;
 }
 
 .new-messages-alert {
     border: none;
     outline: none;
-    border-top: 5px solid #000;
-    background-color: #f28500;
-    color: #ffffff;
+    background-color: transparent;
 }
 
 .new-messages-alert span {
     display: flex;
-    width: 100%;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
 }
 
 .new-messages-alert svg {
-    width: 16px;
-    margin-right: 10px;
-    rotate: 90deg;
-    filter: invert(100%);
+    height: 5vw;
 }
 
 .disconnect-alert {
     position: absolute;
     display: flex;
     align-items: center;
-    width: 100%;
     padding-left: 15px;
     box-sizing: border-box;
 }
 
 .disconnect-alert {
     font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 2vw;
+    font-weight: 500;
 }
 
 .disconnect-alert {
+    position: absolute;
+    bottom: 3.5vw;
+    left: 2.5vw; 
     border: none;
     outline: none;
-    border-top: 5px solid #000;
-    background-color: #ff0000;
-    color: #ffffff;
+    color: #090809;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 1;
+    background-color: #fd4556;
+    border-radius: 5px;
+    padding: 5px 10px;
+    mix-blend-mode: difference;
 }
 
 .disconnect-alert span {
@@ -783,10 +842,19 @@ sup {
     cursor: pointer;
 }
 
-.disconnect-alert img {
-    width: 24px;
-    margin-right: 10px;
-    filter: invert(100%);
+.disconnect-alert svg {
+    width: 2vw;
+    margin-left: 10px;
+}
+
+.chatbar-container {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 3vw 0 3vw 0;
 }
 
 .chat-bar {
@@ -801,18 +869,19 @@ sup {
 
 .chat-bar p {
     border: none;
-    width: 80%;
-    margin-right: 30px;
+    width: 60%;
     font-size: 24px;
     font-weight: 600;
 }
 
 .chat-bar p {
+    color: #fff;
     border: none;
     text-align: left;
     padding: 5px 5px;
-    border-bottom: 5px solid black;
+    caret-color: #ffffff;
     font-family: "Poppins", sans-serif;
+    border-bottom: 5px solid #fff;
 }
 
 .chat-bar p:focus {
@@ -823,14 +892,14 @@ sup {
     outline: 0;
 }
 
-p[contenteditable="true"]:empty:not(:focus):before { /* This looks like a mess */
+p[contenteditable="true"]:empty:not(:focus):before {
+    display: none;
     position: absolute;
-    z-index: -1;
-    content:attr(placeholder);
+    content: attr(placeholder);
 }
 
 input::-webkit-input-placeholder {
-    color: #aaa;
+    color: #fff;
 }
 input:focus::-webkit-input-placeholder {
     color: rgba(199, 131, 49, 0.5);
@@ -838,7 +907,7 @@ input:focus::-webkit-input-placeholder {
 
 /* Firefox < 19 */
 input:-moz-placeholder {
-    color: #aaa;
+    color: #fff;
 }
 input:focus:-moz-placeholder {
     color: rgba(199, 131, 49, 0.5)
@@ -846,7 +915,7 @@ input:focus:-moz-placeholder {
 
 /* Firefox > 19 */
 input::-moz-placeholder {
-    color: #aaa;
+    color: #fff;
 }
 input:focus::-moz-placeholder {
     color: rgba(199, 131, 49, 0.5)
@@ -854,7 +923,7 @@ input:focus::-moz-placeholder {
 
 /* Internet Explorer 10 */
 input:-ms-input-placeholder {
-    color: #aaa;
+    color: #fff;
 }
 input:focus:-ms-input-placeholder {
     color: rgba(199, 131, 49, 0.5)
@@ -867,17 +936,19 @@ input:focus:-ms-input-placeholder {
 }
 
 .chat-bar button {
-    background-color: #ffffff;
+    background-color: transparent;
     cursor: pointer;
+    filter: invert(100);
+    display: none;
 }
 
 .typing-indicator {
     position: absolute;
-    bottom: 14px;
-    margin-right: 60px;
+    bottom: 0px;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 600;
+    color: #fff;
 }
 
 .typing-indicator {
@@ -895,8 +966,9 @@ input:focus:-ms-input-placeholder {
 
 .chatbar-puppets {
     display: flex;
+    display: none;
     align-self: center;
-    border-bottom: 5px solid #000;
+    border-bottom: 5px solid #090809;
     width: 100%;
     padding-left: 10px;
     gap: 20px;
@@ -1020,7 +1092,7 @@ input:focus:-ms-input-placeholder {
     display: flex;
     overflow-y: auto;
     height: 100%;
-    background-color: black;
+    background-color: #090809;
 }
 
 .counter-board {
@@ -1183,7 +1255,7 @@ input:focus:-ms-input-placeholder {
 }
 
 #dog-influential .dog-title {
-    color: #000;
+    color: #090809;
 }
 
 #dog-influential .dog-title {
@@ -1206,7 +1278,7 @@ input:focus:-ms-input-placeholder {
 
 #dog-enemy {
     color: white;
-    background-color: black;
+    background-color: #090809;
 }
 
 #dog-enemy .dog-title span {
@@ -1228,7 +1300,7 @@ input:focus:-ms-input-placeholder {
 
 @media (hover: hover) {
     .editable:hover > .message-actual-content {
-        color: #000000;
+        color: #fff;
     }
   }
 
@@ -1272,7 +1344,7 @@ input:focus:-ms-input-placeholder {
 
     .mobile-menu {
         z-index: 1;
-        display: flex;
+        display: none;
         flex-direction: column;
     }
 
@@ -1294,15 +1366,15 @@ input:focus:-ms-input-placeholder {
     }
 
     .option {
-        border-bottom: 1.4vw solid #000;
+        border-bottom: 1.4vw solid #090809;
         border-top: none;
-        border-right: 1.4vw solid #000;
+        border-right: 1.4vw solid #090809;
         border-left: none;
     }
 
     .option:nth-child(1){
         background-color: #fff;
-        color: #000;
+        color: #090809;
     }
 
     .option:last-child{
@@ -1322,7 +1394,7 @@ input:focus:-ms-input-placeholder {
 
     .mobile-header {
         border-bottom: 0;
-        border-left: 1.4vw solid black;
+        border-left: 1.4vw solid #090809;
         padding: 1.4vw 0;
         width: 100%;
     }
@@ -1365,7 +1437,7 @@ input:focus:-ms-input-placeholder {
     }
 
     #mobile-balance-option-N {
-        background-color: #000;
+        background-color: #090809;
         color: white;
     }
 
@@ -1374,13 +1446,13 @@ input:focus:-ms-input-placeholder {
     }
 
     .mobilesters {
-        display: flex;
+        display: none;
         flex-direction: row;
         height: 45px;
         width: 100%;
-        background-color: #000;
+        background-color: #090809;
         gap: 5px;
-        border-bottom: 5px solid #000;
+        border-bottom: 5px solid #090809;
     }
 
     .mobile-pingster {
@@ -1398,7 +1470,7 @@ input:focus:-ms-input-placeholder {
         font-family: 'Poppins', sans-serif;
         font-size: 24px;
         white-space: nowrap;
-        color: #000;
+        color: #090809;
         font-weight: 700;
     }
     
@@ -1420,8 +1492,18 @@ input:focus:-ms-input-placeholder {
         font-family: 'Poppins', sans-serif;
         font-size: 24px;
         white-space: nowrap;
-        color: #000;
+        color: #090809;
         font-weight: 700;
+    }
+
+    .pingster {
+        top: 7.5vw;
+        right: 7.5vw;
+        font-size: 10vw;
+    }
+
+    .pingster h1 {
+        font-size: 6vw;
     }
 
     #ping-reading-mobile {
@@ -1434,14 +1516,6 @@ input:focus:-ms-input-placeholder {
         font-size: 24px;
         white-space: nowrap;
         font-weight: 700;
-    }
-
-    .text {
-        max-width: 85vw;
-    }
-
-    .message:last-child {
-        margin-bottom: 10px;
     }
 
     .dog {
@@ -1534,6 +1608,14 @@ input:focus:-ms-input-placeholder {
 }
 
 @media only screen and (max-width: 960px) {
+
+    .logo {
+        top: 7.5vw;
+        left: 7.5vw;
+        height: 7.5vw;
+        width: 7.5vw;
+    }
+
     /* width */
     .content-display::-webkit-scrollbar {
         width: 0;
@@ -1564,11 +1646,11 @@ input:focus:-ms-input-placeholder {
         text-align: center;
         width: 100%;
         color: white;
-        border-bottom: 1.4vw solid #000;
+        border-bottom: 1.4vw solid #090809;
     }
 
     .post-type-span-theory {
-        color: black;
+        color: #090809;
     }
 
     .post-title-colon {
@@ -1606,10 +1688,10 @@ input:focus:-ms-input-placeholder {
     }
 
     .content-author {
-        border-top: 1.4vw solid #000;
+        border-top: 1.4vw solid #090809;
         margin: 0;
         padding-left: 2vw;
-        border-left: 3vw solid #000;
+        border-left: 3vw solid #090809;
     }
 
     .content-author h2 {
@@ -1742,18 +1824,11 @@ input:focus:-ms-input-placeholder {
 
     .message {
         font-size: 10vw;
-        margin-left: 15px;
         padding: 0;
     }
-    
-    .chatbar-container {
-        padding: 0 0 7vw 0;
-        border-top: 1.4vw solid #000;
-        border-bottom: 1.4vw solid #f28500;
-    }
 
-    .chat-bar {
-        border-bottom: 1.4vw solid #000;
+    .chatbar-container {
+        padding: 7vw 0 7vw 0;
     }
 
     .chat-bar button {
@@ -1773,11 +1848,13 @@ input:focus:-ms-input-placeholder {
         font-weight: 600;
         margin: 0;
         padding-left: 4vw;
+        width: 100%;
+        box-sizing: border-box;
+        border-bottom: 1.4vw solid #fff;
     }
 
     .chat-bar p:focus {
         outline: 0;
-        border-left: 5px solid #f28500;
     }
     
     .chat-bar p:read-write:focus {
@@ -1798,21 +1875,23 @@ input:focus:-ms-input-placeholder {
 
     .new-messages-alert {
         font-size: 4vw;
+        bottom: 10vw;
     }
 
     .new-messages-alert svg {
-        width: 4vw;
-        margin-right: 2.8vw;
+        height: 10vw;
+        width: 5vw;
     }
 
     .disconnect-alert {
-        font-size: 4vw;
-        padding: 0 3vw;
+        font-size: 6vw;
+        bottom: 35vw;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    .disconnect-alert img {
-        width: 4.5vw;
-        margin-right: 2.8vw;
+    .disconnect-alert svg {
+        width: 7vw;
     }
 }
 
@@ -1834,7 +1913,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .text {
-        max-width: 95vw;
+        max-width: 100vw;
     }
 
     .message-score {
@@ -1843,7 +1922,6 @@ input:focus:-ms-input-placeholder {
 
     .message {
         font-size: 10vw;
-        margin: 0px 0 0 5px;
     }
 
     .reply {

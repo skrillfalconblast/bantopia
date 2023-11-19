@@ -34,10 +34,6 @@
 <body>
     <div class="navbar-container">
         <div class="navbar">
-            <a href="/" class="logo"><img src="{% static 'images/favicon.svg' %}" alt="SHOWGAUGE"></a>
-            <form method="GET">
-                <input type="text" name="search" id="search" placeholder="Enter a search term..." autocomplete="off">
-            </form>
         </div>
         <hr class="navline" id="navline">
     </div>
@@ -49,7 +45,7 @@
                 <a id="controversial" href="/?sort=controversial"><span>Controversial</span></a>                
                 <a href="/post/write" class="post-link"><span>#Post</span></a>
                 {% if user.is_authenticated %}
-                <a href="/{{ user.display_name }}/dashboard" class="dashboard-link"><span><span class="dashboard-your">Your<br></span>Dashboard</span></a>
+                <a href="≈" class="dashboard-link"><span><span class="dashboard-your">Your<br></span>Dashboard</span></a>
                 <a href="/{{ user.display_name }}/dashboard" id="splash-text">{{ splash_text }}</a>
                 {% else %}
                 <div class="account-links">
@@ -61,68 +57,75 @@
             </div>
         </div>
         <div class="middle">
-            <div class="search-term-container hidden" id="search-term-container">
-                <h1>Search Word: <span class="search-quote">"</span><span id="search-term"></span><span class="search-quote">"</span></h1>
+            <div class="primordial-container">
+                <a href="/ws/{{posts.0.post_code}}/{{posts.0.post_slug}}/chat" class="primordial" id="pst_{{posts.0.post_code}}">
+                    <h1 id="time-ago">1 hour ago</h1>
+                    <h1 id="message-crier">New Message</h1>
+                </a>
             </div>
+            <!--
             <div class="post-scroll">
                 {% for post in posts %}
-                <div class="post-label-box">
-                    <h1 class="post-label"><i>#{{ forloop.counter }}</i></h1>
-                    <div class="right-label-side">
-                        <div class="right-label-face"></div>
-                    </div>
-                    <div class="bottom-label-side">
-                        <div class="bottom-label-face"></div>
-                    </div>
-                </div>
                 <div href="" class="post-box">
-                    <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="post nick-left-in nick-right-in border" id="pst_{{post.post_code}}">
-                        <div class="top-stats">
-                            {% if post.last_message.datetime_sent %}
-                            <div class="last-active-stat"><span class="last-active-crier">Last Active: </span><span class="last-active-time">{{ post.last_message.datetime_sent|convert_to_datetime|briefLongAgo }}</span></div>
-                            {% else %}
-                            <div class="last-active-stat"><span class="last-active-crier">Last Active: </span><span class="last-active-time">{{ post.post_datetime_created|briefLongAgo }}</span></div>
-                            {% endif %}
-                            <div class="typing-stat"><span></span></div>
-                            <div class="message-recoil-stat"><div class="recoil-bar"></div></div>
+                    <div class="post-label-box">
+                        <h1 class="post-label"><i>#{{ forloop.counter }}</i></h1>
+                        <div class="right-label-side">
+                            <div class="right-label-face"></div>
                         </div>
-                        {% if post.post_type == "DE" %}
-                        <h1 class="post-title"><span class="post-title-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
-                        {% elif post.post_type == "TH" %}
-                        <h1 class="post-title"><span class="post-title-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
-                        {% elif post.post_type == "QU" %}
-                        <h1 class="post-title"><span class="post-title-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h1>
-                        {% endif %}
-                        <div class="post-counter-ticker-wrapper">
-                            <div class="post-counter-ticker">
-                                {% if post.counters %} 
-                                    <h2 class="post-counter">{% for i in 12|times %}{{ post.counters|safe }} {% endfor %}</h2>
+                        <div class="bottom-label-side">
+                            <div class="bottom-label-face"></div>
+                        </div>
+                    </div>
+                    <div href="" class="post-box">
+                        <a href="/ws/{{post.post_code}}/{{post.post_slug}}/chat" class="post nick-left-in nick-right-in border" id="pst_{{post.post_code}}">
+                            <div class="top-stats">
+                                {% if post.last_message.datetime_sent %}
+                                <div class="last-active-stat"><span class="last-active-crier">Last Active: </span><span class="last-active-time">{{ post.last_message.datetime_sent|convert_to_datetime|briefLongAgo }}</span></div>
                                 {% else %}
-                                    <h2 class="post-counter">{{ post.ticker_text|safe }}</h2>
+                                <div class="last-active-stat"><span class="last-active-crier">Last Active: </span><span class="last-active-time">{{ post.post_datetime_created|briefLongAgo }}</span></div>
                                 {% endif %}
+                                <div class="typing-stat"><span></span></div>
+                                <div class="message-recoil-stat"><div class="recoil-bar"></div></div>
                             </div>
-                        </div>
-                        <hr class="post-div">
-                        <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
-                        {% if post.last_message %}
-                            {% if post.pk in user_notified_set or not user.is_authenticated %}
-                            <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message"><span class="recent-message-crier">New Message</span><span class="recent-message-body">:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message.content|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span><span></span></h1></div>
-                            {% else %}
-                            <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message"><span class="recent-message-crier">Last Message</span><span class="recent-message-body">:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message.content|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span></span></h1></div>
+                            {% if post.post_type == "DE" %}
+                            <h1 class="post-title"><span class="post-title-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h1>
+                            {% elif post.post_type == "TH" %}
+                            <h1 class="post-title"><span class="post-title-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h1>
+                            {% elif post.post_type == "QU" %}
+                            <h1 class="post-title"><span class="post-title-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h1>
                             {% endif %}
-                        {% else %}
-                        <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
-                        {% endif %}
-                        <div class="right-post-side">
-                            <div class="right-post-face"></div>
-                        </div>
-                        <div class="bottom-post-side">
-                            <div class="bottom-post-face"></div>
-                        </div>
-                    </a>
+                            <div class="post-counter-ticker-wrapper">
+                                <div class="post-counter-ticker">
+                                    {% if post.counters %} 
+                                        <h2 class="post-counter">{% for i in 12|times %}{{ post.counters|safe }} {% endfor %}</h2>
+                                    {% else %}
+                                        <h2 class="post-counter">{{ post.ticker_text|safe }}</h2>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <hr class="post-div">
+                            <h4 class="post-paragraph">{{post.post_desc | truncate:40}}</h4>
+                            {% if post.last_message %}
+                                {% if post.pk in user_notified_set or not user.is_authenticated %}
+                                <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon post-icon-active"><h1 class="recent-message"><span class="recent-message-crier">New Message</span><span class="recent-message-body">:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message.content|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span><span></span></h1></div>
+                                {% else %}
+                                <div class="message-bar"><img src="{% static 'images/icon.svg' %}" alt="" class="post-icon"><h1 class="recent-message"><span class="recent-message-crier">Last Message</span><span class="recent-message-body">:  <span class="recent-message-bracket">{</span><span class="recent-message-content">{{ post.last_message.content|truncatesmart:35 }}</span><span class="recent-message-bracket">}</span></span></h1></div>
+                                {% endif %}
+                            {% else %}
+                            <div class="message-bar"><h1 class="recent-message"><span>This chat is totally empty!</span></h1></div>
+                            {% endif %}
+                            <div class="right-post-side">
+                                <div class="right-post-face"></div>
+                            </div>
+                            <div class="bottom-post-side">
+                                <div class="bottom-post-face"></div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
+            -->
         </div>
         <div class="right">
             <div class="history">

@@ -247,6 +247,10 @@ def edit_profile(request, display_name):
     else:
         return redirect('/')
 
+
 def logout(request):
+    return render(request, 'profile/logout.html')
+
+def loggingout(request):
     auth_logout(request)
     return redirect('/')

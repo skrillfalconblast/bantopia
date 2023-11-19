@@ -13,7 +13,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: #000;
     height: 100vh;
     box-sizing: border-box;
 }
@@ -36,44 +36,41 @@ body {
 
 .navbar-container {
     display: flex;
+    display: none;
     flex-direction: column;
     top: 0%;
-    background-color: white;
+    background-color: transparent;
     width: 100%;
     z-index: 2;
     flex: 0 1 auto;
 }
 
 .navbar {
-    margin: 20px 15px 0px 15px;
-    height: 66px;
     overflow: visible;
-    background-color: white;
 }
 
 .navbar {
     display: flex;
+    justify-content: space-around;
     align-items: center;
     font-family: 'Roboto', sans-serif;
 }
 
-.navbar form {
-    width: 90%;
-}
-
-.navbar form input {
-    display: flex;
-    justify-content: center;
-    border: none;
-    font-family: "Poppins", sans-serif;
-    font-size: 48px;
-    width: 100%;
+.navbar a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
     font-weight: 600;
+    color: #fd4556;
+    text-decoration: none;
+    flex: 1;
+    text-align: center;
 }
 
-.navbar form input:focus {
-    outline-width: 0;
-    
+.navbar h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #fd4556;
 }
 
 input::-webkit-input-placeholder {
@@ -142,12 +139,14 @@ input:focus:-ms-input-placeholder {
 
 .content {
     width: 100vw;
+    height: 100vw;
     display: flex;
     min-height: 0;
 }
 
 .left {
     display: flex;
+    display: none;
     flex-direction: column;
     margin-top: 1.4vw;
     width: 22.5%;
@@ -160,8 +159,8 @@ input:focus:-ms-input-placeholder {
 .middle {
     display: flex;
     flex-direction: column;
-    width: 52%;
-    min-height: 0;
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 
@@ -174,10 +173,11 @@ input:focus:-ms-input-placeholder {
 
 .post-scroll {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     overflow-y: scroll;
     overflow-x: hidden;
+    flex-wrap: wrap;
     height: 100%;
     width: 100%;
     padding-top: 10px;
@@ -222,12 +222,47 @@ input:focus:-ms-input-placeholder {
 
 .right {
     display: flex;
+    display: none;
     flex-direction: column;
     height: 80vh;
     gap: 5vh;
     width: 22.5%;
     margin-top: 25px;
     margin-left: 15px;
+}
+
+.primordial-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.primordial {
+    position: relative;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    background-color: #fd4556;
+    border-radius: 25%;
+    cursor: pointer;
+}
+
+#time-ago {
+    position: absolute;
+    top: -15px;
+    text-align: center;
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+#message-crier {
+    position: absolute;
+    bottom: -15px;
+    text-align: center;
+    white-space: nowrap;
+    transform: translateX(-50%);
 }
 
 .search-term-container h1 {
@@ -311,6 +346,9 @@ input:focus:-ms-input-placeholder {
 .post-box {
     width: 95%;
     transition: transform .2s ease-in-out; 
+    justify-content: space-between;
+    margin: 30px;
+    border-radius: 25%;
 }
 
 .post {
@@ -321,6 +359,7 @@ input:focus:-ms-input-placeholder {
     border: 5px solid #000;
     border-radius: 0;
     box-sizing: border-box;
+    text-decoration: none;
     transition: transform .2s ease-in-out; 
 }
 
@@ -1058,10 +1097,6 @@ input:focus:-ms-input-placeholder {
         display: none;
     }
 
-    .content {
-        margin-top: 15px;
-    }
-
     .sort {
         flex-direction: row;
         margin-top: 0;
@@ -1443,7 +1478,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .bottom {
-        display: flex;
+        display: none;
         flex-direction: row;
         justify-content: center;
         align-items: center;

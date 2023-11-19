@@ -1,0 +1,43 @@
+{% load static %}
+{% load poll_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_package/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_package/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_package/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon_package/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'favicon_package/safari-pinned-tab.svg' %}" color="#f28500">
+    <meta name="msapplication-TileColor" content="#f28500">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Bantopia: The Social Forum"/>
+    <meta property="og:url" content="https://bantopia.com/">
+    <meta property="og:description" content="Chat and argue with people across the globe regarding any topic you choose, from video-games to bio-medical science, enjoying the Internet in its purest form. It’s completely anonymous, so create a quick profile and experience it all!" />
+    <meta property="og:image" content="{% static 'images/Poster.png' %}" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://bantopia.com/" />
+    <meta property="twitter:title" content="Bantopia: The Social Forum" />
+    <meta property="twitter:description" content="Chat and argue with people across the globe regarding any topic you choose, from video-games to bio-medical science, enjoying the Internet in its purest form. It’s completely anonymous, so create a quick profile and experience it all!" />
+    <meta property="twitter:image" content="{% static 'images/Poster.png' %}" />
+    <title>Central Nexus | Bantopia</title>
+</head>
+<body>
+    <div class="logout-container">
+        <a href="/"><div class="logo"></div></a>
+        <div class="logout-question">
+            <a href="/loggingout/">Log out?</h1>
+        </div>
+    </div>
+</body>
+</html>

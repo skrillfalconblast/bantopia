@@ -28,7 +28,7 @@
     <meta property="twitter:title" content="Bantopia: The Social Forum" />
     <meta property="twitter:description" content="Chat and argue with people across the globe regarding any topic you choose, from video-games to bio-medical science, enjoying the Internet in its purest form. It’s completely anonymous, so create a quick profile and experience it all!" />
     <meta property="twitter:image" content="{% static 'images/Poster.png' %}" />
-    <title>Chat | {{post.post_title}} | Bantopia</title>
+    <title>Central Nexus | Bantopia</title>
 </head>
 <body>
     <div class="sidebar">
@@ -103,19 +103,12 @@
         </div>
     </div> 
     <div class="display">
-        <div class="header">
-            <div class="onlinester"><div class="onlinester-beacon"><span id="online-reading">?</span></div><h1>Online</h1></div>
-            <a href="/{{post.post_code}}/{{post.post_slug}}">
-                {% if post.post_type == 'DE' %}
-                <h2><span class="header-shadow-DE">Declaration:</span> {{post.post_title | truncatesmart:60}}</h2>
-                {% elif post.post_type == 'TH' %}
-                <h2><span class="header-shadow-TH">Theory:</span> {{post.post_title | truncatesmart:60}}</h2>
-                {% elif post.post_type == 'QU' %}
-                <h2><span class="header-shadow-QU">Question:</span> {{post.post_title | truncatesmart:60}}</h2>
-                {% endif %}
-            </a>
-            <div class="pingster"><h1>Ping: <span id="ping-reading">???</span></h1></div>
-        </div>
+        {% if user.is_authenticated %}
+        <a href="/logout/"><div class="logo"></div></a>
+        {% else %}
+        <a href="/create-profile/"><div class="logo"></div></a>
+        {% endif %}
+        <div class="pingster"><h1><span id="ping-reading">???</span></h1></div>
         <div class="contrib-users">
             <span class="contrib-label"><h1>Chat contributers:</h1></span>
             <span id="contrib-users-list">
@@ -146,7 +139,7 @@
                     <div class="message-body">
                         <div class="text">
                             <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
-                            <div class="content editable" id="msg_{{ message.message_code }}"><span class="message-tag color-{{ message.message_author.color }}">{</span><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send">{{ message | replace_mentions | safe }}</span><span class="message-tag color-{{ message.message_author.color }}">}</span><sup>{{ message.message_score }}</sup></div>
+                            <div class="content editable" id="msg_{{ message.message_code }}"><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send">{{ message | replace_mentions | safe }}</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -155,7 +148,7 @@
                     <div class="message-body">
                         <div class="text">
                             <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
-                            <div class="content neutral" id="msg_{{ message.message_code }}"><span class="message-tag leading-tag dislikable-excited color-{{ message.message_author.color }}">{</span><span class="message-actual-content">{{ message | replace_mentions | safe }}</span><span class="message-tag trailing-tag likable-excited color-{{ message.message_author.color }}">}</span><sup>{{ message.message_score }}</sup></div>
+                            <div class="content neutral" id="msg_{{ message.message_code }}"><span class="message-tag leading-tag dislikable-excited color-{{ message.message_author.color }}">{</span><div class="actual-content-wrapper"><span class="message-actual-content">{{ message | replace_mentions | safe }}</span></div><span class="message-tag trailing-tag likable-excited color-{{ message.message_author.color }}">}</span><sup>{{ message.message_score }}</sup></div>
                         </div>
                     </div>
                 </div>
@@ -163,10 +156,10 @@
                 {% endfor %}
             </div>
             <button id="new-messages-alert" class="new-messages-alert hidden">
-                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg><p>There are new messages down below!</p></span>
+                <span><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#FD4456" d="M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z"/></svg></span>
             </button>
             <button id="disconnect-alert" class="disconnect-alert hidden">
-                <span><img src="{% static 'images/rotate-right-solid.svg' %}" alt=""><p id="disconnect-alert-text">Oops, you're disconnected from the chat. Click here to reconnect!</p></span>
+                <span><p id="disconnect-alert-text">Reconnect</p><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z"/></svg></span>
             </button>
         </div>
         <div class="chatbar-container">
@@ -174,7 +167,7 @@
                 <p id="chat-input" contenteditable="true" enterkeyhint="send" contenteditable="plaintext-only" placeholder="Type in chat..."></p><!-- CSS attributes seem a bit clunkly, try integrate the JQuery solution to contenteditable placeholders if need be -->
                 <button id="chat-submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></button>
             </div>
-            <div class="typing-indicator hidden" id="typing-indicator"><span class="color-OR">bobgoodman</span> is typing...</div>
+            <div class="typing-indicator hidden" id="typing-indicator"><span>bobgoodman</span> is typing...</div>
         </div>
     <!--
         <div class="anonymous-screen">

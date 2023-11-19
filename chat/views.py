@@ -11,7 +11,8 @@ import re
 User = get_user_model()
 
 
-def chat(request, post_code, post_slug):
+def chat(request):
+    post_code = Post.objects.latest('post_datetime_created').post_code
 
     if Post.objects.filter(post_code=post_code):
 
