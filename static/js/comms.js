@@ -891,6 +891,10 @@ function connect(){
         disconnectAlertDOM.onclick = function(){
             document.getElementById('disconnect-alert-text').innerText = "Connecting...";
 
+            console.log(document.getElementById('disconnect-alert-text').parentElement.lastElementChild)
+
+            document.getElementById('disconnect-alert-text').parentElement.lastElementChild.classList.add('hidden')
+
             reconnecting = true;
 
             connect();
