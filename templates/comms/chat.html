@@ -135,7 +135,7 @@
             <div class="messages" id="messages-container">
                 {% for message in messages %}
                 {% if message.message_author == user %}
-                <div class="message">
+                <div class="message{% if message.message_author.color == 'DR' %} VIPmessage{% endif %}">
                     <div class="message-body">
                         <div class="text">
                             <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
