@@ -358,7 +358,7 @@ function connect(){
             removeAllItems(typers, userSpan);
             updateIsTyping(); 
             
-            notifSound.play();
+            // notifSound.play();
 
 
         } else if ('message_id' in data && 'state' in data) {
@@ -814,8 +814,6 @@ function connect(){
                     'puppet' : puppet
                 }))
             } else {
-                
-                console.log(e.target.textContent)
 
                 messageId = e.target.parentElement.id
                 chatSocket.send(JSON.stringify({
