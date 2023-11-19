@@ -953,7 +953,7 @@ input:focus:-ms-input-placeholder {
 
 .typing-indicator {
     position: absolute;
-    bottom: 0px;
+    bottom: 0.75px;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 600;
