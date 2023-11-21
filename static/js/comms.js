@@ -259,10 +259,10 @@ function connect(){
             }
     
             typingIndicator.innerHTML = indicatorContent
-            typingIndicator.classList.remove('hidden')
+            // typingIndicator.classList.remove('hidden')
         } else {
             typingIndicator.innerHTML = ''
-            typingIndicator.classList.add('hidden')
+            // typingIndicator.classList.add('hidden')
         }
     }
 
