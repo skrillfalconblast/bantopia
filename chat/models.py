@@ -14,7 +14,7 @@ class Message(models.Model):
 
     message_datetime_sent = models.DateTimeField(verbose_name='date and time sent', auto_now_add=True)
 
-    message_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message_author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
     message_author_name = models.CharField(verbose_name='display name of author', max_length=20) # So if the author's account is deleted the name is still stored for display purposes
 
     message_mentions = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="message_mentions")

@@ -148,8 +148,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message_code = get_random_string(length=12)
         post = Post.objects.get(post_code=self.post_code)
 
-        message = Message.objects.create(message_code=message_code, message_post=post, message_content=message_content, 
-                               message_author=user, message_author_name=user.display_name)
+        if user:
+
+            message = Message.objects.create(message_code=message_code, message_post=post, message_content=message_content, 
+                                message_author=user, message_author_name=user.display_name)
+        else:
+            message = Message.objects.create(message_code=message_code, message_post=post, message_content=message_content, 
+                    message_author=user, message_author_name="Anon")
         
         if '@' in message_content:
         
@@ -772,7 +777,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                 message = re.sub(r'\n+', '\n', text_data_json["message"]).strip()
                 
-
                 if message:
 
                     if 'puppet' in text_data_json.keys() and user.is_superuser:
@@ -941,9 +945,60 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                 "message" : result,
                             }))
             else:
-                await self.send(text_data=json.dumps({
-                        "redirect" : "/create-profile/",
-                    }))
+
+                message = re.sub(r'\n+', '\n', text_data_json["message"]).strip()
+                
+                if message:
+
+                    if len(message) <= 500:
+
+                        new_message = await self.log_message(message, None)
+
+                        is_walker = False
+
+                        if '@' in message:
+
+                            mention_data_string = ""
+                            
+                            mentionTuples = re.findall("(^|[^@\w])@(\w{1,20})", message)
+
+                            for mentionTuple in mentionTuples:
+                                mentioned_user = await self.get_user(mentionTuple[1])
+
+                                if mentioned_user:
+                                    mention_data_string += f"{mentioned_user.display_name},{mentioned_user.color},"
+                                else:
+                                    mention_data_string += f"{mentionTuple[1]},OR,"
+
+                            # Send message to post group
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : "Anon", "author_color" : "OR", "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker}
+                            )
+
+                        else:
+                            
+                            # Send message to post group
+                            await self.channel_layer.group_send(
+                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : "Anon", "author_color" : "OR", "sending_channel" : self.channel_name, "is_walker" : is_walker}
+                            )
+
+                        await self.channel_layer.group_send(
+                            'main',
+                            {
+                                'type': 'update_post',
+                                "post_code" : self.post_code,
+                                "last_message_content" : message,
+                            }
+                        ) 
+
+                        await self.notify() # Notify the users of a new message
+
+                    else:
+
+                        await self.send(text_data=json.dumps({
+                            "alert" : "message_failure",
+                            "message" : "That message goes over 100 characters. Make a profile to send more",
+                        }))
 
 
         elif 'voting' in text_data_json.keys():
@@ -1235,12 +1290,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
             async for message in unloaded_messages:
                 message_author = await self.get_author(message)
 
+                if user.color == 'DR':
+                    is_walker = True
+                else:
+                    is_walker = False
+
                 if message_author == user:
                     await self.send(text_data=json.dumps({
                         "message_code" : message_code,
                         "message" : message.message_content,
                         "author" : message.message_author.display_name,
                         "author_color" : message.message_author.color,
+                        "is_walker" : str(is_walker),
                         "origin" : "native",
                     }))
                 else:
@@ -1249,6 +1310,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         "message" : message.message_content,
                         "author" : message.message_author.display_name,
                         "author_color" : message.message_author.color,
+                        "is_walker" : str(is_walker),
                         "origin" : "foreign",
                     }))
 
@@ -1275,7 +1337,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.denotify(user)
 
         # Send message to WebSocket
-        if self.channel_name == sending_channel and user.display_name == author_name:
+        if self.channel_name == sending_channel:
             await self.send(text_data=json.dumps({
                 "message_code" : message_code,
                 "message" : message,
