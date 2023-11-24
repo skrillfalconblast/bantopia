@@ -372,7 +372,7 @@ function connect(){
             removeAllItems(typers, userSpan);
             updateIsTyping(); 
             
-            // notifSound.play();
+            notifSound.play();
 
 
         } else if ('message_id' in data && 'state' in data) {
