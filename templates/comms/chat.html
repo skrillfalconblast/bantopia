@@ -129,7 +129,7 @@
                     <div class="message-body">
                         <div class="text">
                             <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
-                            <div class="content editable" id="msg_{{ message.message_code }}"><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send">{{ message | replace_mentions | safe }}</span></div></div>
+                            <div class="content editable" id="msg_{{ message.message_code }}"><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send">{{ message | replace_mentions | safe | linebreaksbr }}</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                     <div class="message-body">
                         <div class="text">
                             <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
-                            <div class="content neutral" id="msg_{{ message.message_code }}"><span class="message-tag leading-tag dislikable-excited color-{{ message.message_author.color }}">{</span><div class="actual-content-wrapper"><span class="message-actual-content">{{ message | replace_mentions | safe }}</span></div><span class="message-tag trailing-tag likable-excited color-{{ message.message_author.color }}">}</span><sup>{{ message.message_score }}</sup></div>
+                            <div class="content neutral" id="msg_{{ message.message_code }}"><span class="message-tag leading-tag dislikable-excited color-{{ message.message_author.color }}">{</span><div class="actual-content-wrapper"><span class="message-actual-content">{{ message | replace_mentions | safe | linebreaksbr }}</span></div><span class="message-tag trailing-tag likable-excited color-{{ message.message_author.color }}">}</span><sup>{{ message.message_score }}</sup></div>
                         </div>
                     </div>
                 </div>

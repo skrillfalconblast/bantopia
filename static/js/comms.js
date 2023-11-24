@@ -314,7 +314,7 @@ function connect(){
                 }
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         e.target.blur()
                     }
@@ -333,7 +333,7 @@ function connect(){
                 }
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         e.target.blur()
                     }
@@ -610,7 +610,7 @@ function connect(){
 
     if (chatInput) {
         chatInput.onkeydown = function(e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
             }
         };
@@ -624,7 +624,7 @@ function connect(){
         var timerIsOn
 
         chatInput.onkeyup = function(e) {
-            if (e.key === 'Enter') {
+            if (e.key == 'Enter' && !e.shiftKey) {
                 document.querySelector('#chat-submit').click();
             }
 
@@ -678,7 +678,7 @@ function connect(){
         // Sends message and clears chat bar
         document.querySelector('#chat-submit').onclick = function(e) {
             const messageInputDom = chatInput;
-            const message = messageInputDom.textContent;
+            const message = messageInputDom.innerText;
 
             if (message != '') {
 
@@ -856,7 +856,7 @@ function connect(){
 
     document.querySelectorAll('.message-actual-content').forEach(content =>
         content.addEventListener("keypress", function(e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 e.target.blur()
             }

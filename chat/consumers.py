@@ -770,7 +770,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             if user.is_authenticated:
 
-                message = text_data_json["message"].strip()
+                message = re.sub(r'\n+', '\n', text_data_json["message"]).strip()
+                
 
                 if message:
 
@@ -1132,7 +1133,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     message_id = text_data_json["message_id"]
                     message_code = message_id[4:]
 
-                    edited_message = text_data_json["edit"].strip()
+                    edited_message = re.sub(r'\n+', '\n', text_data_json["edit"]).strip()
 
                     if edited_message:
 
@@ -1180,7 +1181,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     message_id = text_data_json["message_id"]
                     message_code = message_id[4:]
 
-                    edited_message = text_data_json["edit"].strip()
+                    edited_message = re.sub(r'\n+', '\n', text_data_json["edit"]).strip()
 
                     if edited_message:
 
