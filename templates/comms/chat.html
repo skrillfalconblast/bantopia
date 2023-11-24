@@ -113,7 +113,7 @@
             <span class="contrib-label"><h1>Chat contributers:</h1></span>
             <span id="contrib-users-list">
                 {% for contributer in contributers %}
-                <span class="contrib-user contrib-user-color-{{contributer.message_author.color}}"><div class="online-beacon"></div><h1>{{contributer.message_author.display_name}}</h1></span>
+                <span class="contrib-user contrib-user-color-{{contributer.message_author.color}}"><div class="online-beacon"></div><h1></h1></span>
                 {% endfor %}
             </span>
         </div>
@@ -121,16 +121,6 @@
             <div class="mobile-pingster"><h1>Ping: <span id="ping-reading-mobile">???</span></h1></div>
             <div class="mobile-onlinester"><div class="onlinester-beacon"><span id="online-reading-mobile">?</span></div><h1>Online</h1></div>
         </div>
-        {% if request.user.is_superuser %}
-        <div class="chatbar-puppets">
-            {% for puppet in puppets %}
-            <div class="puppet puppet-shadow-{{ puppet.color }}">
-                <input type="radio" name="puppet" value="{{ puppet.display_name }}" id="{{ puppet.display_name }}">
-                <label for="{{ puppet.display_name }}">{{ puppet.display_name }}</label><br>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
         <div class="chat" id="chat">
             <div class="messages" id="messages-container">
                 {% for message in messages %}

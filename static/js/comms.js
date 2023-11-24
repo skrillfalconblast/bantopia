@@ -359,8 +359,6 @@ function connect(){
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
 
             }
-        
-            message_container.lastElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.innerHTML = data.author;
 
             if (chat.scrollTop != 0) {
                 document.getElementById('new-messages-alert').classList.remove('hidden');
