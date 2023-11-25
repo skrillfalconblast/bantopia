@@ -370,8 +370,9 @@ function connect(){
             userSpan = `<span>${data.author}</span>`
             // userSpan = `<span  class="color-${data.author_color}">${data.author}</span>`
             removeAllItems(typers, userSpan);
-            updateIsTyping(); 
+            updateIsTyping();
             
+            notifSound.volume = 0.5 
             notifSound.play();
 
 
