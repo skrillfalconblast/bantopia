@@ -1829,7 +1829,8 @@ input:focus:-ms-input-placeholder {
     }
 
     .chatbar-container {
-        padding: 7vw 0 7vw 0;
+        padding: 0;
+        bottom: 5%;
     }
 
     .chat-bar {
