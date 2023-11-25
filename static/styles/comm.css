@@ -1829,7 +1829,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .chatbar-container {
-        padding: 7vw 0 7vw 0;
+        padding: 0;
     }
 
     .chat-bar {
