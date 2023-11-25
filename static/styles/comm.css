@@ -1829,7 +1829,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .chatbar-container {
-        padding: 30px 0 30px 0;
+        padding: 7vw 0 7vw 0;
     }
 
     .chat-bar {
@@ -1840,17 +1840,20 @@ input:focus:-ms-input-placeholder {
         display: flex;
         flex-grow: 1;
         justify-content: center;
-        font-family: 'Minecraft', sans-serif;
+        font-family: 'Poppins', sans-serif;
         font-weight: 700;
         font-size: 6vw;
         padding-top: 1.4vw;
         padding-bottom: 1.4vw;
+        height: 100%;
         background-color: transparent;
         color: #fff;
         border: none;
+        background-color: #fd4556;
     }
 
     .chat-bar p {
+        color: black;
         font-size: 6vw;
         font-weight: 600;
         border: none;
@@ -1861,7 +1864,7 @@ input:focus:-ms-input-placeholder {
         padding-left: 4vw;
         width: 75%;
         box-sizing: border-box;
-        border-bottom: 5px solid #fff;
+        background-color: #fff;
     }
 
     .chat-bar p:focus {
