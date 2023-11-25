@@ -129,7 +129,7 @@
                     <div class="message-body">
                         <div class="text">
                             <div class="author"><span class="author-shadow-{{ message.message_author.color }}">{{ message.message_author }}</span></div>
-                            <div class="content editable" id="msg_{{ message.message_code }}"><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true" enterkeyhint="send">{{ message | replace_mentions | safe | linebreaksbr }}</span></div></div>
+                            <div class="content editable" id="msg_{{ message.message_code }}"><div class="actual-content-wrapper"><span class="message-actual-content editable-content" contenteditable="plaintext-only" contenteditable="true">{{ message | replace_mentions | safe | linebreaksbr }}</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -154,8 +154,8 @@
         </div>
         <div class="chatbar-container">
             <div class="chat-bar">
-                <p id="chat-input" contenteditable="true" enterkeyhint="send" contenteditable="plaintext-only" placeholder="Type in chat..."></p><!-- CSS attributes seem a bit clunkly, try integrate the JQuery solution to contenteditable placeholders if need be -->
-                <button id="chat-submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></button>
+                <p id="chat-input" contenteditable="true" contenteditable="plaintext-only" placeholder="Type in chat..."></p><!-- CSS attributes seem a bit clunkly, try integrate the JQuery solution to contenteditable placeholders if need be -->
+                <button id="chat-submit">send</button>
             </div>
             <div class="typing-indicator hidden" id="typing-indicator"><span>bobgoodman</span> is typing...</div>
         </div>

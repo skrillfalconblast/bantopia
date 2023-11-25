@@ -939,15 +939,7 @@ input:focus:-ms-input-placeholder {
 }
 
 .chat-bar button {
-    border: none;
-    width: 30px;
-    rotate: 270deg;
-}
-
-.chat-bar button {
-    background-color: transparent;
     cursor: pointer;
-    filter: invert(100);
     display: none;
 }
 
@@ -1840,26 +1832,36 @@ input:focus:-ms-input-placeholder {
         padding: 7vw 0 7vw 0;
     }
 
+    .chat-bar {
+        justify-content: flex-start;
+    }
+
     .chat-bar button {
-        width: 7vw;
-        margin-bottom: 0px;
-        margin-right: 4.5%;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        font-family: 'Minecraft', sans-serif;
+        font-weight: 700;
+        font-size: 6vw;
+        padding-top: 1.4vw;
+        padding-bottom: 1.4vw;
+        background-color: transparent;
+        color: #fff;
+        border: none;
     }
 
     .chat-bar p {
         font-size: 6vw;
+        font-weight: 600;
         border: none;
-        padding: 0;
+        margin: 0;
         padding-top: 1.4vw;
         padding-bottom: 1.4vw;
-        width: 100%;
         padding-right: 30px;
-        font-weight: 600;
-        margin: 0;
         padding-left: 4vw;
-        width: 100%;
+        width: 75%;
         box-sizing: border-box;
-        border-bottom: 1.4vw solid #fff;
+        border-bottom: 5px solid #fff;
     }
 
     .chat-bar p:focus {
