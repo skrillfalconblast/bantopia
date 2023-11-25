@@ -544,7 +544,7 @@ sup {
 }
 
 .message:last-child {
-    min-height: 100vh;
+    min-height: 93vh;
     text-align: center;
 }
 
@@ -1829,7 +1829,10 @@ input:focus:-ms-input-placeholder {
     }
 
     .chatbar-container {
+        position: static;
+        border-top: 5px solid #fff;
         padding: 0;
+        mix-blend-mode: difference;
     }
 
     .chat-bar {
@@ -1852,7 +1855,6 @@ input:focus:-ms-input-placeholder {
     }
 
     .chat-bar p {
-        color: black;
         font-size: 6vw;
         font-weight: 600;
         border: none;
@@ -1863,7 +1865,6 @@ input:focus:-ms-input-placeholder {
         padding-left: 4vw;
         width: 75%;
         box-sizing: border-box;
-        border-bottom: 5px solid #fff;
     }
 
     .chat-bar p:focus {
