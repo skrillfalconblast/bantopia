@@ -1849,7 +1849,6 @@ input:focus:-ms-input-placeholder {
         background-color: transparent;
         color: #fff;
         border: none;
-        background-color: #fd4556;
     }
 
     .chat-bar p {
@@ -1864,7 +1863,7 @@ input:focus:-ms-input-placeholder {
         padding-left: 4vw;
         width: 75%;
         box-sizing: border-box;
-        background-color: #fff;
+        border-bottom: 5px solid #fff;
     }
 
     .chat-bar p:focus {
