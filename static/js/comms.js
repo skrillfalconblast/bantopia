@@ -613,7 +613,7 @@ function connect(){
         
         mainRegion.bind(chatInput, 'pan', function(e){
             if (matchMedia('only screen and (max-width: 960px)').matches){
-                chatInput.style.background = `linear-gradient(0deg, #000 ${(e.detail.data[0].distanceFromOrigin)}%, #fd4556 ${(e.detail.data[0].distanceFromOrigin)}%)`
+                chatInput.style.background = `linear-gradient(0deg, #000 ${(e.detail.data[0].distanceFromOrigin)/2}%, #fd4556 ${(e.detail.data[0].distanceFromOrigin)/2}%)`
             }
         });
 
