@@ -878,6 +878,10 @@ sup {
     box-sizing: border-box;
 }
 
+.chat-bar .swipe-crier {
+    display: none;
+}
+
 .chat-bar p {
     border: none;
     width: 60%;
@@ -1837,7 +1841,17 @@ input:focus:-ms-input-placeholder {
     }
 
     .chat-bar {
+        flex-direction: column;
         justify-content: center;
+    }
+
+    .chat-bar .swipe-crier {
+        display: flex;
+        font-family: 'Poppins', sans-serif;
+        font-size: 5vw;
+        font-weight: 600;
+        color: #fd4556;
+        margin-bottom: 5px;
     }
 
     .chat-bar button {
