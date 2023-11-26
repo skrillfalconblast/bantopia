@@ -356,7 +356,7 @@ function connect(){
 
             } else {
 
-                message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerHTML = escapeHtml(data.message); // The message content
+                message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').innerText = data.message; // The message content
 
             }
 
