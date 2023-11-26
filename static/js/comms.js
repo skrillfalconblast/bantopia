@@ -314,7 +314,7 @@ function connect(){
                 }
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
+                    if (e.key === 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
                         e.preventDefault();
                         e.target.blur()
                     }
@@ -333,7 +333,7 @@ function connect(){
                 }
                 
                 message_container.lastElementChild.firstElementChild.firstElementChild.lastElementChild.querySelector('.message-actual-content').addEventListener("keypress", function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
+                    if (e.key === 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
                         e.preventDefault();
                         e.target.blur()
                     }
@@ -611,7 +611,7 @@ function connect(){
 
     if (chatInput) {
         chatInput.onkeydown = function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
+            if (e.key === 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
                 e.preventDefault();
             }
         };
@@ -625,7 +625,7 @@ function connect(){
         var timerIsOn
 
         chatInput.onkeyup = function(e) {
-            if (e.key == 'Enter' && !e.shiftKey) {
+            if (e.key == 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
                 document.querySelector('#chat-submit').click();
             }
 
@@ -875,7 +875,7 @@ function connect(){
 
     document.querySelectorAll('.message-actual-content').forEach(content =>
         content.addEventListener("keypress", function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
+            if (e.key === 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
                 e.preventDefault();
                 e.target.blur()
             }
