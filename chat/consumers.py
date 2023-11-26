@@ -1290,26 +1290,40 @@ class ChatConsumer(AsyncWebsocketConsumer):
             async for message in unloaded_messages:
                 message_author = await self.get_author(message)
 
-                if user.color == 'DR':
-                    is_walker = True
+                if message_author:
+
+                    if user.color == 'DR':
+                        is_walker = True
+                    else:
+                        is_walker = False
+
+                    if message_author == user:
+                        await self.send(text_data=json.dumps({
+                            "message_code" : message_code,
+                            "message" : message.message_content,
+                            "author" : message.message_author.display_name,
+                            "author_color" : message.message_author.color,
+                            "is_walker" : str(is_walker),
+                            "origin" : "native",
+                        }))
+                    else:
+                        await self.send(text_data=json.dumps({
+                            "message_code" : message_code,
+                            "message" : message.message_content,
+                            "author" : message.message_author.display_name,
+                            "author_color" : message.message_author.color,
+                            "is_walker" : str(is_walker),
+                            "origin" : "foreign",
+                        }))
+
                 else:
                     is_walker = False
 
-                if message_author == user:
                     await self.send(text_data=json.dumps({
                         "message_code" : message_code,
                         "message" : message.message_content,
-                        "author" : message.message_author.display_name,
-                        "author_color" : message.message_author.color,
-                        "is_walker" : str(is_walker),
-                        "origin" : "native",
-                    }))
-                else:
-                    await self.send(text_data=json.dumps({
-                        "message_code" : message_code,
-                        "message" : message.message_content,
-                        "author" : message.message_author.display_name,
-                        "author_color" : message.message_author.color,
+                        "author" : 'Anon',
+                        "author_color" : 'OR',
                         "is_walker" : str(is_walker),
                         "origin" : "foreign",
                     }))

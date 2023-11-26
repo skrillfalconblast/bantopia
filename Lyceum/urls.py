@@ -19,7 +19,7 @@ from django.contrib.sitemaps.views import sitemap
 from .sitemaps import PostSitemap
 
 sitemaps = {
-    "posts": PostSitemap,
+    # "posts": PostSitemap,
 }
 
 urlpatterns = [
