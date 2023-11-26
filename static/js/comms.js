@@ -702,6 +702,24 @@ function connect(){
                 }
             };
         };
+
+        let touchstartY = 0
+        let touchendY = 0
+            
+        function checkDirection() {
+            if (touchendY < touchstartY) { // Swiped up
+                document.querySelector('#chat-submit').click();
+            }
+        }
+
+        chatInput.addEventListener('touchstart', e => {
+        touchstartY = e.changedTouches[0].screenY
+        })
+
+        chatInput.addEventListener('touchend', e => {
+        touchendY = e.changedTouches[0].screenY
+        checkDirection()
+})
     }
 
     // -------------------------- General Mouseover Events -------------------------- //
