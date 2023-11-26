@@ -865,6 +865,7 @@ sup {
     flex-direction: column;
     align-items: center;
     padding: 3vw 0 3vw 0;
+    mix-blend-mode: difference;
 }
 
 .chat-bar {
@@ -885,13 +886,13 @@ sup {
 }
 
 .chat-bar p {
-    color: #fff;
+    color: #000;
     border: none;
     text-align: left;
     padding: 5px 5px;
-    caret-color: #ffffff;
+    caret-color: #000;
     font-family: "Poppins", sans-serif;
-    border-bottom: 5px solid #fff;
+    background: linear-gradient(0deg, #000 0%, #fd4556 0%);
 }
 
 .chat-bar p:focus {
@@ -1867,7 +1868,7 @@ input:focus:-ms-input-placeholder {
         width: 75%;
         box-sizing: border-box;
         caret-color: #000;
-        background-color: #fd4556;
+        background: linear-gradient(0deg, #000 0%, #fd4556 0%);
     }
 
     .chat-bar p:focus {

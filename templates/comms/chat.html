@@ -155,7 +155,6 @@
         <div class="chatbar-container">
             <div class="chat-bar">
                 <p id="chat-input" contenteditable="true" contenteditable="plaintext-only" placeholder="Type in chat..."></p><!-- CSS attributes seem a bit clunkly, try integrate the JQuery solution to contenteditable placeholders if need be -->
-                <button id="chat-submit">send</button>
             </div>
             <div class="typing-indicator hidden" id="typing-indicator"><span>bobgoodman</span> is typing...</div>
         </div>
@@ -177,6 +176,9 @@
     <audio id="notif-audio" src='{% static "audio/void_message.mp3" %}'></audio>
 </body>
 <script src="
+https://cdn.jsdelivr.net/npm/zingtouch@1.0.6/dist/zingtouch.min.js
+"></script>
+<script src="
 https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js
 "></script>
 <script>
@@ -184,6 +186,8 @@ https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js
       src: ['{% static "audio/void_message.mp3" %}'],
       html5: true
     });
+
+    var mainRegion = new ZingTouch.Region(document.body, undefined, false);
 </script>
 <script src="{% static 'js/comms.js' %}"></script>
 </html>

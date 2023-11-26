@@ -610,6 +610,13 @@ function connect(){
     // -------------------------- Chat Bar Events -------------------------- //
 
     if (chatInput) {
+        
+        mainRegion.bind(chatInput, 'pan', function(e){
+            if (matchMedia('only screen and (max-width: 960px)').matches){
+                chatInput.style.background = `linear-gradient(0deg, #000 ${(e.detail.data[0].distanceFromOrigin)}%, #fd4556 ${(e.detail.data[0].distanceFromOrigin)}%)`
+            }
+        });
+
         chatInput.onkeydown = function(e) {
             if (e.key === 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
                 e.preventDefault();
@@ -626,7 +633,7 @@ function connect(){
 
         chatInput.onkeyup = function(e) {
             if (e.key == 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
-                document.querySelector('#chat-submit').click();
+                sendMessage();
             }
 
 
@@ -677,7 +684,7 @@ function connect(){
         });
 
         // Sends message and clears chat bar
-        document.querySelector('#chat-submit').onclick = function(e) {
+        function sendMessage() {
             const messageInputDom = chatInput;
             const message = messageInputDom.innerText;
 
@@ -708,18 +715,23 @@ function connect(){
             
         function checkDirection() {
             if (touchendY < touchstartY) { // Swiped up
-                document.querySelector('#chat-submit').click();
+                sendMessage();
             }
         }
 
         chatInput.addEventListener('touchstart', e => {
-            touchstartY = e.changedTouches[0].screenY
+            if (matchMedia('only screen and (max-width: 960px)').matches){
+                touchstartY = e.changedTouches[0].screenY
+            }
         })
 
         chatInput.addEventListener('touchend', e => {
-            touchendY = e.changedTouches[0].screenY
-        checkDirection()
-})
+            if (matchMedia('only screen and (max-width: 960px)').matches){
+                touchendY = e.changedTouches[0].screenY
+                chatInput.style.background = `linear-gradient(0deg, #000 0%, #fd4556 0%)`
+                checkDirection()
+            }
+        })
     }
 
     // -------------------------- General Mouseover Events -------------------------- //
