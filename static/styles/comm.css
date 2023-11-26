@@ -544,7 +544,7 @@ sup {
 }
 
 .message:last-child {
-    min-height: 93vh;
+    min-height: 100vh;
     text-align: center;
 }
 
@@ -1829,6 +1829,7 @@ input:focus:-ms-input-placeholder {
     }
 
     .chatbar-container {
+        display: none;
         position: static;
         border-top: 5px solid #fff;
         padding: 0;
