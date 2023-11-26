@@ -713,11 +713,11 @@ function connect(){
         }
 
         chatInput.addEventListener('touchstart', e => {
-        touchstartY = e.changedTouches[0].screenY
+            touchstartY = e.changedTouches[0].screenY
         })
 
         chatInput.addEventListener('touchend', e => {
-        touchendY = e.changedTouches[0].screenY
+            touchendY = e.changedTouches[0].screenY
         checkDirection()
 })
     }
