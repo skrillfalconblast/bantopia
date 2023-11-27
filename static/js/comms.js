@@ -613,7 +613,10 @@ function connect(){
         
         mainRegion.bind(chatInput, 'pan', function(e){
             if (matchMedia('only screen and (max-width: 960px)').matches){
-                chatInput.style.background = `linear-gradient(0deg, #000 ${(e.detail.data[0].distanceFromOrigin)/2}%, #fd4556 ${(e.detail.data[0].distanceFromOrigin)/2}%)`
+                trajectoryAngle = (e.detail.data[0].directionFromOrigin) * Math.PI / 180.0 // How close it is to 90deg up
+                distanceFromOrigin = (e.detail.data[0].distanceFromOrigin)
+                upwardsVector = Math.sin(trajectoryAngle) * distanceFromOrigin
+                chatInput.style.background = `linear-gradient(0deg, #000 ${(upwardsVector)/2}%, #fd4556 ${(upwardsVector)/2}%)`
             }
         });
 
@@ -710,26 +713,21 @@ function connect(){
             };
         };
 
-        let touchstartY = 0
-        let touchendY = 0
+        mainRegion.bind(chatInput, 'pan', function(e){
             
-        function checkDirection() {
-            if (touchendY < touchstartY) { // Swiped up
+            trajectoryAngle = (e.detail.data[0].directionFromOrigin) * Math.PI / 180.0 // How close it is to 90deg up
+            distanceFromOrigin = (e.detail.data[0].distanceFromOrigin)
+            upwardsVector = Math.sin(trajectoryAngle) * distanceFromOrigin
+
+            if ((matchMedia('only screen and (max-width: 960px)').matches) && (upwardsVector > 200)){
                 sendMessage();
             }
-        }
 
-        chatInput.addEventListener('touchstart', e => {
-            if (matchMedia('only screen and (max-width: 960px)').matches){
-                touchstartY = e.changedTouches[0].screenY
-            }
-        })
+        });
 
         chatInput.addEventListener('touchend', e => {
             if (matchMedia('only screen and (max-width: 960px)').matches){
-                touchendY = e.changedTouches[0].screenY
                 chatInput.style.background = `linear-gradient(0deg, #000 0%, #fd4556 0%)`
-                checkDirection()
             }
         })
     }
