@@ -821,14 +821,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                     # Send message to post group
                                     await self.channel_layer.group_send(
-                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker}
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker, "is_anon" : False}
                                     )
 
                                 else:
 
                                     # Send message to post group
                                     await self.channel_layer.group_send(
-                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "is_walker" : is_walker}
+                                        self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "is_walker" : is_walker, "is_anon" : False}
                                     )
                                 
                                     await self.channel_layer.group_send(
@@ -898,14 +898,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                                         # Send message to post group
                                         await self.channel_layer.group_send(
-                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker}
+                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker, "is_anon" : False}
                                         )
 
                                     else:
                                         
                                         # Send message to post group
                                         await self.channel_layer.group_send(
-                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "is_walker" : is_walker}
+                                            self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : new_message.message_author_name, "author_color" : new_message.message_author.color, "sending_channel" : self.channel_name, "is_walker" : is_walker, "is_anon" : False}
                                         )
 
                                     await self.channel_layer.group_send(
@@ -972,14 +972,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                             # Send message to post group
                             await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : "Anon", "author_color" : "OR", "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker}
+                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : "Anon", "author_color" : "OR", "sending_channel" : self.channel_name, "mention_data_string" : mention_data_string, "is_walker" : is_walker, "is_anon" : True}
                             )
 
                         else:
                             
                             # Send message to post group
                             await self.channel_layer.group_send(
-                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : "Anon", "author_color" : "OR", "sending_channel" : self.channel_name, "is_walker" : is_walker}
+                                self.post_group_name, {"type" : "chat_message", "message_code" :  new_message.message_code, "message" : new_message.message_content, "author_name" : "Anon", "author_color" : "OR", "sending_channel" : self.channel_name, "is_walker" : is_walker, "is_anon" : True}
                             )
 
                         await self.channel_layer.group_send(
@@ -1336,6 +1336,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         author_name = event["author_name"]
         color = event["author_color"]
         is_walker = event["is_walker"]
+        is_anon = event["is_anon"]
 
         sending_channel = event["sending_channel"]
 
@@ -1351,7 +1352,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.denotify(user)
 
         # Send message to WebSocket
-        if self.channel_name == sending_channel:
+        if self.channel_name == sending_channel and author_name != 'Anon':
             await self.send(text_data=json.dumps({
                 "message_code" : message_code,
                 "message" : message,

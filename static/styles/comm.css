@@ -908,8 +908,8 @@ sup {
 }
 
 p[contenteditable="true"]:empty:not(:focus):before {
-    display: none;
     position: absolute;
+    pointer-events: none;
     content: attr(placeholder);
 }
 
