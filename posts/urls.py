@@ -14,6 +14,7 @@ urlpatterns = [
     # path('<str:post_code>/<str:post_slug>/mastercases', views.commMastercases, name='mastercases'),
     # path('<str:post_code>/<str:post_slug>/counters', views.commCounters, name='counters'),
     # path('<str:post_code>/<str:post_slug>/dogs', views.commDogs, name='dogs'),
+    path('api/', views.PostAPI.as_view()),
 
     path('robots.txt/', TemplateView.as_view(template_name="bots/robots.txt", content_type='text/plain'))
 ]

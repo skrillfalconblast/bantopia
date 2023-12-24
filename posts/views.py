@@ -4,6 +4,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchRank, SearchQuery, SearchVector
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -18,6 +21,8 @@ from django.utils.html import escape
 from .models import Post, Tag, Vote, Draft, Visit, Splash
 from chat.models import Message
 from users.models import WatchlistActivity, Ban
+
+from .serializers import PostSerializer
 
 import random
 
@@ -562,6 +567,15 @@ def commDogs(request, post_code, post_slug):
         return render(request, 'comms/dogs.html', context)
     else:
         return redirect('/') # Make a 404 error page 
+     
+class PostAPI(APIView):
+
+    def get(self, request):
+        last_post = Post.objects.latest('post_datetime_created')
+        serializer = PostSerializer(last_post)
+        
+        return Response(serializer.data, status=200)
+
 
 ################ ERROR PAGES #######################  
 

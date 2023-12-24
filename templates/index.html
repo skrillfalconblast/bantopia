@@ -211,9 +211,11 @@
 https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js
 "></script>
 <script>
+    if (Howl) {
     var notifSound = new Howl({
       src: ['{% static "audio/void_message.mp3" %}'],
       html5: true
     });
+}
 </script>
 </html>

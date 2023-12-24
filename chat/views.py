@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from posts.models import Post, Vote, Visit
-from .models import Message, Interaction
+from .models import Message
 
 from django.contrib.auth import get_user_model
 

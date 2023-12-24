@@ -611,14 +611,16 @@ function connect(){
 
     if (chatInput) {
         
-        mainRegion.bind(chatInput, 'pan', function(e){
-            if (matchMedia('only screen and (max-width: 960px)').matches){
-                trajectoryAngle = (e.detail.data[0].directionFromOrigin) * Math.PI / 180.0 // How close it is to 90deg up
-                distanceFromOrigin = (e.detail.data[0].distanceFromOrigin)
-                upwardsVector = Math.sin(trajectoryAngle) * distanceFromOrigin
-                chatInput.style.background = `linear-gradient(0deg, #000 ${(upwardsVector)/2}%, #fd4556 ${(upwardsVector)/2}%)`
-            }
-        });
+        if (mainRegion) {
+            mainRegion.bind(chatInput, 'pan', function(e){
+                if (matchMedia('only screen and (max-width: 960px)').matches){
+                    trajectoryAngle = (e.detail.data[0].directionFromOrigin) * Math.PI / 180.0 // How close it is to 90deg up
+                    distanceFromOrigin = (e.detail.data[0].distanceFromOrigin)
+                    upwardsVector = Math.sin(trajectoryAngle) * distanceFromOrigin
+                    chatInput.style.background = `linear-gradient(0deg, #000 ${(upwardsVector)/2}%, #fd4556 ${(upwardsVector)/2}%)`
+                }
+            });
+        }
 
         chatInput.onkeydown = function(e) {
             if (e.key === 'Enter' && !e.shiftKey && !matchMedia('only screen and (max-width: 960px)').matches) {
@@ -713,17 +715,19 @@ function connect(){
             };
         };
 
-        mainRegion.bind(chatInput, 'pan', function(e){
-            
-            trajectoryAngle = (e.detail.data[0].directionFromOrigin) * Math.PI / 180.0 // How close it is to 90deg up
-            distanceFromOrigin = (e.detail.data[0].distanceFromOrigin)
-            upwardsVector = Math.sin(trajectoryAngle) * distanceFromOrigin
+        if (mainRegion) {
+            mainRegion.bind(chatInput, 'pan', function(e){
+                
+                trajectoryAngle = (e.detail.data[0].directionFromOrigin) * Math.PI / 180.0 // How close it is to 90deg up
+                distanceFromOrigin = (e.detail.data[0].distanceFromOrigin)
+                upwardsVector = Math.sin(trajectoryAngle) * distanceFromOrigin
 
-            if ((matchMedia('only screen and (max-width: 960px)').matches) && (upwardsVector > 200)){
-                sendMessage();
-            }
+                if ((matchMedia('only screen and (max-width: 960px)').matches) && (upwardsVector > 200)){
+                    sendMessage();
+                }
 
-        });
+            });
+        }
 
         chatInput.addEventListener('touchend', e => {
             if (matchMedia('only screen and (max-width: 960px)').matches){
