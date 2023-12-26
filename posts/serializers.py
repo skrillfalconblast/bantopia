@@ -17,7 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
     def get_recent_messages(self, obj):
         post = obj
         prefetched_post = Post.objects.prefetch_related('message_set').get(pk=post.pk)
-        post_recent_messages = prefetched_post.message_set.all().prefetch_related('message_mentions').order_by('-message_datetime_sent').reverse()[:1000]
+        post_recent_messages = prefetched_post.message_set.all().prefetch_related('message_mentions').order_by('-message_datetime_sent')[:1000:-1]
         return MessageSerializer(post_recent_messages, many=True).data
     
 
