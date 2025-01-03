@@ -1,5 +1,17 @@
 # bantopia.com
 
-Total work in progress, coming to a universe near you.
+I HAVE BY NO MEANS ABANDONED BANTOPIA, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
 
 Check my bantopia_app repo for the proof-of-concept app.
+
+At out height we had:
+We had around 2.5 debating users at any one time.
+Most of us were regulars.
+200 accounts registered (before the push towards anonimity for the void update)
+
+# Showcase
+
+These are the Comms
+
+
+
