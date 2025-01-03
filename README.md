@@ -59,7 +59,7 @@ Quick tour around my site's past and present, made of random screenshots I accid
 ## Mobile Version
 ![Mobile home page](website_showcase/mobile_home.png)
 - We had a fully functioning mobile version.
-- I don't have many pictures, but this is the home page.
+- I don't have many pictures, this is the home page.
 
 ## Void update
 ![Void update](website_showcase/ello.png)
