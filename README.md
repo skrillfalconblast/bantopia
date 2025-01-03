@@ -1,6 +1,6 @@
 # bantopia.com
 
-I HAVE BY NO MEANS ABANDONED BANTOPIA, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
+I have not abandonded bantopia, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
 
 Bantopia App Concept: https://github.com/skrillfalconblast/bantopia_app/
 
