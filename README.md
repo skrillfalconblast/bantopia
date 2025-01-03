@@ -1,5 +1,5 @@
 # Showcase
-Quick tour around my site's past and present, made of random screenshots I accidentally saved (Thank God). See notes at the end.
+Quick tour around my site's past and present, made of random screenshots I accidentally saved (Thank God). See notes at the end for info about the future of Bantopia.
 
 ## Earlier Home
 ![Earlier version of the home page](website_showcase/earlier_home.png)
@@ -81,6 +81,8 @@ Quick tour around my site's past and present, made of random screenshots I accid
 ## Final Notes
 
 I have not abandonded bantopia, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
+
+**We restart June 2025.**
 
 Bantopia App Concept (really fun to make): https://github.com/skrillfalconblast/bantopia_app/
 
