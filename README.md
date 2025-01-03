@@ -2,7 +2,7 @@
 
 I HAVE BY NO MEANS ABANDONED BANTOPIA, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
 
-Check my bantopia_app repo for the proof-of-concept app.
+Bantopia App Concept: https://github.com/skrillfalconblast/bantopia_app/
 
 At out height we had:
 We had around 2.5 debating users at any one time.
