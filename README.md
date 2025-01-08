@@ -49,12 +49,6 @@ Quick tour around my site's past and present, made of random screenshots I accid
 ![The page that allowed people to post things](website_showcase/posting.png)
 - You could post a theory (green), question (purple) or declaration (orange). 
 - Tags could be searched for.
-
-## Posting
-![The page that allowed people to post things](website_showcase/posting.png)
-- You could post a theory (green), question (purple) or declaration (orange). 
-- Tags could be searched for.
-
  
 ## Mobile Version
 ![Mobile home page](website_showcase/mobile_home.png)
