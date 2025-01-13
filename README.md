@@ -1,3 +1,16 @@
+## Quick Notes
+
+I have not abandonded bantopia, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
+
+**We restart June 2025.**
+
+Bantopia App Concept (really fun to make): https://github.com/skrillfalconblast/bantopia_app/
+
+**At out height we had:**
+- 2.5 debating users at any one time.
+- Most of us were regulars.
+- 200 accounts registered (before the push towards anonimity for the void update)
+
 # Showcase
 Quick tour around my site's past and present, made of random screenshots I accidentally saved (Thank God). See notes at the end for info about the future of Bantopia.
 
@@ -71,16 +84,3 @@ Quick tour around my site's past and present, made of random screenshots I accid
 ## More void jokes
 ![Void jokes "Elden ring has no story"](website_showcase/jokes.png)
 ![Void update "my mom likes my posts"](website_showcase/more_jokes.png)
-
-## Final Notes
-
-I have not abandonded bantopia, WE WILL REVOLUTIONALISE HUMAN-TO-HUMAN COMMUNICATION.
-
-**We restart June 2025.**
-
-Bantopia App Concept (really fun to make): https://github.com/skrillfalconblast/bantopia_app/
-
-**At out height we had:**
-- 2.5 debating users at any one time.
-- Most of us were regulars.
-- 200 accounts registered (before the push towards anonimity for the void update)
