@@ -8,7 +8,7 @@ Bantopia App Concept (really fun to make): https://github.com/skrillfalconblast/
 
 **At out height we had:**
 - 2.5 debating users at any one time.
-- Most of us were regulars.
+- Strong core of about 10 regulars.
 - 200 accounts registered (before the push towards anonimity for the void update)
 
 # Showcase
